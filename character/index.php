@@ -4,16 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once "../includes/include.php";
 
-
-//CHECK ACCESS TOKEN
-$post = json_decode(file_get_contents('php://input'), true);
-$access = token($post["token"]);
-
-if($access == false){
-    http_response_code(401);
-    echo json_encode("YOU SHALL NOT PASS!!");
-    die();
-}
+include_once "../includes/token.php";
 
 $cCharacter = new character();
 
@@ -33,11 +24,29 @@ if(isset($post["char_id"])){
 
 //CHECK BY CARD ID
 if(isset($post["card_id"])){
+    $aCharacter = $cCharacter->get($post["card_id"], "card_id");
+    if(empty($aCharacter)){
+        http_response_code(404);
+        echo json_encode("None found.");
+        die();
+    }
+
+    http_response_code(200);
+    echo json_encode($aCharacter);
     die();
 }
 
 //CHECK BY ICC NUMBER
 if(isset($post["icc_number"])){
+    $aCharacter = $cCharacter->get($post["icc_number"], "ICC_number");
+    if(empty($aCharacter)){
+        http_response_code(404);
+        echo json_encode("None found.");
+        die();
+    }
+
+    http_response_code(200);
+    echo json_encode($aCharacter);
     die();
 }
 
