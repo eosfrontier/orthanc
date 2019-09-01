@@ -30,6 +30,10 @@ class character{
                 $res = $stmt->execute(array($sDec));
                 $res = $stmt->fetch(PDO::FETCH_ASSOC);
             }
+        }elseif($needle == "accountID"){
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active'");
+            $res = $stmt->execute(array($id));
+            $res = $stmt->fetch(PDO::FETCH_ASSOC); 
         }else{
             $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ?");
             $res = $stmt->execute(array($id));
@@ -54,7 +58,7 @@ class character{
 
 
 
-        $stmt = database::$conn->prepare("SELECT label, skill_index, level FROM ecc_skills_allskills where skill_id in ($sSkillid)");
+        $stmt = database::$conn->prepare("SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($sSkillid)");
         $res = $stmt->execute();
         $aCharSkills = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
@@ -67,7 +71,7 @@ class character{
             array_push($aSkills,$aCharSkill);
         }
 
-        $stmt = database::$conn->prepare("SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants where charID = ? and status = 'active' and type != 'flavour'");
+        $stmt = database::$conn->prepare("SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'");
         $res = $stmt->execute(array($id));
         $aImplants = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 

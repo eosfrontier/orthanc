@@ -8,6 +8,20 @@ include_once "../includes/token.php";
 
 $cCharacter = new character();
 
+//CHECK BY JOOMLA ID
+if(isset($post["accountID"])){
+    $aCharacter = $cCharacter->get($post["accountID"], "accountID");
+    if(empty($aCharacter)){
+        http_response_code(404);
+        echo json_encode("None found.");
+        die();
+    }
+
+    http_response_code(200);
+    echo json_encode($aCharacter);
+    die();
+}
+
 //CHECK BY CHARACTER ID
 if(isset($post["char_id"])){
     $aCharacter = $cCharacter->get($post["char_id"], "characterID");
@@ -52,6 +66,6 @@ if(isset($post["icc_number"])){
 
 //HAVEN'T ANSWERED A WAY TO ACCESS
 http_response_code(400);
-echo json_encode("You haven't included a 'char_id', 'card_id' or 'icc_number'.");
+echo json_encode("You haven't included a 'accountID', 'char_id', 'card_id' or 'icc_number'.");
 ?>
 
