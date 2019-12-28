@@ -35,7 +35,7 @@ class figurant{
                 0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
             ));
 
-            return "success";
+            return database::$conn->lastInsertId();
 
         }else{
             if($check["status"] == "figurant-recurring"){
@@ -53,7 +53,7 @@ class figurant{
                     0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
                 ));
 
-                return "success";
+                return database::$conn->lastInsertId();
 
             }else{
 

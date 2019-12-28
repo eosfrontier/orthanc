@@ -10,7 +10,7 @@ $cFigurant = new figurant();
 
 if(empty($post["figurant"])){
     http_response_code(400);
-    echo json_encode("You haven't included meta.");
+    echo json_encode("You haven't included all needed info.");
     die();
 }
 
