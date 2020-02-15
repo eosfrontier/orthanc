@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class figurant{
 
@@ -26,9 +26,9 @@ class figurant{
         if(!$check){
 
             $stmt = database::$conn->prepare(
-                "INSERT into ecc_characters 
-                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet) 
-                VALUES 
+                "INSERT into ecc_characters
+                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
+                VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                 );
             $res = $stmt->execute(array(
@@ -39,14 +39,14 @@ class figurant{
 
         }else{
             if($check["status"] == "figurant-recurring"){
-                
+
                 $stmt = database::$conn->prepare("UPDATE ecc_characters SET card_id=? WHERE characterID = ?");
                 $res = $stmt->execute(array(NULL, $check["characterID"]));
 
                 $stmt = database::$conn->prepare(
-                    "INSERT into ecc_characters 
-                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet) 
-                    VALUES 
+                    "INSERT into ecc_characters
+                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
+                    VALUES
                         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                     );
                 $res = $stmt->execute(array(
@@ -58,7 +58,7 @@ class figurant{
             }else{
 
                 $stmt = database::$conn->prepare(
-                    "UPDATE ecc_characters SET 
+                    "UPDATE ecc_characters SET
                         character_name=?,
                         faction=?,
                         status=?,
