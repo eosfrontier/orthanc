@@ -8,6 +8,18 @@ include_once "../includes/token.php";
 
 $cCharacter = new character();
 
+if(isset($post["all_characters"])){
+    $allCharacters = $cCharacter->getAll();
+    if(empty($allCharacters)){
+        http_response_code(404);
+        echo json_encode("None found.");
+        die();
+    }
+    http_response_code(200);
+    echo json_encode($allCharacters);
+    die();
+}
+
 //CHECK BY JOOMLA ID
 if(isset($post["accountID"])){
     $aCharacter = $cCharacter->get($post["accountID"], "accountID");

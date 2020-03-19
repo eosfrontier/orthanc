@@ -8,42 +8,17 @@ include_once "../../includes/token.php";
 
 $cMeta = new meta();
 
-/*
-if(empty($post["id"])){
+if(empty($post["id"]) || empty($post["meta"])){
     //HAVEN'T ANSWERED A WAY TO ACCESS
     http_response_code(400);
     echo json_encode("You haven't included a 'id'.");
     die();
 }
-*/
 
 $id     = $post["id"];
 $meta   = $post["meta"];
 
-
-$aMetas = explode(",", $meta);
-$meta = "";
-foreach($aMetas as $aMeta){
-    $meta .= "'".$aMeta."',";
-}
-$meta = rtrim($meta, ",");
-
-if(isset($post["id"])) {
-    if(isset($post["meta"])){
-        $aResult = $cMeta->getByMeta($id, $meta);
-    } else {
-        $aResult = $cMeta->getAllMetaById($id);
-    }
-} else {
-    if(isset($post["meta"])){
-        $aResult = $cMeta->getAllByMeta($meta);
-    } else {
-        http_response_code(400);
-        echo json_encode("You haven't included a 'id' or 'meta'.");
-        die();
-    }
-}
-
+$aResult = $cMeta->deleteMeta($id, $meta);
 
 if(!empty($aResult)){
     http_response_code(200);

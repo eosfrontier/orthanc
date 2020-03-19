@@ -16,6 +16,13 @@ class meta{
         return $res;
     }
 
+    function getAllByMeta($meta){
+        $stmt = database::$conn->prepare("SELECT id, name, value, character_id FROM ecc_meta_character WHERE name in ($meta)");
+        $res = $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
     function updateMeta($id, $metas){
         foreach($metas as $meta){
             $stmt = database::$conn->prepare("SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?");
@@ -33,6 +40,24 @@ class meta{
         }
 
         return "success";
+    }
+
+    function deleteMeta($id, $metas){
+        $totcount = 0;
+        foreach($metas as $meta){
+            $stmt = database::$conn->prepare("DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ?");
+            $res = $stmt->execute(array($id, $meta["name"]));
+            $count = $stmt->rowCount();
+            if($count > 0){
+                $totcount += $count;
+
+
+            }
+        }
+
+        if ($totcount > 0) {
+            return "success";
+        }
     }
 }
 
