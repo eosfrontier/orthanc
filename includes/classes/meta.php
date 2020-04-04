@@ -26,13 +26,24 @@ class meta{
     function updateMeta($id, $metas){
         foreach($metas as $meta){
             if (array_key_exists("oldvalue", $meta)) {
-                $stmt = database::$conn->prepare("UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?");
-                $res = $stmt->execute(array($meta["value"], $id, $meta["name"], $meta["oldvalue"]));
+                $stmt = database::$conn->prepare("SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?");
+                $res = $stmt->execute(array($id, $meta["name"], $meta["oldvalue"]));
             } else {
-                $stmt = database::$conn->prepare("UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?");
-                $res = $stmt->execute(array($meta["value"], $id, $meta["name"]));
+                $stmt = database::$conn->prepare("SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?");
+                $res = $stmt->execute(array($id, $meta["name"]));
             }
-            if ($stmt->rowCount() == 0) {
+            $count = $stmt->rowCount();
+            if($count > 0){
+                if (array_key_exists("oldvalue", $meta)) {
+                    $stmt = database::$conn->prepare("UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?");
+                    $res = $stmt->execute(array($meta["value"], $id, $meta["name"], $meta["oldvalue"]));
+
+                } else {
+                    $stmt = database::$conn->prepare("UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?");
+                    $res = $stmt->execute(array($meta["value"], $id, $meta["name"]));
+                }
+
+            }else{
                 $stmt = database::$conn->prepare("INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)");
                 $res = $stmt->execute(array($meta["value"], $id, $meta["name"]));
             }
@@ -54,6 +65,8 @@ class meta{
             $count = $stmt->rowCount();
             if($count > 0){
                 $totcount += $count;
+
+
             }
         }
 
