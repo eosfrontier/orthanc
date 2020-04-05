@@ -53,7 +53,7 @@ class meta{
     }
 
     function deleteMeta($id, $metas){
-        $totcount = 0;
+        $total_deleted = 0;
         foreach($metas as $meta){
             if (array_key_exists("value", $meta)) {
                 $stmt = database::$conn->prepare("DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?");
@@ -64,14 +64,16 @@ class meta{
             }
             $count = $stmt->rowCount();
             if($count > 0){
-                $totcount += $count;
+                $total_deleted += $count;
 
 
             }
         }
 
-        if ($totcount > 0) {
+        if ($total_deleted > 0) {
             return "success";
+        } else {
+            return "nothing deleted";
         }
     }
 }
