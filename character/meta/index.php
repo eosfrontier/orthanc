@@ -17,26 +17,23 @@ if(empty($post["id"])){
 }
 */
 
-$id     = $post["id"];
-$meta   = $post["meta"];
+if(isset($post["meta"])){
+    $meta   = $post["meta"];
+    $aMetas = explode(",", $meta);
+    $meta = "";
+    foreach($aMetas as $aMeta){
+        $meta .= "'".$aMeta."',";
+    }
+    $meta = rtrim($meta, ",");
 
-
-$aMetas = explode(",", $meta);
-$meta = "";
-foreach($aMetas as $aMeta){
-    $meta .= "'".$aMeta."',";
-}
-$meta = rtrim($meta, ",");
-
-if(isset($post["id"])) {
-    if(isset($post["meta"])){
-        $aResult = $cMeta->getByMeta($id, $meta);
+    if(isset($post["id"])) {
+        $aResult = $cMeta->getByMeta($post["id"], $meta);
     } else {
-        $aResult = $cMeta->getAllMetaById($id);
+        $aResult = $cMeta->getAllByMeta($meta);
     }
 } else {
-    if(isset($post["meta"])){
-        $aResult = $cMeta->getAllByMeta($meta);
+    if(isset($post["id"])) {
+        $aResult = $cMeta->getAllMetaById($post["id"]);
     } else {
         http_response_code(400);
         echo json_encode("You haven't included a 'id' or 'meta'.");
