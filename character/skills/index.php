@@ -12,7 +12,7 @@ $cCharacter = new character();
 if(empty($post["id"])){
     //HAVEN'T ANSWERED A WAY TO ACCESS
     http_response_code(400);
-    echo json_encode("You haven't included a 'id'.");
+    echo json_encode("You haven't included an 'id'.");
     die();
 }
 
