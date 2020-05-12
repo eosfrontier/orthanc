@@ -1,5 +1,5 @@
 
-# PUT api/orthanc/figurant/add/
+# POST api/orthanc/figurant/add/
 places a character in the database with provided information, with the status 'figurant', or 'figurant-recurring'
 
 ## Resource URL
