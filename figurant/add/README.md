@@ -1,9 +1,9 @@
 
-# PUT api/orthanc/character/meta/update.php
-Returns the metadata(s) of specified character
+# PUT api/orthanc/figurant/add/
+places a character in the database with provided information, with the status 'figurant', or 'figurant-recurring'
 
 ## Resource URL
-api/orthanc/character/meta/update.php
+api/orthanc/figurant/add/
 
 ## Resource Information
 |||
