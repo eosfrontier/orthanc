@@ -8,7 +8,6 @@ include_once "../../includes/token.php";
 
 $cFigurant = new figurant();
 
-
 if(empty($post["character"])){
     http_response_code(400);
     echo json_encode("You haven't included meta.");
