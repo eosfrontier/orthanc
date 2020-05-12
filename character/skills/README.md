@@ -16,4 +16,5 @@ api/orthanc/character/skills
 
 | Name |  Required | Description | Default | Value |  Example
 |--|--|--|--|--|--
+token | yes | Provides authentication
 id | yes | id of the character whose skills you want to lookup. | 
