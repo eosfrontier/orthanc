@@ -1,8 +1,8 @@
 <?php
 
 //CHECK ACCESS TOKEN
-
-$access = token($input["token"]);
+if (!isset($post)) {$post = $input;} 
+$access = token($post["token"]);
 
 if($access == false){
     http_response_code(401);
