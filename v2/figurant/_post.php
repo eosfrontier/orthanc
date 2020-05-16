@@ -1,5 +1,4 @@
 <?php
-$cFigurant = new figurant();
 
 if(empty($input["figurant"])){
     http_response_code(400);

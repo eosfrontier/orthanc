@@ -1,7 +1,7 @@
 <?php
 
 if(!isset($input["id"])){
-    $allCharacters = $cCharacter->getAll("figurant");
+    $allCharacters = $cFigurant->getAll("figurant");
     if(empty($allCharacters)){
         http_response_code(404);
         echo json_encode("None found.");
