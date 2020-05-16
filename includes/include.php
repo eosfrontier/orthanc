@@ -1,5 +1,23 @@
 <?php 
 
+//The Response object
+$res = $app->response;
+
+$res->headers->set('Content-Type', 'application/json');
+$res->headers->set('Access-Control-Allow-Origin', '*');
+$res->headers->set('Access-Control-Allow-Credentials', 'true');
+$res->headers->set('Access-Control-Max-Age', '60');
+$res->headers->set('Access-Control-Allow-Headers', 'AccountKey,x-requested-with, Content-Type, origin, authorization, accept, client-security-token, host, date, cookie, cookie2');
+$res->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+if ( ! $req->isOptions()) {
+    // this continues the normal flow of the app, and will return the proper body
+    $this->next->call();
+} else {
+    //stops the app, and sends the response
+    return $res;
+}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
