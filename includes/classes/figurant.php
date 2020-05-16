@@ -3,7 +3,7 @@
 class figurant{
 
     public function getAll(){
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figurant%'");
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figurant%' AND sheet_status != 'deleted'");
 		$res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         return $res;
@@ -85,6 +85,12 @@ class figurant{
             }
         }
 
+    }
+
+    public function deleteFigurant($id){
+        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
+		$res = $stmt->execute();
+        return mysqli_affected_rows($res);
     }
 
     private function checkCardId($cardId){
