@@ -30,18 +30,19 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 $method = $_SERVER['REQUEST_METHOD']; //Grab HTTP REST Method
 $input = json_decode(file_get_contents('php://input'), true); //Store Input
+$cwd = getcwd();
 switch ($method) {
     case 'DELETE':
-      require_once './_delete.php';
+      require_once getcwd() . '/_delete.php';
       break;
     case 'PUT':
-      require_once './_update.php';;  
+      require_once getcwd() . '/_update.php';;  
       break;
     case 'GET':
-      require_once './_get.php';
+      require_once getcwd() . '/_get.php';
       break;
     default:
-      require_once './_get.php';
+      require_once getcwd() . '/_get.php';
       break;
   }
 ?>
