@@ -1,5 +1,5 @@
 <?php
-if (!isset($input)) {$input = $post;} 
+//if (!isset($input)) {$input = $post;} 
 //CHECK ACCESS TOKEN
 $access = token($input["token"]);
 
