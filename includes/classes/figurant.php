@@ -41,8 +41,15 @@ class figurant{
             $res = $stmt->execute(array(
                 0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
             ));
+            $count = $stmt->rowCount();
+            $lastInsertId = database::$conn->lastInsertId();
+            $metas = '{"name":"created_date", "value":' . time(). '}';
+            if ($count > 0) {
+            $cMeta = new meta();
+            $cMeta->updateMeta($lastInsertId, $metas);
+        }
 
-            return database::$conn->lastInsertId();
+            return $lastInsertId;
 
         }else{
             if($check["status"] == "figurant-recurring"){
@@ -60,7 +67,14 @@ class figurant{
                     0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
                 ));
 
-                return database::$conn->lastInsertId();
+                $count = $stmt->rowCount();
+                $lastInsertId = database::$conn->lastInsertId();
+                $metas = '{"name":"created_date", "value":' . time(). '}';
+                if ($count > 0) {
+                    $cMeta = new meta();
+                    $cMeta->updateMeta($lastInsertId, $metas);
+                }
+                return $lastInsertId;
 
             }else{
 
@@ -89,8 +103,14 @@ class figurant{
 
     public function deleteFigurant($id){
         $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
-		$res = $stmt->execute();
-        return $stmt->rowCount();
+        $res = $stmt->execute();
+        $count = $stmt->rowCount();
+        $metas = '{"name":"deleted_date", "value":' . time(). '}';
+        if ($count > 0) {
+            $cMeta = new meta();
+            $cMeta->updateMeta($id, $metas);
+        return $count;
+        }
     }
 
     private function checkCardId($cardId){
