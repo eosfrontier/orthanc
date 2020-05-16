@@ -1,14 +1,14 @@
 <?php 
 
-if(empty($post["id"]) || empty($post["meta"])){
+if(empty($input["id"]) || empty($input["meta"])){
     //HAVEN'T ANSWERED A WAY TO ACCESS
     http_response_code(400);
     echo json_encode("You haven't included a 'id'.");
     die();
 }
 
-$id     = $post["id"];
-$meta   = $post["meta"];
+$id     = $input["id"];
+$meta   = $input["meta"];
 
 $aResult = $cMeta->deleteMeta($id, $meta);
 

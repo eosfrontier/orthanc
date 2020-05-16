@@ -1,14 +1,14 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-$post = json_decode(file_get_contents('php://input'), true);
+$input = json_decode(file_get_contents('php://input'), true);
 include_once "../includes/include.php";
 
 include_once "../includes/token.php";
 
 $cCharacter = new character();
 
-if(isset($post["all_characters"])){
+if(isset($input["all_characters"])){
     $allCharacters = $cCharacter->getAll();
     if(empty($allCharacters)){
         http_response_code(404);
@@ -21,8 +21,8 @@ if(isset($post["all_characters"])){
 }
 
 //CHECK BY JOOMLA ID
-if(isset($post["accountID"])){
-    $aCharacter = $cCharacter->get($post["accountID"], "accountID");
+if(isset($input["accountID"])){
+    $aCharacter = $cCharacter->get($input["accountID"], "accountID");
     if(empty($aCharacter)){
         http_response_code(404);
         echo json_encode("None found.");
@@ -35,8 +35,8 @@ if(isset($post["accountID"])){
 }
 
 //CHECK BY CHARACTER ID
-if(isset($post["char_id"])){
-    $aCharacter = $cCharacter->get($post["char_id"], "characterID");
+if(isset($input["char_id"])){
+    $aCharacter = $cCharacter->get($input["char_id"], "characterID");
     if(empty($aCharacter)){
         http_response_code(404);
         echo json_encode("None found.");
@@ -49,8 +49,8 @@ if(isset($post["char_id"])){
 }
 
 //CHECK BY CARD ID
-if(isset($post["card_id"])){
-    $aCharacter = $cCharacter->get($post["card_id"], "card_id");
+if(isset($input["card_id"])){
+    $aCharacter = $cCharacter->get($input["card_id"], "card_id");
     if(empty($aCharacter)){
         http_response_code(404);
         echo json_encode("None found.");
@@ -63,8 +63,8 @@ if(isset($post["card_id"])){
 }
 
 //CHECK BY ICC NUMBER
-if(isset($post["icc_number"])){
-    $aCharacter = $cCharacter->get($post["icc_number"], "ICC_number");
+if(isset($input["icc_number"])){
+    $aCharacter = $cCharacter->get($input["icc_number"], "ICC_number");
     if(empty($aCharacter)){
         http_response_code(404);
         echo json_encode("None found.");
