@@ -26,8 +26,9 @@ if(isset($input["accountID"])){
 }
 
 //CHECK BY CHARACTER ID
-if(isset($input["char_id"])){
-    $aCharacter = $cCharacter->get($input["char_id"], "characterID");
+if(isset($input["char_id"]) || isset($input["id"])){
+    $charid = $input["char_id"] . $input["id"];
+    $aCharacter = $cCharacter->get($charid, "characterID");
     if(empty($aCharacter)){
         http_response_code(404);
         echo json_encode("None found.");
@@ -38,6 +39,7 @@ if(isset($input["char_id"])){
     echo json_encode($aCharacter);
     die();
 }
+
 
 //CHECK BY CARD ID
 if(isset($input["card_id"])){
