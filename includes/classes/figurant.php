@@ -105,7 +105,7 @@ class figurant{
         $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
         $res = $stmt->execute();
         $count = $stmt->rowCount();
-        $metas = '{"name":"deleted_date", "value":"' . time(). '"}';
+        $metas = '[{"name":"deleted_date", "value":"' . time(). '"}]';
         if ($count > 0) {
             $cMeta = new meta();
             $cMeta->updateMeta($id, $metas);
