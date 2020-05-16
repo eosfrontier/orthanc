@@ -1,6 +1,6 @@
 <?php
 if(isset($input["all_characters"])){
-    $allCharacters = $cCharacter->getAll();
+    $allCharacters = $cCharacter->getAll("player");
     if(empty($allCharacters)){
         http_response_code(404);
         echo json_encode("None found.");
