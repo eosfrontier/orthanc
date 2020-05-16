@@ -8,6 +8,9 @@ switch ($method) {
     case 'DELETE':
       require_once './_delete.php';
       break;
+    case 'POST':
+      require_once './_post.php';
+      break;
     case 'PUT':
       require_once './_update.php';;  
       break;
