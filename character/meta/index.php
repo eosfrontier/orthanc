@@ -1,7 +1,7 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-$post = json_decode(file_get_contents('php://input'), true);
+$input = json_decode(file_get_contents('php://input'), true);
 
 include_once "../../includes/include.php";
 include_once "../../includes/token.php";
@@ -9,7 +9,7 @@ include_once "../../includes/token.php";
 $cMeta = new meta();
 
 /*
-if(empty($post["id"])){
+if(empty($input["id"])){
     //HAVEN'T ANSWERED A WAY TO ACCESS
     http_response_code(400);
     echo json_encode("You haven't included a 'id'.");
@@ -17,8 +17,8 @@ if(empty($post["id"])){
 }
 */
 
-if(isset($post["meta"])){
-    $meta   = $post["meta"];
+if(isset($input["meta"])){
+    $meta   = $input["meta"];
     $aMetas = explode(",", $meta);
     $meta = "";
     foreach($aMetas as $aMeta){
@@ -26,14 +26,14 @@ if(isset($post["meta"])){
     }
     $meta = rtrim($meta, ",");
 
-    if(isset($post["id"])) {
-        $aResult = $cMeta->getByMeta($post["id"], $meta);
+    if(isset($input["id"])) {
+        $aResult = $cMeta->getByMeta($input["id"], $meta);
     } else {
         $aResult = $cMeta->getAllByMeta($meta);
     }
 } else {
-    if(isset($post["id"])) {
-        $aResult = $cMeta->getAllMetaById($post["id"]);
+    if(isset($input["id"])) {
+        $aResult = $cMeta->getAllMetaById($input["id"]);
     } else {
         http_response_code(400);
         echo json_encode("You haven't included a 'id' or 'meta'.");
