@@ -2,6 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . 'orthanc/includes/include.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . 'orthanc/includes/token.php');
 $cFigurant = new figurant();
+$cCharacter = new character();
 
 switch ($method) {
     case 'DELETE':
