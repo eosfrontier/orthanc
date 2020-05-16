@@ -29,7 +29,7 @@ $APP["root"] = $_SERVER["DOCUMENT_ROOT"] . $APP["header"]; // define the root fo
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, cache-control, token');
 $method = $_SERVER['REQUEST_METHOD']; //Grab HTTP REST Method
 $input = json_decode(file_get_contents('php://input'), true); //Store Input
 if (!isset($input)) {
