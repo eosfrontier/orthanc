@@ -7,12 +7,18 @@ switch ($method) {
   case 'DELETE':
     require_once './_delete.php';
     break;
+  case 'POST':
+    require_once './_post.php';
+    break;
   case 'PUT':
     require_once './_update.php';;  
     break;
   case 'GET':
     require_once './_get.php';
     break;
+  case 'OPTIONS';
+    w.WriteHeader(http.StatusOK);
+    return;
   default:
     require_once './_get.php';
     break;
