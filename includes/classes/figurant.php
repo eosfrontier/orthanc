@@ -2,6 +2,13 @@
 
 class figurant{
 
+    public function getAll(){
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figurant%'");
+		$res = $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        return $res;
+    }
+
     function addFigurant($character){
         $check = $this->checkCardId($character["card_id"]);
 

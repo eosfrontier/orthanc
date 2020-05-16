@@ -2,15 +2,8 @@
 
 class character{
     
-    public function getAll($type){
-        switch ($type) {
-            case 'player':
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status = 'active'");
-            case 'figurant':
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figu%'");
-            default:
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters");
-        }
+    public function getAll(){
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status NOTLIKE 'figurant%'");
 		$res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         return $res;
