@@ -1,7 +1,6 @@
 <?php
-
-//CHECK ACCESS TOKEN
 if (!isset($input)) {$input = $post;} 
+//CHECK ACCESS TOKEN
 $access = token($input["token"]);
 
 if($access == false){

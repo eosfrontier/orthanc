@@ -5,16 +5,17 @@ $cMeta = new meta();
 
 switch ($method) {
   case 'DELETE':
-    require_once './delete.php';
+    require_once './_delete.php';
     break;
   case 'PUT':
-    require_once './update.php';;  
+    require_once './_update.php';;  
     break;
   case 'GET':
-    require_once './get.php';
+    require_once './_get.php';
     break;
   default:
-        break;
+    require_once './_get.php';
+    break;
 }
 
 ?>
