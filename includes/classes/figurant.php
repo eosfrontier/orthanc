@@ -90,7 +90,7 @@ class figurant{
     public function deleteFigurant($id){
         $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
 		$res = $stmt->execute();
-        return mysqli_affected_rows($con);
+        return $stmt->rowCount();
     }
 
     private function checkCardId($cardId){
