@@ -3,7 +3,7 @@
 class character{
     
     public function getAll(){
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status NOTLIKE 'figurant%'");
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%'");
 		$res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         return $res;
