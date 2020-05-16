@@ -2,7 +2,7 @@
 
 //CHECK ACCESS TOKEN
 
-$access = token($post["token"]);
+$access = token($input["token"]);
 
 if($access == false){
     http_response_code(401);
