@@ -30,4 +30,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 $method = $_SERVER['REQUEST_METHOD']; //Grab HTTP REST Method
 $input = json_decode(file_get_contents('php://input'), true); //Store Input
+if (!isset($input)) {
+    $input = apache_request_headers();
+}
 ?>
