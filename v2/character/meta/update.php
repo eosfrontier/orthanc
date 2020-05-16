@@ -1,12 +1,4 @@
 <?php 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-$input = json_decode(file_get_contents('php://input'), true);
-
-include_once "../../includes/include.php";
-include_once "../../includes/token.php";
-
-$cMeta = new meta();
 
 if(empty($input["id"])){
     //HAVEN'T ANSWERED A WAY TO ACCESS
