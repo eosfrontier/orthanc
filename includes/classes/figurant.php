@@ -100,7 +100,7 @@ class figurant{
     }
 
     public function deleteFigurant($id){
-        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
+        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id");
         $res = $stmt->execute();
         $count = $stmt->rowCount();
         if ($count > 0) {
