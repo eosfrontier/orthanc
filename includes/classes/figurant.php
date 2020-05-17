@@ -102,13 +102,10 @@ class figurant{
     }
 
     public function deleteFigurant($id){
-        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
+        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id;
+        INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',time())");
         $res = $stmt->execute();
         $count = $stmt->rowCount();
-        $metas = '[{"name":"deleted_date", "value":"' . time(). '"}]';
-        //if ($count > 0) {
-            $cMeta = new meta();
-            $cMeta->updateMeta($id, $metas);
         return $count;
         //}
     }
