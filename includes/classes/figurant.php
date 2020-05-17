@@ -43,11 +43,10 @@ class figurant{
             ));
             $count = $stmt->rowCount();
             $lastInsertId = database::$conn->lastInsertId();
-            $metas = '{"name":"created_date", "value":' . time(). '}';
             if ($count > 0) {
-            $cMeta = new meta();
-            $cMeta->updateMeta($lastInsertId, $metas);
-        }
+                $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($lastInsertId,'created_date',UNIX_TIMESTAMP());");
+                $res2 = $stmt2->execute();
+            }
 
             return $lastInsertId;
 
@@ -69,10 +68,9 @@ class figurant{
 
                 $count = $stmt->rowCount();
                 $lastInsertId = database::$conn->lastInsertId();
-                $metas = '{"name":"created_date", "value":' . time(). '}';
                 if ($count > 0) {
-                    $cMeta = new meta();
-                    $cMeta->updateMeta($lastInsertId, $metas);
+                    $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($lastInsertId,'created_date',UNIX_TIMESTAMP());");
+                    $res2 = $stmt2->execute();
                 }
                 return $lastInsertId;
 
@@ -108,7 +106,7 @@ class figurant{
         if ($count > 0) {
             $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());");
             $res2 = $stmt2->execute();
-		echo $stmt2->rowCount();
+		
         }
         return $count;
 
