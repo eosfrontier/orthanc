@@ -106,11 +106,11 @@ class figurant{
         $res = $stmt->execute();
         $count = $stmt->rowCount();
         $metas = '[{"name":"deleted_date", "value":"' . time(). '"}]';
-        if ($count > 0) {
+        //if ($count > 0) {
             $cMeta = new meta();
             $cMeta->updateMeta($id, $metas);
         return $count;
-        }
+        //}
     }
 
     private function checkCardId($cardId){
