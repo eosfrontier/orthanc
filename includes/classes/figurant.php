@@ -105,11 +105,13 @@ class figurant{
         $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted' WHERE status LIKE 'figurant%' AND characterID = $id");
         $res = $stmt->execute();
         $count = $stmt->rowCount();
-        return $count;
-        if ($count > 0){
-            $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',time())");
+        if ($count > 0) {
+            $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());");
             $res2 = $stmt2->execute();
+		echo $stmt2->rowCount();
         }
+        return $count;
+
     }
 
     private function checkCardId($cardId){
