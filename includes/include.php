@@ -21,9 +21,9 @@ if ( $method === 'OPTIONS' ) {
 	die();
 }
 
-function __autoload( $classname ) {
-	include "classes/$classname.php";
-}
+spl_autoload_register(function($classname) {
+    include "classes/$classname.php";
+});
 
 function token( $token ) {
 	$stmt = database::$conn->prepare( 'SELECT * FROM eos_tokens WHERE token = ?' );
