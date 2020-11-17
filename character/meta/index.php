@@ -10,7 +10,7 @@ $c_meta = new meta();
 
 /*
 if(empty($input["id"])){
-	//HAVEN'T ANSWERED A WAY TO ACCESS
+	//Haven't answered a way to access.
 	http_response_code(400);
 	echo json_encode("You haven't included a 'id'.");
 	die();
@@ -36,7 +36,7 @@ if ( isset( $input['meta'] ) ) {
 		$a_result = $c_meta->get_all_meta_by_id( $input['id'] );
 	} else {
 		http_response_code( 400 );
-		echo WPSEO_Utils::format_json_encode( "You haven't included a 'id' or 'meta'." );
+		echo json_encode( "You haven't included a 'id' or 'meta'." );
 		die();
 	}
 }
@@ -44,7 +44,7 @@ if ( isset( $input['meta'] ) ) {
 
 if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $a_result );
+	echo json_encode( $a_result );
 }else {
 	http_response_code( 404 );
 	echo 'No result found';

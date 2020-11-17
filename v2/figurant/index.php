@@ -13,7 +13,6 @@ switch ( $method ) {
 		break;
 	case 'PUT':
 		require_once './_update.php';
-
 		break;
 	case 'GET':
 		require_once './_get.php';
@@ -22,5 +21,5 @@ switch ( $method ) {
 		http_response_code( 200 );
 	default:
 		require_once './_get.php';
-	  break;
+		break;
 }

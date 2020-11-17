@@ -13,7 +13,6 @@ switch ( $method ) {
 		break;
 	case 'PUT':
 		require_once './_update.php';
-
 		break;
 	case 'GET':
 		require_once './_get.php';
