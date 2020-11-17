@@ -26,8 +26,9 @@ if (isset($input["accountID"])) {
 }
 
 //CHECK BY CHARACTER ID
+
 if (isset($input["char_id"]) || isset($input["id"])) {
-    $charid = $input["char_id"] . $input["id"];
+    $charid = isset($input["char_id"]) ? $input["char_id"] : (isset($input["id"]) ? $input["id"] : '');
     $aCharacter = $cCharacter->get($charid, "characterID");
     if (empty($aCharacter)) {
         http_response_code(404);

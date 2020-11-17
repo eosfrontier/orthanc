@@ -11,7 +11,7 @@ class character{
 
     public function get($id, $needle){
         if($needle == "card_id"){
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ?");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             
@@ -26,16 +26,16 @@ class character{
                     return "false";
                 }
                 
-                $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ?");
+                $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%'");
                 $res = $stmt->execute(array($sDec));
                 $res = $stmt->fetch(PDO::FETCH_ASSOC);
             }
         }elseif($needle == "accountID"){
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active'");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status NOT LIKE 'figurant%'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC); 
         }else{
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ?");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC); 
         }
