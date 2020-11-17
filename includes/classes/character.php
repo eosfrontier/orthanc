@@ -1,176 +1,186 @@
 <?php
 
-class character
-{
+class character {
 
-    public function getAll()
-    {
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%'");
-        $res = $stmt->execute();
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $res;
-    }
+	public function getAll() {
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%'" );
+		$res  = $stmt->execute();
+		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $res;
+	}
 
-    public function get($id, $needle)
-    {
-        if ($needle == "card_id") {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'");
-            $res = $stmt->execute(array($id));
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+	public function get( $id, $needle ) {
+		if ( $needle == 'card_id' ) {
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
-            if ($res == null) {
-                $sHex = dechex($id);
-                $aDec = str_split($sHex, 2);
-                if (!isset($aDec[1])) {
-                    return "false";
-                }
-                $sDec = "%" . $aDec[3] . $aDec[2] . $aDec[1] . $aDec[0] . "%";
-                if ($sDec == "%0%") {
-                    return "false";
-                }
+			if ( $res == null ) {
+				$sHex = dechex( $id );
+				$aDec = str_split( $sHex, 2 );
+				if ( ! isset( $aDec[1] ) ) {
+					return 'false';
+				}
+				$sDec = '%' . $aDec[3] . $aDec[2] . $aDec[1] . $aDec[0] . '%';
+				if ( $sDec == '%0%' ) {
+					return 'false';
+				}
 
-                $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%'");
-                $res = $stmt->execute(array($sDec));
-                $res = $stmt->fetch(PDO::FETCH_ASSOC);
-            }
-        } elseif ($needle == "accountID") {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status NOT LIKE 'figurant%'");
-            $res = $stmt->execute(array($id));
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%'");
-            $res = $stmt->execute(array($id));
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
+				$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%'" );
+				$res  = $stmt->execute( [ $sDec ] );
+				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+			}
+		} elseif ( $needle == 'accountID' ) {
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		} else {
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		}
 
-        return $res;
-    }
+		return $res;
+	}
 
-    public function getSkills($id)
-    {
-        $stmt = database::$conn->prepare("SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID");
-        $res = $stmt->execute(array($id));
-        $aCharSkills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	public function getSkills( $id ) {
+		$stmt        = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
+		$res         = $stmt->execute( [ $id ] );
+		$aCharSkills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-        $sSkillid = "";
+		$sSkillid = '';
 
-        foreach ($aCharSkills as $aCharSkill) {
-            $sSkillid .= $aCharSkill["skill_id"] . ",";
-        }
+		foreach ( $aCharSkills as $aCharSkill ) {
+			$sSkillid .= $aCharSkill['skill_id'] . ',';
+		}
 
-        $sSkillid = rtrim($sSkillid, ",");
+		$sSkillid = rtrim( $sSkillid, ',' );
 
 
 
-        $stmt = database::$conn->prepare("SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($sSkillid)");
-        $res = $stmt->execute();
-        $aCharSkills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$stmt        = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($sSkillid)" );
+		$res         = $stmt->execute();
+		$aCharSkills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-        $aSkills = array();
+		$aSkills = [];
 
-        foreach ($aCharSkills as $aCharSkill) {
+		foreach ( $aCharSkills as $aCharSkill ) {
 
-            $aCharSkill["skill_index"] = substr($aCharSkill["skill_index"], 0, strpos($aCharSkill["skill_index"], "_"));
+			$aCharSkill['skill_index'] = substr( $aCharSkill['skill_index'], 0, strpos( $aCharSkill['skill_index'], '_' ) );
 
-            array_push($aSkills, $aCharSkill);
-        }
+			array_push( $aSkills, $aCharSkill );
+		}
 
-        $stmt = database::$conn->prepare("SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'");
-        $res = $stmt->execute(array($id));
-        $aImplants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-        foreach ($aImplants as $aImplant) {
-            $arr["level"] = $aImplant["skillgroup_level"];
-            $arr["label"] = $aImplant["description"];
-            $arr["skill_index"] = $aImplant["skillgroup_siteindex"];
-            $arr["type"] = $aImplant["type"];
-            array_push($aSkills, $arr);
-        }
+		$stmt      = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
+		$res       = $stmt->execute( [ $id ] );
+		$aImplants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 
-        foreach ($aSkills as $key => $item) {
-            $aListedSkills[$item['skill_index']][$key] = $item;
-        }
 
-        $aSkills = array();
+		foreach ( $aImplants as $aImplant ) {
+			$arr['level']       = $aImplant['skillgroup_level'];
+			$arr['label']       = $aImplant['description'];
+			$arr['skill_index'] = $aImplant['skillgroup_siteindex'];
+			$arr['type']        = $aImplant['type'];
+			array_push( $aSkills, $arr );
+		}
 
-        foreach ($aListedSkills as $aListedSkill) {
 
-            $level = array_column($aListedSkill, 'level');
-            array_multisort($level, SORT_ASC, $aListedSkill);
+		foreach ( $aSkills as $key => $item ) {
+			$aListedSkills[ $item['skill_index'] ][ $key ] = $item;
+		}
 
-            //var_dump($aListedSkill);
-            $group = array();
-            $group["name"] = "";
-            $group["level"] = 0;
-            $group["specialty"] = false;
-            $group["sub_skills"] = array();
+		$aSkills = [];
 
-            foreach ($aListedSkill as $arr) {
-                $array = array(
-                    "name" => $arr["label"],
-                    "level" => intval($arr["level"])
-                );
+		foreach ( $aListedSkills as $aListedSkill ) {
 
-                if (isset($arr["type"])) {
-                    $array["source"] = $arr["type"];
-                }
+			$level = array_column( $aListedSkill, 'level' );
+			array_multisort( $level, SORT_ASC, $aListedSkill );
 
-                array_push($group["sub_skills"], $array);
+			// var_dump($aListedSkill);
+			$group               = [];
+			$group['name']       = '';
+			$group['level']      = 0;
+			$group['specialty']  = false;
+			$group['sub_skills'] = [];
 
-                $group["name"] = $arr["skill_index"];
+			foreach ( $aListedSkill as $arr ) {
+				$array = [
+					'name'  => $arr['label'],
+					'level' => intval( $arr['level'] ),
+				];
 
-                if (!isset($arr["type"])) {
-                    if ($arr["level"] > $group["level"]) {
-                        $group["level"] = intval($arr["level"]);
-                    }
-                }
-            }
+				if ( isset( $arr['type'] ) ) {
+					$array['source'] = $arr['type'];
+				}
 
-            if ($group["level"] > 5) {
-                $group["specialty"] = true;
-            }
+				array_push( $group['sub_skills'], $array );
 
-            array_push($aSkills, $group);
-        }
+				$group['name'] = $arr['skill_index'];
 
-        return $aSkills;
-    }
-    function addCharacter($character)
-    {
-        $check = $this->checkCardId($character["card_id"]);
+				if ( ! isset( $arr['type'] ) ) {
+					if ( $arr['level'] > $group['level'] ) {
+						$group['level'] = intval( $arr['level'] );
+					}
+				}
+			}
 
-        $character_name     = $character["character_name"];
-        $card_id            = $character["card_id"];
-        $faction            = $character["faction"];
-        $rank               = $character["rank"];
-        $threat_assessment  = $character["threat_assessment"];
-        $douane_disposition = $character["douane_disposition"];
-        $douane_notes       = $character["douane_notes"];
-        $bastion_clearance  = $character["bastion_clearance"];
-        $ICC_number         = $character["ICC_number"];
-        $bloodtype          = $character["bloodtype"];
-        $ic_birthday        = $character["ic_birthday"];
-        $homeplanet         = $character["homeplanet"];
+			if ( $group['level'] > 5 ) {
+				$group['specialty'] = true;
+			}
 
-        if (!$check) {
+			array_push( $aSkills, $group );
+		}
 
-            $stmt = database::$conn->prepare(
-                "INSERT into ecc_characters
+		return $aSkills;
+	}
+
+	function addCharacter( $character ) {
+		$check = $this->checkCardId( $character['card_id'] );
+
+		$character_name     = $character['character_name'];
+		$card_id            = $character['card_id'];
+		$faction            = $character['faction'];
+		$rank               = $character['rank'];
+		$threat_assessment  = $character['threat_assessment'];
+		$douane_disposition = $character['douane_disposition'];
+		$douane_notes       = $character['douane_notes'];
+		$bastion_clearance  = $character['bastion_clearance'];
+		$ICC_number         = $character['ICC_number'];
+		$bloodtype          = $character['bloodtype'];
+		$ic_birthday        = $character['ic_birthday'];
+		$homeplanet         = $character['homeplanet'];
+
+		if ( ! $check ) {
+
+			$stmt = database::$conn->prepare(
+				'INSERT into ecc_characters
                     (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
                 VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-            );
-            $res = $stmt->execute(array(
-                0, $character_name, $card_id, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
-            ));
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+			);
+			$res  = $stmt->execute(
+				[
+					0,
+					$character_name,
+					$card_id,
+					$faction,
+					$rank,
+					$threat_assessment,
+					$douane_disposition,
+					$douane_notes,
+					$bastion_clearance,
+					$ICC_number,
+					$bloodtype,
+					$ic_birthday,
+					$homeplanet,
+				]
+			);
 
-            return database::$conn->lastInsertId();
-        } else {
-            $stmt = database::$conn->prepare(
-                "UPDATE ecc_characters SET
+			return database::$conn->lastInsertId();
+		} else {
+			$stmt = database::$conn->prepare(
+				'UPDATE ecc_characters SET
                         character_name=?,
                         faction=?,
                         status=?,
@@ -183,32 +193,30 @@ class character
                         bloodtype=?,
                         ic_birthday=?,
                         homeplanet=?
-                    WHERE characterID = ?"
-            );
-            $res = $stmt->execute(array($character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet, $check["characterID"]));
+                    WHERE characterID = ?'
+			);
+			$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
 
-            return "success";
-        }
-    }
+			return 'success';
+		}
+	}
 
-    public function deleteCharacter($id)
-    {
-        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'");
-        $res = $stmt->execute();
-        $count = $stmt->rowCount();
-        if ($count > 0) {
-            $stmt2 = database::$conn->prepare("INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());");
-            $res2 = $stmt2->execute();
-        }
-        return $count;
-    }
+	public function deleteCharacter( $id ) {
+		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
+		$res   = $stmt->execute();
+		$count = $stmt->rowCount();
+		if ( $count > 0 ) {
+			$stmt2 = database::$conn->prepare( "INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());" );
+			$res2  = $stmt2->execute();
+		}
+		return $count;
+	}
 
-    private function checkCardId($cardId)
-    {
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'");
-        $res = $stmt->execute(array($cardId));
-        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+	private function checkCardId( $cardId ) {
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
+		$res  = $stmt->execute( [ $cardId ] );
+		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
-        return $res;
-    }
+		return $res;
+	}
 }
