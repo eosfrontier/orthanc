@@ -1,4 +1,41 @@
 <?php 
+/**
+ * @OA\Info(title="Orthanc Character API", version="0.1")
+ */
+
+/**
+ * @OA\Post(
+ *     path="/orthanc/character/",
+ *     summary="Retrieve a character from the database",
+ *     @OA\Response(response="200", description="A character from the database"),
+ *     @OA\RequestBody(
+ *       description="Search parameters",
+ *       content=oneOf(
+ *         @OA\JsonContent(
+ *           type="object",
+ *           @OA\Property(property="all_characters", type="boolean", description="Get all characters"),
+ *         ),
+ *         @OA\JsonContent(
+ *           type="object",
+ *           @OA\Property(property="accountID", type="number", description="by Joomla account ID"),
+ *         ),
+ *         @OA\JsonContent(
+ *           type="object",
+ *           @OA\Property(property="char_id", type="number", description="by character ID"),
+ *         ),
+ *         @OA\JsonContent(
+ *           type="object",
+ *           @OA\Property(property="card_id", type="string", description="by card ID"),
+ *         ),
+ *         @OA\JsonContent(
+ *           type="object",
+ *           @OA\Property(property="icc_number", type="string", description="by ICC number")
+ *         )
+ *       )
+ *     )
+ * )
+ */
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 $input = json_decode(file_get_contents('php://input'), true);
