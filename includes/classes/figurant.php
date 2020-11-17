@@ -229,7 +229,7 @@ class figurant
 
     private function checkCardId($cardId)
     {
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ?");
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status like 'figurant%'");
         $res = $stmt->execute(array($cardId));
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
