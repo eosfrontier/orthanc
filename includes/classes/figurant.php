@@ -4,7 +4,7 @@ class figurant
 {
     public function getAll()
     {
-        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figurant%'");
+        $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE status LIKE 'figurant%' AND sheet_status != 'deleted'");
         $res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $res;
@@ -13,7 +13,7 @@ class figurant
     public function get($id, $needle)
     {
         if ($needle == "card_id") {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status LIKE 'figurant%'");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ? AND status LIKE 'figurant%' AND sheet_status != 'deleted'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -28,16 +28,16 @@ class figurant
                     return "false";
                 }
 
-                $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status LIKE 'figurant%'");
+                $stmt = database::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'");
                 $res = $stmt->execute(array($sDec));
                 $res = $stmt->fetch(PDO::FETCH_ASSOC);
             }
         } elseif ($needle == "accountID") {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status LIKE 'figurant%'");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
-            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND status LIKE 'figurant%'");
+            $stmt = database::$conn->prepare("SELECT * FROM ecc_characters where $needle = ? AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'");
             $res = $stmt->execute(array($id));
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
         }
@@ -217,7 +217,7 @@ class figurant
 
     public function deleteFigurant($id)
     {
-        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id");
+        $stmt = database::$conn->prepare("UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'");
         $res = $stmt->execute();
         $count = $stmt->rowCount();
         if ($count > 0) {
