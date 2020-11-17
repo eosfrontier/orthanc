@@ -1,8 +1,8 @@
 <?php
 
-if(!isset($input["id"])){
+if (!isset($input["id"])) {
     $allCharacters = $cFigurant->getAll();
-    if(empty($allCharacters)){
+    if (empty($allCharacters)) {
         http_response_code(404);
         echo json_encode("None found.");
         die();

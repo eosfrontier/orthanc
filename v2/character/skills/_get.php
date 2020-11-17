@@ -1,5 +1,5 @@
 <?php
-if(empty($input["id"])){
+if (empty($input["id"])) {
     //HAVEN'T ANSWERED A WAY TO ACCESS
     http_response_code(400);
     echo json_encode("You haven't included an 'id'.");

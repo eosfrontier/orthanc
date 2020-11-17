@@ -79,5 +79,3 @@ if(isset($input["icc_number"])){
 //HAVEN'T ANSWERED A WAY TO ACCESS
 http_response_code(400);
 echo json_encode("You haven't included a 'accountID', 'char_id', 'card_id' or 'icc_number'.");
-?>
-

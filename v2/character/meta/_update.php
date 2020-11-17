@@ -20,5 +20,3 @@ $aResult = $cMeta->updateMeta($id, $metas);
     http_response_code(200);
     echo json_encode($aResult);
 die();
-
-?>

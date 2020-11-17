@@ -120,5 +120,3 @@ class figurant{
         return $res;
     }
 }
-
-?>

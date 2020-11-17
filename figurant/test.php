@@ -1,2 +1,2 @@
 <?php
-echo '{"name":"deleted_date", "value":"' . time(). '"}';
+echo '{"name":"deleted_date", "value":"' . time() . '"}';

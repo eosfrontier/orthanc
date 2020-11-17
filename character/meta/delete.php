@@ -28,5 +28,3 @@ if(!empty($aResult)){
     echo "No result found";
 }
 die();
-
-?>

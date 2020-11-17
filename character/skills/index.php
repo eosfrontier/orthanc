@@ -23,5 +23,3 @@ $aSkills = $cCharacter->getSkills($id);
 http_response_code(200);
 echo json_encode($aSkills);
 die();
-
-?>

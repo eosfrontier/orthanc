@@ -23,6 +23,3 @@ switch ($method) {
       require_once './_get.php';
       break;
   }
-
-?>
-
