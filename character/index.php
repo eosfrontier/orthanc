@@ -43,73 +43,73 @@ require_once '../includes/include.php';
 
 require_once '../includes/token.php';
 
-$cCharacter = new character();
+$c_character = new character();
 
 if ( isset( $input['all_characters'] ) ) {
-	$allCharacters = $cCharacter->getAll();
-	if ( empty( $allCharacters ) ) {
+	$all_characters = $c_character->get_all();
+	if ( empty( $all_characters ) ) {
 		http_response_code( 404 );
 		echo WPSEO_Utils::format_json_encode( 'None found.' );
 		die();
 	}
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $allCharacters );
+	echo WPSEO_Utils::format_json_encode( $all_characters );
 	die();
 }
 
 //CHECK BY JOOMLA ID
 if ( isset( $input['accountID'] ) ) {
-	$aCharacter = $cCharacter->get( $input['accountID'], 'accountID' );
-	if ( empty( $aCharacter ) ) {
+	$a_character = $c_character->get( $input['accountID'], 'accountID' );
+	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo WPSEO_Utils::format_json_encode( 'None found.' );
 		die();
 	}
 
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aCharacter );
+	echo WPSEO_Utils::format_json_encode( $a_character );
 	die();
 }
 
 //CHECK BY CHARACTER ID
 if ( isset( $input['char_id'] ) ) {
-	$aCharacter = $cCharacter->get( $input['char_id'], 'characterID' );
-	if ( empty( $aCharacter ) ) {
+	$a_character = $c_character->get( $input['char_id'], 'characterID' );
+	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo WPSEO_Utils::format_json_encode( 'None found.' );
 		die();
 	}
 
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aCharacter );
+	echo WPSEO_Utils::format_json_encode( $a_character );
 	die();
 }
 
 //CHECK BY CARD ID
 if ( isset( $input['card_id'] ) ) {
-	$aCharacter = $cCharacter->get( $input['card_id'], 'card_id' );
-	if ( empty( $aCharacter ) ) {
+	$a_character = $c_character->get( $input['card_id'], 'card_id' );
+	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo WPSEO_Utils::format_json_encode( 'None found.' );
 		die();
 	}
 
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aCharacter );
+	echo WPSEO_Utils::format_json_encode( $a_character );
 	die();
 }
 
 //CHECK BY ICC NUMBER
 if ( isset( $input['icc_number'] ) ) {
-	$aCharacter = $cCharacter->get( $input['icc_number'], 'ICC_number' );
-	if ( empty( $aCharacter ) ) {
+	$a_character = $c_character->get( $input['icc_number'], 'icc_number' );
+	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo WPSEO_Utils::format_json_encode( 'None found.' );
 		die();
 	}
 
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aCharacter );
+	echo WPSEO_Utils::format_json_encode( $a_character );
 	die();
 }
 

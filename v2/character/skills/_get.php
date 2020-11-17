@@ -8,8 +8,8 @@ if ( empty( $input['id'] ) ) {
 
 $id = $input['id'];
 
-$aSkills = $cCharacter->getSkills( $id );
+$a_skills = $c_character->get_skills( $id );
 
 http_response_code( 200 );
-echo WPSEO_Utils::format_json_encode( $aSkills );
+echo WPSEO_Utils::format_json_encode( $a_skills );
 die();

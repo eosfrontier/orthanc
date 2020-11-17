@@ -16,7 +16,7 @@ if ( empty( $input['meta'] ) ) {
 $id    = $input['id'];
 $metas = $input['meta'];
 
-$aResult = $cMeta->updateMeta( $id, $metas );
+$a_result = $c_meta->update_meta( $id, $metas );
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aResult );
+	echo WPSEO_Utils::format_json_encode( $a_result );
 die();

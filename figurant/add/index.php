@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$cFigurant = new figurant();
+$c_figurant = new figurant();
 
 if ( empty( $input['figurant'] ) ) {
 	http_response_code( 400 );
@@ -14,9 +14,9 @@ if ( empty( $input['figurant'] ) ) {
 	die();
 }
 
-$aFigurant = $input['figurant'];
+$a_figurant = $input['figurant'];
 
-$aResult = $cFigurant->addFigurant( $aFigurant );
+$a_result = $c_figurant->add_figurant( $a_figurant );
 http_response_code( 200 );
-echo WPSEO_Utils::format_json_encode( $aResult );
+echo WPSEO_Utils::format_json_encode( $a_result );
 die();

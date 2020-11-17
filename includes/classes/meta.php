@@ -2,7 +2,7 @@
 
 class meta {
 
-	function getAllMetaById( $id ) {
+	function get_all_meta_by_id( $id ) {
 		$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -10,21 +10,21 @@ class meta {
 		return $res;
 	}
 
-	function getByMeta( $id, $meta ) {
+	function get_by_meta( $id, $meta ) {
 		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name in ($meta)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function getAllByMeta( $meta ) {
+	function get_all_by_meta( $meta ) {
 		$stmt = database::$conn->prepare( "SELECT id, name, value, character_id FROM ecc_meta_character WHERE name in ($meta)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function updateMeta( $id, $metas ) {
+	function update_meta( $id, $metas ) {
 		foreach ( $metas as $meta ) {
 			if ( array_key_exists( 'oldvalue', $meta ) ) {
 				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
@@ -52,7 +52,7 @@ class meta {
 		return 'success';
 	}
 
-	function deleteMeta( $id, $metas ) {
+	function delete_meta( $id, $metas ) {
 		$total_deleted = 0;
 		foreach ( $metas as $meta ) {
 			if ( array_key_exists( 'value', $meta ) ) {

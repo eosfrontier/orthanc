@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$cMeta = new meta();
+$c_meta = new meta();
 
 /*
 if(empty($input["id"])){
@@ -18,22 +18,22 @@ if(empty($input["id"])){
 */
 
 if ( isset( $input['meta'] ) ) {
-	$meta   = $input['meta'];
-	$aMetas = explode( ',', $meta );
-	$meta   = '';
-	foreach ( $aMetas as $aMeta ) {
-		$meta .= "'" . $aMeta . "',";
+	$meta    = $input['meta'];
+	$a_metas = explode( ',', $meta );
+	$meta    = '';
+	foreach ( $a_metas as $a_meta ) {
+		$meta .= "'" . $a_meta . "',";
 	}
 	$meta = rtrim( $meta, ',' );
 
 	if ( isset( $input['id'] ) ) {
-		$aResult = $cMeta->getByMeta( $input['id'], $meta );
+		$a_result = $c_meta->get_by_meta( $input['id'], $meta );
 	} else {
-		$aResult = $cMeta->getAllByMeta( $meta );
+		$a_result = $c_meta->get_all_by_meta( $meta );
 	}
 } else {
 	if ( isset( $input['id'] ) ) {
-		$aResult = $cMeta->getAllMetaById( $input['id'] );
+		$a_result = $c_meta->get_all_meta_by_id( $input['id'] );
 	} else {
 		http_response_code( 400 );
 		echo WPSEO_Utils::format_json_encode( "You haven't included a 'id' or 'meta'." );
@@ -42,9 +42,9 @@ if ( isset( $input['meta'] ) ) {
 }
 
 
-if ( ! empty( $aResult ) ) {
+if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aResult );
+	echo WPSEO_Utils::format_json_encode( $a_result );
 }else {
 	http_response_code( 404 );
 	echo 'No result found';

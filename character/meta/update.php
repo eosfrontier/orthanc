@@ -6,11 +6,10 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$cMeta = new meta();
+$c_meta = new meta();
 
 if ( empty( $input['id'] ) ) {
-	// HAVEN'T ANSWERED A WAY TO ACCESS
-	http_response_code( 400 );
+	http_response_code( 400 ); // Haven't answered a way t acccess.
 	echo WPSEO_Utils::format_json_encode( "You haven't included a 'id'." );
 	die();
 }
@@ -24,7 +23,7 @@ if ( empty( $input['meta'] ) ) {
 $id    = $input['id'];
 $metas = $input['meta'];
 
-$aResult = $cMeta->updateMeta( $id, $metas );
+$a_result = $c_meta->update_meta( $id, $metas );
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aResult );
+	echo WPSEO_Utils::format_json_encode( $a_result );
 die();

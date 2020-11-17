@@ -2,7 +2,7 @@
 
 class character {
 
-	public function getAll() {
+	public function get_all() {
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%'" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -16,18 +16,18 @@ class character {
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
 			if ( $res == null ) {
-				$sHex = dechex( $id );
-				$aDec = str_split( $sHex, 2 );
-				if ( ! isset( $aDec[1] ) ) {
+				$s_hex = dechex( $id );
+				$a_dec = str_split( $s_hex, 2 );
+				if ( ! isset( $a_dec[1] ) ) {
 					return 'false';
 				}
-				$sDec = '%' . $aDec[3] . $aDec[2] . $aDec[1] . $aDec[0] . '%';
-				if ( $sDec == '%0%' ) {
+				$s_dec = '%' . $a_dec[3] . $a_dec[2] . $a_dec[1] . $a_dec[0] . '%';
+				if ( $s_dec == '%0%' ) {
 					return 'false';
 				}
 
 				$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%'" );
-				$res  = $stmt->execute( [ $sDec ] );
+				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		} elseif ( $needle == 'accountID' ) {
@@ -43,68 +43,68 @@ class character {
 		return $res;
 	}
 
-	public function getSkills( $id ) {
+	public function get_skills( $id ) {
 		$stmt        = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
 		$res         = $stmt->execute( [ $id ] );
-		$aCharSkills = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-		$sSkillid = '';
+		$s_skillid = '';
 
-		foreach ( $aCharSkills as $aCharSkill ) {
-			$sSkillid .= $aCharSkill['skill_id'] . ',';
+		foreach ( $a_char_skills as $a_char_skill ) {
+			$s_skillid .= $a_char_skill['skill_id'] . ',';
 		}
 
-		$sSkillid = rtrim( $sSkillid, ',' );
+		$s_skillid = rtrim( $s_skillid, ',' );
 
 
 
-		$stmt        = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($sSkillid)" );
+		$stmt        = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
 		$res         = $stmt->execute();
-		$aCharSkills = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-		$aSkills = [];
+		$a_skills = [];
 
-		foreach ( $aCharSkills as $aCharSkill ) {
+		foreach ( $a_char_skills as $a_char_skill ) {
 
-			$aCharSkill['skill_index'] = substr( $aCharSkill['skill_index'], 0, strpos( $aCharSkill['skill_index'], '_' ) );
+			$a_char_skill['skill_index'] = substr( $a_char_skill['skill_index'], 0, strpos( $a_char_skill['skill_index'], '_' ) );
 
-			array_push( $aSkills, $aCharSkill );
+			array_push( $a_skills, $a_char_skill );
 		}
 
 		$stmt      = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
 		$res       = $stmt->execute( [ $id ] );
-		$aImplants = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 
 
-		foreach ( $aImplants as $aImplant ) {
-			$arr['level']       = $aImplant['skillgroup_level'];
-			$arr['label']       = $aImplant['description'];
-			$arr['skill_index'] = $aImplant['skillgroup_siteindex'];
-			$arr['type']        = $aImplant['type'];
-			array_push( $aSkills, $arr );
+		foreach ( $a_implants as $a_implant ) {
+			$arr['level']       = $a_implant['skillgroup_level'];
+			$arr['label']       = $a_implant['description'];
+			$arr['skill_index'] = $a_implant['skillgroup_siteindex'];
+			$arr['type']        = $a_implant['type'];
+			array_push( $a_skills, $arr );
 		}
 
 
-		foreach ( $aSkills as $key => $item ) {
-			$aListedSkills[ $item['skill_index'] ][ $key ] = $item;
+		foreach ( $a_skills as $key => $item ) {
+			$a_listed_skills[ $item['skill_index'] ][ $key ] = $item;
 		}
 
-		$aSkills = [];
+		$a_skills = [];
 
-		foreach ( $aListedSkills as $aListedSkill ) {
+		foreach ( $a_listed_skills as $a_listed_skill ) {
 
-			$level = array_column( $aListedSkill, 'level' );
-			array_multisort( $level, SORT_ASC, $aListedSkill );
+			$level = array_column( $a_listed_skill, 'level' );
+			array_multisort( $level, SORT_ASC, $a_listed_skill );
 
-			// var_dump($aListedSkill);
+			// var_dump($a_listed_skill);
 			$group               = [];
 			$group['name']       = '';
 			$group['level']      = 0;
 			$group['specialty']  = false;
 			$group['sub_skills'] = [];
 
-			foreach ( $aListedSkill as $arr ) {
+			foreach ( $a_listed_skill as $arr ) {
 				$array = [
 					'name'  => $arr['label'],
 					'level' => intval( $arr['level'] ),
@@ -129,14 +129,14 @@ class character {
 				$group['specialty'] = true;
 			}
 
-			array_push( $aSkills, $group );
+			array_push( $a_skills, $group );
 		}
 
-		return $aSkills;
+		return $a_skills;
 	}
 
-	function addCharacter( $character ) {
-		$check = $this->checkCardId( $character['card_id'] );
+	function add_character( $character ) {
+		$check = $this->check_card_id( $character['card_id'] );
 
 		$character_name     = $character['character_name'];
 		$card_id            = $character['card_id'];
@@ -146,7 +146,7 @@ class character {
 		$douane_disposition = $character['douane_disposition'];
 		$douane_notes       = $character['douane_notes'];
 		$bastion_clearance  = $character['bastion_clearance'];
-		$ICC_number         = $character['ICC_number'];
+		$icc_number         = $character['icc_number'];
 		$bloodtype          = $character['bloodtype'];
 		$ic_birthday        = $character['ic_birthday'];
 		$homeplanet         = $character['homeplanet'];
@@ -155,7 +155,7 @@ class character {
 
 			$stmt = database::$conn->prepare(
 				'INSERT into ecc_characters
-                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
+                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
                 VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 			);
@@ -170,7 +170,7 @@ class character {
 					$douane_disposition,
 					$douane_notes,
 					$bastion_clearance,
-					$ICC_number,
+					$icc_number,
 					$bloodtype,
 					$ic_birthday,
 					$homeplanet,
@@ -189,19 +189,19 @@ class character {
                         douane_disposition=?,
                         douane_notes=?,
                         bastion_clearance=?,
-                        ICC_number=?,
+                        icc_number=?,
                         bloodtype=?,
                         ic_birthday=?,
                         homeplanet=?
                     WHERE characterID = ?'
 			);
-			$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
+			$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
 
 			return 'success';
 		}
 	}
 
-	public function deleteCharacter( $id ) {
+	public function delete_character( $id ) {
 		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
@@ -212,9 +212,9 @@ class character {
 		return $count;
 	}
 
-	private function checkCardId( $cardId ) {
+	private function check_card_id( $card_id ) {
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
-		$res  = $stmt->execute( [ $cardId ] );
+		$res  = $stmt->execute( [ $card_id ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
 		return $res;

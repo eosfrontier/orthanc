@@ -6,9 +6,9 @@ if ( empty( $input['figurant'] ) ) {
 	die();
 }
 
-$aFigurant = $input['figurant'];
+$a_figurant = $input['figurant'];
 
-$aResult = $cFigurant->addFigurant( $aFigurant );
+$a_result = $c_figurant->add_figurant( $a_figurant );
 http_response_code( 200 );
-echo WPSEO_Utils::format_json_encode( $aResult );
+echo WPSEO_Utils::format_json_encode( $a_result );
 die();

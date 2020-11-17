@@ -6,9 +6,9 @@ if ( empty( $input['character'] ) ) {
 	die();
 }
 
-$acharacter = $input['character'];
+$a_character = $input['character'];
 
-$aResult = $ccharacter->addcharacter( $acharacter );
+$a_result = $c_character->add_character( $a_character );
 http_response_code( 200 );
-echo WPSEO_Utils::format_json_encode( $aResult );
+echo WPSEO_Utils::format_json_encode( $a_result );
 die();

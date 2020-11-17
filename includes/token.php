@@ -1,7 +1,7 @@
 <?php
 // CHECK ACCESS TOKEN
 
-$headers = getallheaders();
+$headers = get_allheaders();
 
 $access = '';
 if ( isset( $headers['token'] ) ) {

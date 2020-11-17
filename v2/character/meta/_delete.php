@@ -1,8 +1,6 @@
 <?php
-
 if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
-	// HAVEN'T ANSWERED A WAY TO ACCESS
-	http_response_code( 400 );
+	http_response_code( 400 ); // Haven't answered a way to access.
 	echo WPSEO_Utils::format_json_encode( "You haven't included a 'id'." );
 	die();
 }
@@ -10,12 +8,13 @@ if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
 $id   = $input['id'];
 $meta = $input['meta'];
 
-$aResult = $cMeta->deleteMeta( $id, $meta );
+$a_result = $c_meta->delete_meta( $id, $meta );
 
-if ( ! empty( $aResult ) ) {
+if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aResult );
-} else {
+	echo WPSEO_Utils::format_json_encode( $a_result );
+}
+else {
 	http_response_code( 404 );
 	echo 'No result found';
 }

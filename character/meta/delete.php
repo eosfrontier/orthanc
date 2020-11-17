@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$cMeta = new meta();
+$c_meta = new meta();
 
 if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
 	// HAVEN'T ANSWERED A WAY TO ACCESS
@@ -18,11 +18,11 @@ if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
 $id   = $input['id'];
 $meta = $input['meta'];
 
-$aResult = $cMeta->deleteMeta( $id, $meta );
+$a_result = $c_meta->delete_meta( $id, $meta );
 
-if ( ! empty( $aResult ) ) {
+if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
-	echo WPSEO_Utils::format_json_encode( $aResult );
+	echo WPSEO_Utils::format_json_encode( $a_result );
 }else {
 	http_response_code( 404 );
 	echo 'No result found';
