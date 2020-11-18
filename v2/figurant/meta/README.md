@@ -1,4 +1,4 @@
-# api/orthanc/v2/character/meta
+# api/orthanc/v2/figurant/meta
 
 |Method | Description |
 | --- | ---
@@ -8,7 +8,7 @@
 | PUT | Replaces value of **meta** on **id**
 
 ## Resource URL
-api/orthanc/v2/character/meta
+api/orthanc/v2/figurant/meta
 
 ## Resource Information
 |||
