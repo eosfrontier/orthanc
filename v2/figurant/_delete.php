@@ -2,7 +2,7 @@
 
 if ( ! isset( $input['id'] ) ) {
 	http_response_code( 400 );
-	echo json_encode( "You haven't include an id to delete." );
+	echo json_encode( "You haven't included an id to delete." );
 	die();
 } else {
 	$delete_figu = $c_fetch->delete_figurant( $input['id'] );

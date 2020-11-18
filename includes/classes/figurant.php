@@ -9,8 +9,6 @@ class figurant {
 		return $res;
 	}
 
-	public function 
-
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
 			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status LIKE 'figurant%' AND sheet_status != 'deleted'" );
