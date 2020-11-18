@@ -27,18 +27,6 @@ spl_autoload_register(
 	}
 );
 
-function token( $token ) {
-	$stmt = database::$conn->prepare( 'SELECT * FROM eos_tokens WHERE token = ?' );
-	$res  = $stmt->execute( [ $token ] );
-	$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-
-	if ( $res !== null ) {
-		return 'valid';
-	} else {
-		return false;
-	}
-}
-
 $app             = [];
 $app['includes'] = []; // opens an array to be filled later with the CSS and JS, which will eventually be included by PHP.
 $app['header']   = '/api/orthanc'; // location of the application. for example: http://localhost/api/orthanc/ == '/api/orthanc'. If the application is in the ROOT, you can leave this blank.
