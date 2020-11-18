@@ -5,10 +5,10 @@ if ( empty( $input['character'] ) ) {
 	echo json_encode( "You haven't included all needed info." );
 	die();
 }
+$a_account = $input['accountID'];
+$a_character = $input["character"];
 
-$a_character = $input['character'];
-
-$a_result = $c_fetch->add_character( $a_character );
+$a_result = $c_fetch->add_character( $a_account, $a_character );
 http_response_code( 200 );
 echo json_encode( $a_result );
 die();

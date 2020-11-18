@@ -28,7 +28,7 @@ api/orthanc/v2/character/
 token | provides authentication | All Methods | | 
 id | Character ID to GET or UPDATE | GET, DELETE, UPDATE | | 42
 all_characters | Declare this header to retrieve all active characters. No value needed. | | GET | 
-accountID | Use this header to retrieve all characters associated with a joomla user ID. | | GET | 747
+accountID | Use this header to retrieve all characters associated with a joomla user ID. | POST | GET | 747
 card_id | Use this header to lookup character by RFID Card ID. | | GET | 043A859A665A80
 icc_number | Use this header to lookup character by ICC ID Number. | | GET | 5941 49609 7331
 character |  sets the character details | | | {"card_id":"1234", "character_name": "name",</br>"faction": "faction","rank": "rank","threat_assessment" : "0",</br>"douane_disposition" : "ICC VETTED","douane_notes" : "notes",</br>"bastion_clearance" : "0","icc_number" : "1234","bloodtype" : "A",</br>"ic_birthday": "24 oct 231","homeplanet": "Dzar",</br>"recurring" : "1"}

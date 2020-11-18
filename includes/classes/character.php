@@ -43,9 +43,8 @@ class character {
 		return $res;
 	}
 
-	function add_character( $character ) {
-		$check = $this->check_card_id( $character['card_id'] );
-
+	function add_character( $account, $character ) {
+		$check              = $this->check_card_id( $character['card_id'] );
 		$character_name     = $character['character_name'];
 		$card_id            = $character['card_id'];
 		$faction            = $character['faction'];
@@ -69,7 +68,7 @@ class character {
 			);
 			$res  = $stmt->execute(
 				[
-					0,
+					$account,
 					$character_name,
 					$card_id,
 					$faction,
@@ -121,7 +120,7 @@ class character {
 	}
 
 	private function check_card_id( $card_id ) {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
 		$res  = $stmt->execute( [ $card_id ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
