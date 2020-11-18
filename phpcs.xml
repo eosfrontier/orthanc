@@ -33,7 +33,7 @@
         <exclude name="Yoast.Files.FileName"/>
         <exclude name="Yoast.NamingConventions.NamespaceName"/>
         <exclude name="Yoast.NamingConventions.ObjectNameDepth"/>
-
+		<exclude name="Yoast.Yoast.AlternativeFunctions"/>
         <exclude name="Squiz.Commenting.ClassComment.Missing"/>
     </rule>
 
