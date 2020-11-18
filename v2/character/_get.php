@@ -16,7 +16,7 @@ if ( isset( $input['accountID'] ) ) {
 	$a_character = $c_fetch->get( $input['accountID'], 'accountID' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
-		echo json_encode( 'None found.' );
+		echo json_encode( 'None found by accountID.' );
 		die();
 	}
 

@@ -28,7 +28,7 @@ api/orthanc/v2/figurant/
 token | provides authentication | All Methods | | 
 id | figurant ID to GET or UPDATE | GET, DELETE, UPDATE | | 42
 all_figurants | Declare this header to retrieve all active figurants. No value needed. | | GET | 
-account_id | Use this header to retrieve all figurants associated with a joomla user ID. | | GET | 747
+accountID | Use this header to retrieve all figurants associated with a joomla user ID. | | GET | 747
 card_id | Use this header to lookup figurant by RFID Card ID. | | GET | 043A859A665A80
 icc_number | Use this header to lookup figurant by ICC ID Number. | | GET | 5941 49609 7331
 figurant |  sets the figurant details | | | {"card_id":"1234", "figurant_name": "name",</br>"faction": "faction","rank": "rank","threat_assessment" : "0",</br>"douane_disposition" : "ICC VETTED","douane_notes" : "notes",</br>"bastion_clearance" : "0","icc_number" : "1234","bloodtype" : "A",</br>"ic_birthday": "24 oct 231","homeplanet": "Dzar",</br>"recurring" : "1"}
