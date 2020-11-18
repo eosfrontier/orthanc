@@ -4,6 +4,9 @@ places a character in the database with provided information, with the status 'c
 
 ## Resource URL
 api/orthanc/v2/character/
+### Sub-URLs
+[/orthanc/v2/character/meta/](/v2/character/meta/README.md)  
+[/orthanc/v2/character/skills/](/v2/character/skills/README.md)
 
 ## Resource Information
 |||
