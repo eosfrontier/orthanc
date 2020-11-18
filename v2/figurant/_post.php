@@ -6,7 +6,7 @@ if ( empty( $input['figurant'] ) ) {
 	die();
 }
 
-$a_figurant = $input['figurant'];
+$a_figurant = json_decode($input['figurant'], true);
 
 $a_result = $c_fetch->add_figurant( $a_figurant );
 http_response_code( 200 );

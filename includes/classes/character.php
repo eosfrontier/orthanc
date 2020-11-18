@@ -57,6 +57,7 @@ class character {
 		$bloodtype          = $character['bloodtype'];
 		$ic_birthday        = $character['ic_birthday'];
 		$homeplanet         = $character['homeplanet'];
+		$status             = "active";
 
 		if ( ! $check ) {
 
@@ -72,6 +73,7 @@ class character {
 					$character_name,
 					$card_id,
 					$faction,
+					$status,
 					$rank,
 					$threat_assessment,
 					$douane_disposition,
