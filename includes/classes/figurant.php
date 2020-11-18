@@ -43,63 +43,183 @@ class figurant {
 		return $res;
 	}
 
-	function add_figurant($character){
-        $check = $this->checkCardId($character["card_id"]);
+	public function get_skills( $id ) {
+		$stmt        = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
+		$res         = $stmt->execute( [ $id ] );
+		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-        $character_name     = $character["character_name"];
-        $card_id            = $character["card_id"];
-        $faction            = $character["faction"];
-        $rank               = $character["rank"];
-        $threat_assessment  = $character["threat_assessment"];
-        $douane_disposition = $character["douane_disposition"];
-        $douane_notes       = $character["douane_notes"];
-        $bastion_clearance  = $character["bastion_clearance"];
-        $ICC_number         = $character["ICC_number"];
-        $bloodtype          = $character["bloodtype"];
-        $ic_birthday        = $character["ic_birthday"];
-        $homeplanet         = $character["homeplanet"];
+		$s_skillid = '';
 
-        $figustatus = "figurant";
-        if(isset($character["recurring"])){
-            $figustatus = "figurant-recurring";
-        }
+		foreach ( $a_char_skills as $a_char_skill ) {
+			$s_skillid .= $a_char_skill['skill_id'] . ',';
+		}
 
-        if(!$check){
+		$s_skillid = rtrim( $s_skillid, ',' );
 
-            $stmt = database::$conn->prepare(
-                "INSERT into ecc_characters
-                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
+
+
+		$stmt        = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
+		$res         = $stmt->execute();
+		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+		$a_skills = [];
+
+		foreach ( $a_char_skills as $a_char_skill ) {
+
+			$a_char_skill['skill_index'] = substr( $a_char_skill['skill_index'], 0, strpos( $a_char_skill['skill_index'], '_' ) );
+
+			array_push( $a_skills, $a_char_skill );
+		}
+
+		$stmt      = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
+		$res       = $stmt->execute( [ $id ] );
+		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+
+
+		foreach ( $a_implants as $a_implant ) {
+			$arr['level']       = $a_implant['skillgroup_level'];
+			$arr['label']       = $a_implant['description'];
+			$arr['skill_index'] = $a_implant['skillgroup_siteindex'];
+			$arr['type']        = $a_implant['type'];
+			array_push( $a_skills, $arr );
+		}
+
+
+		foreach ( $a_skills as $key => $item ) {
+			$a_listed_skills[ $item['skill_index'] ][ $key ] = $item;
+		}
+
+		$a_skills = [];
+
+		foreach ( $a_listed_skills as $a_listed_skill ) {
+
+			$level = array_column( $a_listed_skill, 'level' );
+			array_multisort( $level, SORT_ASC, $a_listed_skill );
+
+			// var_dump($a_listed_skill);
+			$group               = [];
+			$group['name']       = '';
+			$group['level']      = 0;
+			$group['specialty']  = false;
+			$group['sub_skills'] = [];
+
+			foreach ( $a_listed_skill as $arr ) {
+				$array = [
+					'name'  => $arr['label'],
+					'level' => intval( $arr['level'] ),
+				];
+
+				if ( isset( $arr['type'] ) ) {
+					$array['source'] = $arr['type'];
+				}
+
+				array_push( $group['sub_skills'], $array );
+
+				$group['name'] = $arr['skill_index'];
+
+				if ( ! isset( $arr['type'] ) ) {
+					if ( $arr['level'] > $group['level'] ) {
+						$group['level'] = intval( $arr['level'] );
+					}
+				}
+			}
+
+			if ( $group['level'] > 5 ) {
+				$group['specialty'] = true;
+			}
+
+			array_push( $a_skills, $group );
+		}
+
+		return $a_skills;
+	}
+
+	function add_figurant( $character ) {
+		$check = $this->check_card_id( $character['card_id'] );
+
+		$character_name     = $character['character_name'];
+		$card_id            = $character['card_id'];
+		$faction            = $character['faction'];
+		$rank               = $character['rank'];
+		$threat_assessment  = $character['threat_assessment'];
+		$douane_disposition = $character['douane_disposition'];
+		$douane_notes       = $character['douane_notes'];
+		$bastion_clearance  = $character['bastion_clearance'];
+		$icc_number         = $character['icc_number'];
+		$bloodtype          = $character['bloodtype'];
+		$ic_birthday        = $character['ic_birthday'];
+		$homeplanet         = $character['homeplanet'];
+
+		$figustatus = 'figurant';
+		if ( isset( $character['recurring'] ) ) {
+			$figustatus = 'figurant-recurring';
+		}
+
+		if ( ! $check ) {
+
+			$stmt = database::$conn->prepare(
+				'INSERT into ecc_characters
+                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
                 VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                );
-            $res = $stmt->execute(array(
-                0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
-            ));
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+			);
+			$res  = $stmt->execute(
+				[
+					0,
+					$character_name,
+					$card_id,
+					$faction,
+					$figustatus,
+					$rank,
+					$threat_assessment,
+					$douane_disposition,
+					$douane_notes,
+					$bastion_clearance,
+					$icc_number,
+					$bloodtype,
+					$ic_birthday,
+					$homeplanet,
+				]
+			);
 
-            return database::$conn->lastInsertId();
+			return database::$conn->lastInsertId();
+		} else {
+			if ( $check['status'] == 'figurant-recurring' ) {
 
-        }else{
-            if($check["status"] == "figurant-recurring"){
+				$stmt = database::$conn->prepare( 'UPDATE ecc_characters SET card_id=? WHERE characterID = ?' );
+				$res  = $stmt->execute( [ null, $check['characterID'] ] );
 
-                $stmt = database::$conn->prepare("UPDATE ecc_characters SET card_id=? WHERE characterID = ?");
-                $res = $stmt->execute(array(NULL, $check["characterID"]));
-
-                $stmt = database::$conn->prepare(
-                    "INSERT into ecc_characters
-                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, ICC_number, bloodtype, ic_birthday, homeplanet)
+				$stmt = database::$conn->prepare(
+					'INSERT into ecc_characters
+                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                    );
-                $res = $stmt->execute(array(
-                    0, $character_name, $card_id, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet
-                ));
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+				);
+				$res  = $stmt->execute(
+					[
+						0,
+						$character_name,
+						$card_id,
+						$faction,
+						$figustatus,
+						$rank,
+						$threat_assessment,
+						$douane_disposition,
+						$douane_notes,
+						$bastion_clearance,
+						$icc_number,
+						$bloodtype,
+						$ic_birthday,
+						$homeplanet,
+					]
+				);
 
-                return database::$conn->lastInsertId();
+				return database::$conn->lastInsertId();
+			} else {
 
-            }else{
-
-                $stmt = database::$conn->prepare(
-                    "UPDATE ecc_characters SET
+				$stmt = database::$conn->prepare(
+					'UPDATE ecc_characters SET
                         character_name=?,
                         faction=?,
                         status=?,
@@ -108,18 +228,18 @@ class figurant {
                         douane_disposition=?,
                         douane_notes=?,
                         bastion_clearance=?,
-                        ICC_number=?,
+                        icc_number=?,
                         bloodtype=?,
                         ic_birthday=?,
                         homeplanet=?
-                    WHERE characterID = ?");
-                $res = $stmt->execute(array($character_name, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $ICC_number, $bloodtype, $ic_birthday, $homeplanet, $check["characterID"]));
+                    WHERE characterID = ?'
+				);
+				$res  = $stmt->execute( [ $character_name, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
 
-                return "success";
-            }
-        }
-
-    }
+				return 'success';
+			}
+		}
+	}
 
 	public function delete_figurant( $id ) {
 		 $stmt = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
