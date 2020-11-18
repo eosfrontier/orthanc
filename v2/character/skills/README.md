@@ -1,4 +1,4 @@
-# api/orthanc/v2/figurant/skills
+# api/orthanc/v2/character/skills
 
 |Method | Description |
 | --- | ---
@@ -8,7 +8,7 @@
 | ~~PUT~~ | *Not yet available* Replaces value of **skills** on **id**
 
 ## Resource URL
-api/orthanc/v2/figurant/skills
+api/orthanc/v2/character/skills
 
 ## Resource Information
 |||
