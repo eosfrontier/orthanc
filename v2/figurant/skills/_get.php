@@ -8,7 +8,7 @@ if ( empty( $input['id'] ) ) {
 
 $id = $input['id'];
 
-$a_skills = $c_character->get_skills( $id );
+$a_skills = $c_fetch->get_skills( $id );
 
 http_response_code( 200 );
 echo json_encode( $a_skills );

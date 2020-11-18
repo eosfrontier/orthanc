@@ -8,7 +8,7 @@ if ( empty( $input['figurant'] ) ) {
 
 $a_figurant = $input['figurant'];
 
-$a_result = $c_figurant->add_figurant( $a_figurant );
+$a_result = $c_fetch->add_figurant( $a_figurant );
 http_response_code( 200 );
 echo json_encode( $a_result );
 die();

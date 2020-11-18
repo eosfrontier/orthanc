@@ -5,7 +5,7 @@ if ( ! isset( $input['id'] ) ) {
 	echo json_encode( "You haven't include an id to delete." );
 	die();
 } else {
-	$delete_figu = $c_character->delete_character( $input['id'] );
+	$delete_figu = $c_fetch->delete_character( $input['id'] );
 	if ( $delete_figu == 0 ) {
 		http_response_code( 404 );
 		echo json_encode( 'No Characters deleted. Either specified id is not a Character, or they were already deleted.' );

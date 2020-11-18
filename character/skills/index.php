@@ -7,7 +7,7 @@ require_once '../../includes/include.php';
 
 require_once '../../includes/token.php';
 
-$c_character = new character();
+$c_fetch = new character();
 
 if ( empty( $input['id'] ) ) {
 	//Haven't answered a way to access.
@@ -18,7 +18,7 @@ if ( empty( $input['id'] ) ) {
 
 $id = $input['id'];
 
-$a_skills = $c_character->get_skills( $id );
+$a_skills = $c_fetch->get_skills( $id );
 
 http_response_code( 200 );
 echo json_encode( $a_skills );

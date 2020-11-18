@@ -8,7 +8,7 @@ if ( empty( $input['character'] ) ) {
 
 $a_character = $input['character'];
 
-$a_result = $c_character->add_character( $a_character );
+$a_result = $c_fetch->add_character( $a_character );
 http_response_code( 200 );
 echo json_encode( $a_result );
 die();

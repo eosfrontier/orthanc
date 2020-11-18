@@ -43,10 +43,10 @@ require_once '../includes/include.php';
 
 require_once '../includes/token.php';
 
-$c_character = new character();
+$c_fetch = new character();
 
 if ( isset( $input['all_characters'] ) ) {
-	$all_characters = $c_character->get_all();
+	$all_characters = $c_fetch->get_all();
 	if ( empty( $all_characters ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -59,7 +59,7 @@ if ( isset( $input['all_characters'] ) ) {
 
 //CHECK BY JOOMLA ID
 if ( isset( $input['accountID'] ) ) {
-	$a_character = $c_character->get( $input['accountID'], 'accountID' );
+	$a_character = $c_fetch->get( $input['accountID'], 'accountID' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -73,7 +73,7 @@ if ( isset( $input['accountID'] ) ) {
 
 //CHECK BY CHARACTER ID
 if ( isset( $input['char_id'] ) ) {
-	$a_character = $c_character->get( $input['char_id'], 'characterID' );
+	$a_character = $c_fetch->get( $input['char_id'], 'characterID' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -87,7 +87,7 @@ if ( isset( $input['char_id'] ) ) {
 
 //CHECK BY CARD ID
 if ( isset( $input['card_id'] ) ) {
-	$a_character = $c_character->get( $input['card_id'], 'card_id' );
+	$a_character = $c_fetch->get( $input['card_id'], 'card_id' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -101,7 +101,7 @@ if ( isset( $input['card_id'] ) ) {
 
 //CHECK BY ICC NUMBER
 if ( isset( $input['icc_number'] ) ) {
-	$a_character = $c_character->get( $input['icc_number'], 'icc_number' );
+	$a_character = $c_fetch->get( $input['icc_number'], 'icc_number' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );

@@ -2,6 +2,13 @@
 
 class meta {
 
+	function get_char_type_by_id( $id ) {
+		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"');
+		$res  = $stmt->execute( [ $id ] );
+		$res  = $stmt->fetchColumn();
+
+		return $res;
+	}
 	function get_all_meta_by_id( $id ) {
 		$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );

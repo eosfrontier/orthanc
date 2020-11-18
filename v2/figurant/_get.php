@@ -1,6 +1,6 @@
 <?php
 if ( isset( $input['all_characters'] ) ) {
-	$all_characters = $c_figurant->get_all( 'player' );
+	$all_characters = $c_fetch->get_all( 'player' );
 	if ( empty( $all_characters ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -13,7 +13,7 @@ if ( isset( $input['all_characters'] ) ) {
 
 // CHECK BY JOOMLA ID
 if ( isset( $input['accountID'] ) ) {
-	$a_character = $c_figurant->get( $input['accountID'], 'accountID' );
+	$a_character = $c_fetch->get( $input['accountID'], 'accountID' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -29,7 +29,7 @@ if ( isset( $input['accountID'] ) ) {
 
 if ( isset( $input['char_id'] ) || isset( $input['id'] ) ) {
 	$charid      = isset( $input['char_id'] ) ? $input['char_id'] : ( isset( $input['id'] ) ? $input['id'] : '' );
-	$a_character = $c_figurant->get( $charid, 'characterID' );
+	$a_character = $c_fetch->get( $charid, 'characterID' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -44,7 +44,7 @@ if ( isset( $input['char_id'] ) || isset( $input['id'] ) ) {
 
 // CHECK BY CARD ID
 if ( isset( $input['card_id'] ) ) {
-	$a_character = $c_figurant->get( $input['card_id'], 'card_id' );
+	$a_character = $c_fetch->get( $input['card_id'], 'card_id' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
@@ -58,7 +58,7 @@ if ( isset( $input['card_id'] ) ) {
 
 // CHECK BY ICC NUMBER
 if ( isset( $input['icc_number'] ) ) {
-	$a_character = $c_figurant->get( $input['icc_number'], 'icc_number' );
+	$a_character = $c_fetch->get( $input['icc_number'], 'icc_number' );
 	if ( empty( $a_character ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );

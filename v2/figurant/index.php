@@ -1,8 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-
-$c_figurant = new figurant();
+$c_fetch = new skills();
 
 switch ( $method ) {
 	case 'DELETE':
