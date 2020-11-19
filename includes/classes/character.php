@@ -44,7 +44,7 @@ class character {
 	}
 
 	function add_character( $account, $character ) {
-		$check              = $this->check_card_id( $character['card_id'] );
+		// $check              = $this->check_card_id( $character['card_id'] );
 		$character_name     = $character['character_name'];
 		$card_id            = $character['card_id'];
 		$faction            = $character['faction'];
@@ -57,17 +57,17 @@ class character {
 		$bloodtype          = $character['bloodtype'];
 		$ic_birthday        = $character['ic_birthday'];
 		$homeplanet         = $character['homeplanet'];
-		$status             = "active";
+		$status             = 'active';
 
-		if ( ! $check ) {
+		// if ( ! $check ) {
 
-			$stmt = database::$conn->prepare(
+			$stmt           = database::$conn->prepare(
 				'INSERT into ecc_characters
                     (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
                 VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 			);
-			$res  = $stmt->execute(
+			$res            = $stmt->execute(
 				[
 					$account,
 					$character_name,
@@ -85,29 +85,34 @@ class character {
 					$homeplanet,
 				]
 			);
+			$last_insert_id = database::$conn->lastInsertId();
+			if ( $last_insert_id === "0" ) {
+				$error = $stmt->errorInfo();
+				return $error['2'];
+			}
+			return $last_insert_id;
+		// }
+		// else {
+		// 	$stmt = database::$conn->prepare(
+		// 		'UPDATE ecc_characters SET
+        //                 character_name=?,
+        //                 faction=?,
+        //                 status=?,
+        //                 rank=?,
+        //                 threat_assessment=?,
+        //                 douane_disposition=?,
+        //                 douane_notes=?,
+        //                 bastion_clearance=?,
+        //                 icc_number=?,
+        //                 bloodtype=?,
+        //                 ic_birthday=?,
+        //                 homeplanet=?
+        //             WHERE characterID = ?'
+		// 	);
+		// 	$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
 
-			return database::$conn->lastInsertId();
-		} else {
-			$stmt = database::$conn->prepare(
-				'UPDATE ecc_characters SET
-                        character_name=?,
-                        faction=?,
-                        status=?,
-                        rank=?,
-                        threat_assessment=?,
-                        douane_disposition=?,
-                        douane_notes=?,
-                        bastion_clearance=?,
-                        icc_number=?,
-                        bloodtype=?,
-                        ic_birthday=?,
-                        homeplanet=?
-                    WHERE characterID = ?'
-			);
-			$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
-
-			return 'success';
-		}
+		// 	return 'success';
+		// }
 	}
 
 	public function delete_character( $id ) {

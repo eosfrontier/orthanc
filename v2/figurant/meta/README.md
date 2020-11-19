@@ -5,7 +5,7 @@
 | GET | Gets meta for **id**
 | POST | Adds **meta** for **id**
 | DELETE | Removes **meta** from **id**
-| UPDATE | Updates value of **meta** on **id**
+| PATCH | Updates value of **meta** on **id**
 
 ## Resource URL
 api/orthanc/v2/figurant/meta

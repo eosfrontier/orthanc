@@ -44,8 +44,8 @@ class figurant {
 	}
 
 	public function get_skills( $id ) {
-		$stmt        = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
-		$res         = $stmt->execute( [ $id ] );
+		$stmt          = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
+		$res           = $stmt->execute( [ $id ] );
 		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 		$s_skillid = '';
@@ -58,8 +58,8 @@ class figurant {
 
 
 
-		$stmt        = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
-		$res         = $stmt->execute();
+		$stmt          = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
+		$res           = $stmt->execute();
 		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 		$a_skills = [];
@@ -71,8 +71,8 @@ class figurant {
 			array_push( $a_skills, $a_char_skill );
 		}
 
-		$stmt      = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
-		$res       = $stmt->execute( [ $id ] );
+		$stmt       = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
+		$res        = $stmt->execute( [ $id ] );
 		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 
@@ -183,8 +183,14 @@ class figurant {
 				]
 			);
 
-			return database::$conn->lastInsertId();
-		} else {
+			$last_insert_id = database::$conn->lastInsertId();
+			if ( $last_insert_id === '0' ) {
+				$error = $stmt->errorInfo();
+				return $error['2'];
+			}
+			return $last_insert_id;
+		}
+		else {
 			if ( $check['status'] == 'figurant-recurring' ) {
 
 				$stmt = database::$conn->prepare( 'UPDATE ecc_characters SET card_id=? WHERE characterID = ?' );

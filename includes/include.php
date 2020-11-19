@@ -15,7 +15,6 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 
 // Grab HTTP REST Method
 $method = $_SERVER['REQUEST_METHOD'];
-
 if ( $method === 'OPTIONS' ) {
 	http_response_code( 204 );
 	die();

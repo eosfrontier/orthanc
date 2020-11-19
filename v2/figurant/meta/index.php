@@ -17,9 +17,8 @@ else {
 		case 'POST':
 			require_once './_post.php';
 			break;
-		case 'PUT':
+		case 'PATCH':
 			require_once './_update.php';
-			break;
 		case 'GET':
 			require_once './_get.php';
 			break;

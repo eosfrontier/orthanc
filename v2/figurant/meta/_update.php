@@ -14,8 +14,7 @@ if ( empty( $input['meta'] ) ) {
 }
 
 $id    = $input['id'];
-$metas = $input['meta'];
-
+$metas = json_decode($input['meta'], true);
 $a_result = $c_meta->update_meta( $id, $metas );
 	http_response_code( 200 );
 	echo json_encode( $a_result );
