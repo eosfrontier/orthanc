@@ -258,6 +258,17 @@ class figurant {
 		return $count;
 	}
 
+	public function restore_figurant( $id ) {
+		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
+		$res   = $stmt->execute();
+		$count = $stmt->rowCount();
+		if ( $count > 0 ) {
+			$stmt2 = database::$conn->prepare( "DELETE FROM ecc_meta_character where character_id = $id and name = 'deleted_date'" );
+			$res2  = $stmt2->execute();
+		}
+		return $count;
+	}
+
 	private function check_card_id( $card_id ) {
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status like 'figurant%'" );
 		$res  = $stmt->execute( [ $card_id ] );

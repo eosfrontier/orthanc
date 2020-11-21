@@ -86,33 +86,11 @@ class character {
 				]
 			);
 			$last_insert_id = database::$conn->lastInsertId();
-			if ( $last_insert_id === "0" ) {
-				$error = $stmt->errorInfo();
-				return $error['2'];
-			}
+		if ( $last_insert_id === '0' ) {
+			$error = $stmt->errorInfo();
+			return $error['2'];
+		}
 			return $last_insert_id;
-		// }
-		// else {
-		// 	$stmt = database::$conn->prepare(
-		// 		'UPDATE ecc_characters SET
-        //                 character_name=?,
-        //                 faction=?,
-        //                 status=?,
-        //                 rank=?,
-        //                 threat_assessment=?,
-        //                 douane_disposition=?,
-        //                 douane_notes=?,
-        //                 bastion_clearance=?,
-        //                 icc_number=?,
-        //                 bloodtype=?,
-        //                 ic_birthday=?,
-        //                 homeplanet=?
-        //             WHERE characterID = ?'
-		// 	);
-		// 	$res  = $stmt->execute( [ $character_name, $faction, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
-
-		// 	return 'success';
-		// }
 	}
 
 	public function delete_character( $id ) {
@@ -121,6 +99,17 @@ class character {
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {
 			$stmt2 = database::$conn->prepare( "INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());" );
+			$res2  = $stmt2->execute();
+		}
+		return $count;
+	}
+
+	public function restore_character( $id ) {
+		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
+		$res   = $stmt->execute();
+		$count = $stmt->rowCount();
+		if ( $count > 0 ) {
+			$stmt2 = database::$conn->prepare( "DELETE FROM ecc_meta_character where character_id = $id and name = 'deleted_date'" );
 			$res2  = $stmt2->execute();
 		}
 		return $count;
