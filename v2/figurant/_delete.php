@@ -35,6 +35,8 @@ else {
 		}
 	}
 	else {
+		http_response_code( 400 );
 		echo 'restore header set, but not set to 1.';
+		die();
 	}
 }
