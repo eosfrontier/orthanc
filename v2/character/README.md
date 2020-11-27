@@ -32,7 +32,7 @@ accountID | Use this header to retrieve all characters associated with a joomla 
 card_id | Use this header to lookup character by RFID Card ID. | | GET | 043A859A665A80
 icc_number | Use this header to lookup character by ICC ID Number. | | GET | 5941 49609 7331
 character |  sets the character details | | | {"card_id":"1234", "character_name": "name",</br>"faction": "faction","rank": "rank","threat_assessment" : "0",</br>"douane_disposition" : "ICC VETTED","douane_notes" : "notes",</br>"bastion_clearance" : "0","icc_number" : "1234","bloodtype" : "A",</br>"ic_birthday": "24 oct 231","homeplanet": "Dzar",</br>"recurring" : "1"}
-restore | When set to 1, will restore a deleted character | | DELETE | 1
+restore | When set to true, will restore a deleted character | | DELETE | 1
 
 ## Parameters character
 | Name | Required | Description | Default Value | Example

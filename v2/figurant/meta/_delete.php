@@ -1,7 +1,7 @@
 <?php
 if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
 	http_response_code( 400 ); // Haven't answered a way to access..
-	echo json_encode( "You haven't included a 'id'." );
+	echo json_encode( "You haven't included an 'id'." );
 	die();
 }
 

@@ -10,7 +10,7 @@ $c_meta = new meta();
 
 if ( empty( $input['id'] ) ) {
 	http_response_code( 400 ); // Haven't answered a way t acccess.
-	echo json_encode( "You haven't included a 'id'." );
+	echo json_encode( "You haven't included an 'id'." );
 	die();
 }
 

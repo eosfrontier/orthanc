@@ -11,7 +11,7 @@ $c_meta = new meta();
 if ( empty( $input['id'] ) || empty( $input['meta'] ) ) {
 	// Haven't answered a way to access.
 	http_response_code( 400 );
-	echo json_encode( "You haven't included a 'id'." );
+	echo json_encode( "You haven't included an 'id'." );
 	die();
 }
 

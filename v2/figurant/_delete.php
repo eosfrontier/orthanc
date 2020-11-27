@@ -21,7 +21,7 @@ elseif ( ! isset( $input['restore'] ) ) {
 
 else {
 	$restore = $input['restore'];
-	if ( $restore === '1' ) {
+	if ( $restore === 'true' ) {
 		$restore_figu = $c_fetch->restore_figurant( $input['id'] );
 		if ( $restore_figu == 0 ) {
 			http_response_code( 404 );
@@ -36,7 +36,7 @@ else {
 	}
 	else {
 		http_response_code( 400 );
-		echo 'restore header set, but not set to 1.';
+		echo 'restore header set, but not set to true.';
 		die();
 	}
 }
