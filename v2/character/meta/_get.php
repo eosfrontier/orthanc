@@ -1,21 +1,4 @@
 <?php
-header( 'Access-Control-Allow-Origin: *' );
-header( 'Content-Type: application/json; charset=UTF-8' );
-$input = json_decode( file_get_contents( 'php://input' ), true );
-
-require_once '../../includes/include.php';
-require_once '../../includes/token.php';
-
-$c_meta = new meta();
-
-/*
-if(empty($input["id"])){
-	//Haven't answered a way to access.
-	http_response_code(400);
-	echo json_encode("You haven't included a 'id'.");
-	die();
-}
-*/
 
 if ( isset( $input['meta'] ) ) {
 	$meta    = $input['meta'];
@@ -28,13 +11,16 @@ if ( isset( $input['meta'] ) ) {
 
 	if ( isset( $input['id'] ) ) {
 		$a_result = $c_meta->get_by_meta( $input['id'], $meta );
-	} else {
+	}
+	else {
 		$a_result = $c_meta->get_all_by_meta( $meta );
 	}
-} else {
+}
+else {
 	if ( isset( $input['id'] ) ) {
 		$a_result = $c_meta->get_all_meta_by_id( $input['id'] );
-	} else {
+	}
+	else {
 		http_response_code( 400 );
 		echo json_encode( "You haven't included a 'id' or 'meta'." );
 		die();
@@ -45,7 +31,7 @@ if ( isset( $input['meta'] ) ) {
 if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
 	echo json_encode( $a_result );
-}else {
+} else {
 	http_response_code( 404 );
 	echo 'No result found';
 }

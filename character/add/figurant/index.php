@@ -1,25 +1,22 @@
-<?php 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-$post = json_decode(file_get_contents('php://input'), true);
+<?php
+header( 'Access-Control-Allow-Origin: *' );
+header( 'Content-Type: application/json; charset=UTF-8' );
+$input = json_decode( file_get_contents( 'php://input' ), true );
 
-include_once "../../includes/include.php";
-include_once "../../includes/token.php";
+require_once '../../includes/include.php';
+require_once '../../includes/token.php';
 
-$cFigurant = new figurant();
+$c_fetch = new figurant();
 
-
-if(empty($post["character"])){
-    http_response_code(400);
-    echo json_encode("You haven't included meta.");
-    die();
+if ( empty( $input['character'] ) ) {
+	http_response_code( 400 );
+	echo json_encode( "You haven't included meta." );
+	die();
 }
 
-$cFigurant  = $post["figurant"];
+$c_fetch = $input['figurant'];
 
-$aResult = $cFigurant->addFigurant($cFigurant);
-    http_response_code(200);
-    echo json_encode($aResult);
+$a_result = $c_fetch->add_figurant( $c_fetch );
+	http_response_code( 200 );
+	echo json_encode( $a_result );
 die();
-
-?>
