@@ -20,7 +20,7 @@ elseif ( ! isset( $input['restore'] ) ) {
 
 else {
 	$restore = $input['restore'];
-	if ( $restore === 'true' ) {
+	if ( isset( $restore )  ) {
 		$restore_char = $c_fetch->restore_character( $input['id'] );
 		if ( $restore_char == 0 ) {
 			http_response_code( 404 );

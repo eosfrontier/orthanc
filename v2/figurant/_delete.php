@@ -21,7 +21,7 @@ elseif ( ! isset( $input['restore'] ) ) {
 
 else {
 	$restore = $input['restore'];
-	if ( $restore === 'true' ) {
+	if ( isset( $restore ) ) {
 		$restore_figu = $c_fetch->restore_figurant( $input['id'] );
 		if ( $restore_figu == 0 ) {
 			http_response_code( 404 );
