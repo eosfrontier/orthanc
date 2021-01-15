@@ -24,7 +24,7 @@ switch ( $faction ) {
 		break;
 	case 'sona':
 		// Get the contents of the JSON file 
-		$strJsonFileContents = file_get_contents("/var/eos_apps/PersonaGenerator/namelists/ekanesh.json");
+		$strJsonFileContents = file_get_contents("/var/eos_apps/PersonaGenerator/namelists/sona.json");
 		echo $strJsonFileContents;
 		break;
 	}
