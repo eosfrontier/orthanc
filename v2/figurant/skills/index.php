@@ -12,13 +12,15 @@ if ( ! ( strpos( $sheet_type, 'figurant' ) !== false ) ) {
 else {
 	switch ( $method ) {
 		case 'DELETE':
-			require_once './_delete.php';
+			// require_once './_delete.php';
+			http_response_code( 501 );
 			break;
 		case 'POST':
-			require_once './_post.php';
+			// require_once './_post.php';
 			break;
 		case 'PUT':
-			require_once './_update.php';
+			// require_once './_update.php';
+			http_response_code( 501 );
 			break;
 		case 'GET':
 			require_once './_get.php';

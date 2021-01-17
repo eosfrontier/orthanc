@@ -15,7 +15,8 @@ else {
 			require_once './_delete.php';
 			break;
 		case 'POST':
-			require_once './_post.php';
+			// require_once './_post.php';
+			http_response_code( 501 );
 			break;
 		case 'PATCH':
 			require_once './_update.php';
