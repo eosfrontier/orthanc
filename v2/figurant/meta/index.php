@@ -5,8 +5,8 @@ $c_meta     = new meta();
 
 $sheet_type = $c_meta->get_char_type_by_id( $input['id'] );
 if ( !(strpos( $sheet_type, 'figurant' ) !== false) ) {
-	http_response_code( 404 );
-	echo 'No result found';
+	http_response_code( 406 );
+	echo json_encode("CharacterID ".$input['id']." is not a figurant.");
 	exit;
 }
 else {
