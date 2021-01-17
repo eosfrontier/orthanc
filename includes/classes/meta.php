@@ -47,8 +47,11 @@ class meta {
 				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
 
 			}else {
-				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
-				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+
+				return '404';
+
+				// $stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				// $res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
 			}
 		}
 
