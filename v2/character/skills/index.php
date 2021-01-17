@@ -24,7 +24,7 @@ else {
 		case 'GET':
 			require_once './_get.php';
 			break;
-		case 'OPTIONS';
+		case 'OPTIONS':
 			http_response_code( 200 );
 		default:
 			require_once './_get.php';
