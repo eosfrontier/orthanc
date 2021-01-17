@@ -3,12 +3,13 @@
 class meta {
 
 	function get_char_type_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"');
+		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 
 		return $res;
 	}
+
 	function get_all_meta_by_id( $id ) {
 		$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
@@ -17,8 +18,12 @@ class meta {
 		return $res;
 	}
 
-	function get_by_meta( $id, $meta ) {
-		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name in ($meta)" );
+	function get_by_meta( $id, $meta, $wildcard = 0 ) {
+		$operator = 'in';
+		if ( $wildcard === 1 ) {
+			$operator = 'like';
+		}
+		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -31,25 +36,16 @@ class meta {
 		return $res;
 	}
 
-	function update_meta( $id, $metas ) {
+	function updateMeta( $id, $metas ) {
 		foreach ( $metas as $meta ) {
-			if ( array_key_exists( 'oldvalue', $meta ) ) {
-				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
-				$res  = $stmt->execute( [ $id, $meta['name'], $meta['oldvalue'] ] );
-			} else {
-				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
-				$res  = $stmt->execute( [ $id, $meta['name'] ] );
-			}
+			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
-				if ( array_key_exists( 'oldvalue', $meta ) ) {
-					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?' );
-					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'], $meta['oldvalue'] ] );
 
-				} else {
-					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
-					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
-				}
+				$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+
 			}else {
 				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
 				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
