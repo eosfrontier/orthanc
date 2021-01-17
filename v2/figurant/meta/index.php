@@ -19,7 +19,7 @@ else {
 			http_response_code( 501 );
 			break;
 		case 'PATCH':
-			require_once './_update.php';
+			require_once './_put.php';
 		case 'GET':
 			require_once './_get.php';
 			break;
