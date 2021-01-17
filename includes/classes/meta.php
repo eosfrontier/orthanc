@@ -18,19 +18,15 @@ class meta {
 		return $res;
 	}
 
-	function get_by_meta( $id, $meta, $wildcard = 0 ) {
-		$operator = 'in';
-		if ( $wildcard === 1 ) {
-			$operator = 'like';
-		}
-		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta)" );
+	function get_by_meta_name( $id, $meta_name, $operator = 'in' ) {
+		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function get_all_by_meta( $meta ) {
-		$stmt = database::$conn->prepare( "SELECT id, name, value, character_id FROM ecc_meta_character WHERE name in ($meta)" );
+	function get_all_by_meta_name( $meta_name, $operator = 'in' ) {
+		$stmt = database::$conn->prepare( "SELECT id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
