@@ -5,7 +5,7 @@ if ( isset( $input['meta_name'] ) ) {
 	$a_metas   = explode( ',', $meta_name );
 	$meta_name = '';
 	foreach ( $a_metas as $a_meta ) {
-		$meta .= "'" . $a_meta . "',";
+		$meta_name .= "'" . $a_meta . "',";
 	}
 	$meta_name = rtrim( $meta_name, ',' );
 
