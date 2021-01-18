@@ -3,6 +3,15 @@
 
     <file>.</file>
 
+    <!-- Check up to 12 files simultaneously. -->
+    <arg name="parallel" value="12"/>
+
+    <!-- Only check PHP files. -->
+    <arg name="extensions" value="php"/>
+
+    <!-- Show progress, show the error codes for each message (source). -->
+    <arg value="sp"/>
+
     <rule ref="Yoast">
         <exclude name="WordPress.WP.AlternativeFunctions.parse_url_parse_url"/><!-- We know what version we run -->
 
@@ -27,8 +36,6 @@
 		<exclude name="Yoast.Yoast.AlternativeFunctions"/>
         <exclude name="Squiz.Commenting.ClassComment.Missing"/>
     </rule>
-    <!-- Show progress, show the error codes for each message (source). -->
-    <arg value="sp"/>
 
     <rule ref="ruleset.xml" />
 </ruleset>
