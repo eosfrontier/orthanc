@@ -15,17 +15,20 @@ else {
 			require_once './_delete.php';
 			break;
 		case 'POST':
-			// require_once './_post.php';
+			require_once './_post.php';
+			break;
+		case 'PUT':
+			// require_once './_put.php';
 			http_response_code( 501 );
 			break;
-		case 'PATCH':
+			case 'PATCH':
 			// require_once './_put.php';
 			http_response_code( 501 );
 			break;
 		case 'GET':
 			require_once './_get.php';
 			break;
-		case 'OPTIONS';
+		case 'OPTIONS':
 			http_response_code( 200 );
 		default:
 			require_once './_get.php';

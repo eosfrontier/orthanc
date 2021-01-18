@@ -3,9 +3,9 @@
 | Method | Description                         |
 | ------ | ----------------------------------- |
 | GET    | Gets meta for **id**                |
-<!-- | POST   | Adds **meta** for **id**            | -->
+| POST   | Adds **meta** for **id**            |
+| PUT    | Replaces value of **meta** on **id** |
 | DELETE | Removes **meta** from **id**        |
-| PUT    | Updates value of **meta** on **id** |
 
 ## Resource URL
 api/orthanc/v2/character/meta

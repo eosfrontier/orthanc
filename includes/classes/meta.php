@@ -32,7 +32,7 @@ class meta {
 		return $res;
 	}
 
-	function updateMeta( $id, $metas ) {
+	function put_metas( $id, $metas ) {
 		foreach ( $metas as $meta ) {
 			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
@@ -52,6 +52,29 @@ class meta {
 		}
 
 		return 'success';
+	}
+
+	function post_metas( $id, $metas ) {
+		$response = array();
+		foreach ( $metas as $meta ) {
+			$result = new stdClass();
+			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$res   = $stmt->execute( [ $id, $meta['name'] ] );
+			$count = $stmt->rowCount();
+			if ( $count < 1 ) {
+				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+				$last_insert_id = database::$conn->lastInsertId();
+				$result->response = 'HTTP_200';	
+				$result->message = 'success';
+				$response = $response + array($meta['name']=>$result);
+			}else {
+				$result->response = 'HTTP_422';
+				$result->message = "CharacterId ". $id . ' already has a meta called '. $meta['name']. '. To update existing meta, use PUT or PATCH instead.';
+				$response = $response + array($meta['name']=>$result);
+			}
+		}
+		return $response;
 	}
 
 	function delete_meta( $id, $metas ) {
