@@ -1,16 +1,18 @@
 # api/orthanc/v2/character/meta
 
-| Method | Description                         |
-| ------ | ----------------------------------- |
-| GET    | Gets meta for **id**                |
-| POST   | Adds **meta** for **id**            |
+| Method | Description                          |
+| ------ | ------------------------------------ |
+| GET    | Gets meta for **id**                 |
+| POST   | Adds **meta** for **id**             |
 | PUT    | Replaces value of **meta** on **id** |
-| DELETE | Removes **meta** from **id**        |
+| DELETE | Removes **meta** from **id**         |
 
 ## Resource URL
 api/orthanc/v2/character/meta
 
 ## Resource Information
+|                          |      |
+| ------------------------ | ---- |
 | Response formats         | JSON |
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |

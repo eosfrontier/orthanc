@@ -12,6 +12,8 @@
 api/orthanc/v2/figurant/meta
 
 ## Resource Information
+|                          |      |
+| ------------------------ | ---- |
 | Response formats         | JSON |
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
