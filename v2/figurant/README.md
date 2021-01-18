@@ -20,7 +20,7 @@ api/orthanc/v2/figurant/
 | GET    | Gets figurant with ID **id**                     |
 | POST   | Adds new figurant                                |
 | DELETE | Sets figurant **id** to deleted status           |
-| PATCH  | Updates figurant record for figurant with **id** |
+<!-- | PATCH  | Updates figurant record for figurant with **id** | -->
 
 ## Parameters
 | Name          | Description                                                                 | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                              |

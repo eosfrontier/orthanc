@@ -1,11 +1,11 @@
 # api/orthanc/v2/figurant/skills
 
-| Method     | Description                                                |
-| ---------- | ---------------------------------------------------------- |
-| GET        | Gets skills for **id**                                     |
-| ~~POST~~   | *Not yet available* Adds **skills** for **id**             |
-| ~~DELETE~~ | *Not yet available* Removes **skills** from **id**         |
-| ~~PUT~~    | *Not yet available* Replaces value of **skills** on **id** |
+| Method | Description                            |
+| ------ | -------------------------------------- |
+| GET    | Gets skills for **id**                 |
+<!-- | POST   | Adds **skills** for **id**             |
+| DELETE | Removes **skills** from **id**         |
+| PUT    | Replaces value of **skills** on **id** | -->
 
 ## Resource URL
 api/orthanc/v2/figurant/skills

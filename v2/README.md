@@ -10,4 +10,4 @@ Descriptions of the methods are [here](https://www.restapitutorial.com/lessons/h
 | Characters    | [/orthanc/v2/character/skills/](/v2/character/skills/README.md) | :heavy_check_mark: |                    |                    |       | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/](/v2/figurant/README.md)                 | :heavy_check_mark: | :heavy_check_mark: |                    |       | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/meta/](/v2/figurant/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)   | :heavy_check_mark: |                    |                    |       | :heavy_check_mark: |
+| Figurant      | [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)   | :heavy_check_mark: |                    |                    |       | |

@@ -18,7 +18,11 @@ else {
 		case 'POST':
 			// require_once './_post.php';
 			break;
-		case 'PUT':
+		case 'PATCH':
+			// require_once './_patch.php';
+			http_response_code( 501 );
+			break;
+			case 'PUT':
 			// require_once './_put.php';
 			http_response_code( 501 );
 			break;
