@@ -12,30 +12,5 @@
     <!-- Show progress, show the error codes for each message (source). -->
     <arg value="sp"/>
 
-    <rule ref="Yoast">
-        <exclude name="WordPress.WP.AlternativeFunctions.parse_url_parse_url"/><!-- We know what version we run -->
-
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt"/><!-- No more cURL whining -->
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec"/><!-- No more cURL whining -->
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init"/><!-- No more cURL whining -->
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close"/><!-- No more cURL whining -->
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_errno"/><!-- No more cURL whining -->
-        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_error"/><!-- No more cURL whining -->
-
-        <exclude name="WordPress.PHP.DisallowShortTernary"/><!-- We actually don't dislike this -->
-
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen"/>
-        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose"/>
-
-        <!-- Should be removed -->
-        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
-
-        <exclude name="Yoast.Files.FileName"/>
-        <exclude name="Yoast.NamingConventions.NamespaceName"/>
-        <exclude name="Yoast.NamingConventions.ObjectNameDepth"/>
-		<exclude name="Yoast.Yoast.AlternativeFunctions"/>
-        <exclude name="Squiz.Commenting.ClassComment.Missing"/>
-    </rule>
-
     <rule ref="ruleset.xml" />
 </ruleset>
