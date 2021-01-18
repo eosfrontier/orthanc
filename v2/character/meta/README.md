@@ -18,10 +18,11 @@ api/orthanc/v2/character/meta
 | Rate limited?            | No   |
 
 ## Parameters
-| Name      | Required | Description                                      | Required For        | Optional For | Example                                                                                             |
-| --------- | -------- | ------------------------------------------------ | ------------------- | ------------ | --------------------------------------------------------------------------------------------------- |
-| token     | yes      | provides authentication                          | All Methods         |              |                                                                                                     |
-| id        | yes      | Character ID to add/update meta for              | All Methods         |              |                                                                                                     |
-| meta      | yes      | sets the character details                       | POST, DELETE, PATCH |              | [</br>{"name":"test", "value":"eerste test"},</br>{"name":"test1", "value":"nog een test123"}</br>] |
-| meta_name | no       | name of meta to return                           |                     | GET          | test                                                                                                |
-| wildcard  | no       | set this header to enable wildcards in meta_name |                     | GET          | set this variable. value not needed. Once it's set, you can include wildcard `%` in meta_name       |
+| Name      | Description                                      | Required For | Optional For | Example                                                                                             |
+| --------- | ------------------------------------------------ | ------------ | ------------ | --------------------------------------------------------------------------------------------------- |
+| token     | provides authentication                          | All Methods  |              |                                                                                                     |
+| id        | Character ID to add/update meta for              | All Methods  |              |                                                                                                     |
+| meta      | sets the character details                       | POST, DELETE |              | [</br>{"name":"test", "value":"eerste test"},</br>{"name":"test1", "value":"nog een test123"}</br>] |
+| meta      | sets the character details                       | PATCH        |              | [</br>{"name":"test", "old_value":"eerste test", "value":"tweede test"},</br>{"name":"test1", "old_value":"nog een test123", "value":"nog een test456"}</br>] |
+| meta_name | name of meta to return                           |              | GET          | test                                                                                                |
+| wildcard  | set this header to enable wildcards in meta_name |              | GET          | set this variable. value not needed. Once it's set, you can include wildcard `%` in meta_name       |
