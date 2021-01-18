@@ -1,9 +1,9 @@
 
-# api/orthanc/v2/character/
+# orthanc/v2/character/
 places a character in the database with provided information, with the status 'character', or 'character-recurring'
 
 ## Resource URL
-api/orthanc/v2/character/
+orthanc/v2/character/
 ### Sub-URLs
 [/orthanc/v2/character/meta/](/v2/character/meta/README.md)  
 [/orthanc/v2/character/skills/](/v2/character/skills/README.md)
@@ -20,7 +20,7 @@ api/orthanc/v2/character/
 | GET    | Gets character with ID **id**                      |
 | POST   | Adds new character                                 |
 | DELETE | Sets character **id** to deleted status            |
-| PATCH  | Updates character record for character with **id** |
+<!-- | PATCH  | Updates character record for character with **id** | -->
 
 ## Parameters
 | Name           | Description                                                                  | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                               |

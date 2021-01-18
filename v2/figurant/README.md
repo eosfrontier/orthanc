@@ -1,9 +1,9 @@
 
-# api/orthanc/v2/figurant/
+# orthanc/v2/figurant/
 places a figurant in the database with provided information, with the status 'figurant', or 'figurant-recurring'
 
 ## Resource URL
-api/orthanc/v2/figurant/
+orthanc/v2/figurant/
 ### Sub-URLs
 [/orthanc/v2/figurant/meta/](/v2/figurant/meta/README.md)  
 [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)
@@ -15,12 +15,12 @@ api/orthanc/v2/figurant/
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
 
-| Method | Description                                      |
-| ------ | ------------------------------------------------ |
-| GET    | Gets figurant with ID **id**                     |
-| POST   | Adds new figurant                                |
-| DELETE | Sets figurant **id** to deleted status           |
-<!-- | PATCH  | Updates figurant record for figurant with **id** | -->
+| Method | Description                            |
+| ------ | -------------------------------------- |
+| GET    | Gets figurant with ID **id**           |
+| POST   | Adds new figurant                      |
+| DELETE | Sets figurant **id** to deleted status |
+| <!--   | PATCH                                  | Updates figurant record for figurant with **id** | --> |
 
 ## Parameters
 | Name          | Description                                                                 | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                              |

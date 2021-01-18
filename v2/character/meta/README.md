@@ -1,4 +1,4 @@
-# api/orthanc/v2/character/meta
+# orthanc/v2/character/meta
 
 | Method | Description                                                                                           |
 | ------ | ----------------------------------------------------------------------------------------------------- |
@@ -9,7 +9,7 @@
 | DELETE | Removes **meta** from **id**                                                                          |
 
 ## Resource URL
-api/orthanc/v2/character/meta
+orthanc/v2/character/meta
 
 ## Resource Information
 |                          |      |
