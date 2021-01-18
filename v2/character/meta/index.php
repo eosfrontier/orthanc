@@ -15,10 +15,12 @@ else {
 			require_once './_delete.php';
 			break;
 		case 'POST':
-			require_once './_post.php';
+			// require_once './_post.php';
+			http_response_code( 501 );
 			break;
 		case 'PATCH':
-			require_once './_put.php';
+			// require_once './_put.php';
+			http_response_code( 501 );
 			break;
 		case 'GET':
 			require_once './_get.php';
