@@ -328,57 +328,6 @@
                 "wordpress"
             ],
             "time": "2020-05-13T23:57:56+00:00"
-        },
-        {
-            "name": "yoast/yoastcs",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "8cc5cb79b950588f05a45d68c3849ccfcfef6298"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/8cc5cb79b950588f05a45d68c3849ccfcfef6298",
-                "reference": "8cc5cb79b950588f05a45d68c3849ccfcfef6298",
-                "shasum": ""
-            },
-            "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5 || ^0.6.2 || ^0.7",
-                "php": ">=5.4",
-                "phpcompatibility/phpcompatibility-wp": "^2.1.0",
-                "squizlabs/php_codesniffer": "^3.5.0",
-                "wp-coding-standards/wpcs": "^2.2.0"
-            },
-            "require-dev": {
-                "php-parallel-lint/php-console-highlighter": "^0.5",
-                "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpcompatibility/php-compatibility": "^9.2.0",
-                "phpcsstandards/phpcsdevtools": "^1.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0",
-                "roave/security-advisories": "dev-master"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "PHP_CodeSniffer rules for Yoast projects",
-            "homepage": "https://github.com/Yoast/yoastcs",
-            "keywords": [
-                "phpcs",
-                "standards",
-                "wordpress",
-                "yoast"
-            ],
-            "time": "2020-10-27T09:51:49+00:00"
         }
     ],
     "packages-dev": [],

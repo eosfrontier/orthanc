@@ -27,9 +27,9 @@ if ( isset( $input['meta'] ) ) {
 	$meta = rtrim( $meta, ',' );
 
 	if ( isset( $input['id'] ) ) {
-		$a_result = $c_meta->get_by_meta( $input['id'], $meta );
+		$a_result = $c_meta->get_by_meta_name( $input['id'], $meta );
 	} else {
-		$a_result = $c_meta->get_all_by_meta( $meta );
+		$a_result = $c_meta->get_all_by_meta_name( $meta );
 	}
 } else {
 	if ( isset( $input['id'] ) ) {

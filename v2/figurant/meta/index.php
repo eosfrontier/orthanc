@@ -5,8 +5,8 @@ $c_meta     = new meta();
 
 $sheet_type = $c_meta->get_char_type_by_id( $input['id'] );
 if ( !(strpos( $sheet_type, 'figurant' ) !== false) ) {
-	http_response_code( 404 );
-	echo 'No result found';
+	http_response_code( 406 );
+	echo json_encode("CharacterID ".$input['id']." is not a figurant.");
 	exit;
 }
 else {
@@ -15,11 +15,14 @@ else {
 			require_once './_delete.php';
 			break;
 		case 'POST':
-			// require_once './_post.php';
-			http_response_code( 501 );
+			require_once './_post.php';
+			break;
+		case 'PUT':
+			require_once './_put.php';
 			break;
 		case 'PATCH':
-			require_once './_put.php';
+			require_once './_patch.php';
+			break;
 		case 'GET':
 			require_once './_get.php';
 			break;
