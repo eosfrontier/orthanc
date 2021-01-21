@@ -3,8 +3,8 @@
 | Method | Description                            |
 | ------ | -------------------------------------- |
 | GET    | Gets skills for **id**                 |
-<!-- | POST   | Adds **skills** for **id**             | -->
 | DELETE | Removes **skills** from **id**         |
+<!-- | POST   | Adds **skills** for **id**             | -->
 <!-- | PUT    | Replaces value of **skills** on **id** | -->
 
 ## Resource URL
