@@ -3,11 +3,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
 $c_fetch    = new skillsv2();
-$sheet_type = $c_fetch->get_char_type_by_id( $input['id'] );
-if ( strpos( $sheet_type, 'figurant' ) !== false ) {
-	http_response_code( 404 );
-	echo 'No result found.';
-	exit;
+if(isset($input['id'])){
+	$sheet_type = $c_fetch->get_char_type_by_id( $input['id'] );
+	if ( strpos( $sheet_type, 'figurant' ) !== false ) {
+		http_response_code( 404 );
+		echo 'No result found.';
+		exit;
+	}
 }
 else {
 	switch ( $method ) {
