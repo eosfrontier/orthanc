@@ -7,7 +7,7 @@ if(isset($input['id'])){
 	$sheet_type = $c_fetch->get_char_type_by_id( $input['id'] );
 	if ( strpos( $sheet_type, 'figurant' ) !== false ) {
 		http_response_code( 404 );
-		echo 'No result found.';
+		echo json_encode('CharID '.$input['id'].' is a figurant.');
 		exit;
 	}
 }

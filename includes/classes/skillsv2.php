@@ -33,6 +33,11 @@ class skillsv2
 		$response = array();
 		$stmt        = database::$conn->prepare('SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID');
 		$res         = $stmt->execute([$id]);
+		if ($stmt->rowCount() < 1) {
+			$response = array('http_response'=>"404");
+			return $response;
+			die();
+		}
 		$a_char_skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$results = array();
 		foreach ($a_char_skills as $a_char_skill) {
@@ -49,7 +54,7 @@ class skillsv2
 			foreach($res2 as $skill){
 			$result->name=$skill['name'];
 			$result->level = $level;
-			$result->level_name = $skill["level_".$skilllevel."_name"];
+			// $result->level_name = $skill["level_".$skilllevel."_name"]; // save for skill detail fetch
 			$result->psychic=$skill['psychic'];
 			$result->statuss=$skill['status'];
 			if($level > 5) {
@@ -57,7 +62,7 @@ class skillsv2
 			} else {
 				$result->specialty = false;
 			}
-			$result->description =  $skill["level_".$skilllevel."_description"];
+			//$result->description =  $skill["level_".$skilllevel."_description"]; // save for skill detail fetch
 			$result->parents=$skill['parents'];
 			$results = $results + array($a_char_skill['skill_id']=>$result);
 		}

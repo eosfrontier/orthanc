@@ -7,6 +7,13 @@ if((!isset($input['id']) && !isset($input['get_all'])) || (isset($input['id']) &
 } 
 if (isset($input['id'])){
 	$a_skills = $c_fetch->get_skills( $input['id'] );
+	if (isset($a_skills['http_response'])) {
+		if ($a_skills['http_response'] == '404'){
+			http_response_code( 404 );
+			echo json_encode ( 'CharacterID ' . $input['id'] . ' does not exist.');
+			die();
+	}
+}
 	http_response_code( 200 );
 	echo json_encode( $a_skills );
 	die();
