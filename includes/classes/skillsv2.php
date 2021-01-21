@@ -11,10 +11,25 @@ class skillsv2
 
 		return $res;
 	}
-
-	public function get_skills($id)
+	public function get_skills_all_chars() 
 	{
 		$response = array();
+		$stmt        = database::$conn->prepare('SELECT characterID, sheet_status FROM ecc_characters ORDER BY characterID');
+		$res         = $stmt->execute();
+		$a_chars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($a_chars as $a_char) {
+			$sheet_type = $this->get_char_type_by_id( $a_char['characterID'] );
+			if ( (!strpos( $sheet_type, 'figurant' ) !== false) && $a_char['sheet_status'] != 'deleted') {
+				$result = new stdClass();
+				$getcharskills = $this->get_skills($a_char['characterID']);
+				$response = $response + $getcharskills;
+			}
+		}
+	}
+	public function get_skills($id)
+	{
+		$response = array("CharID:"=>$id);
 		$stmt        = database::$conn->prepare('SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID');
 		$res         = $stmt->execute([$id]);
 		$a_char_skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
