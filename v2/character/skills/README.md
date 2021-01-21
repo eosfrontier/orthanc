@@ -1,4 +1,4 @@
-# orthanc/v2/character/skills
+# orthanc/v2/character/skills/
 
 | Method | Description                            |
 | ------ | -------------------------------------- |
@@ -8,7 +8,7 @@
 <!-- | PUT    | Replaces value of **skills** on **id** | -->
 
 ## Resource URL
-orthanc/v2/character/skills
+orthanc/v2/character/skills/
 
 ## Resource Information
 |                          |      |
