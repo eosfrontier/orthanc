@@ -56,7 +56,7 @@ class skillsv2
 			$result->level = $level;
 			// $result->level_name = $skill["level_".$skilllevel."_name"]; // save for skill detail fetch
 			$result->psychic=$skill['psychic'];
-			$result->statuss=$skill['status'];
+			$result->status=$skill['status'];
 			if($level > 5) {
 				$result->specialty = true;
 			} else {
