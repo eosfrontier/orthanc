@@ -26,14 +26,15 @@ class skillsv2
 				$response = $response + $getcharskills;
 			}
 		}
+		return $response;
 	}
 	public function get_skills($id)
 	{
-		$response = array("CharID:"=>$id);
+		$response = array();
 		$stmt        = database::$conn->prepare('SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID');
 		$res         = $stmt->execute([$id]);
 		$a_char_skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		
+		$results = array();
 		foreach ($a_char_skills as $a_char_skill) {
 			$result = new stdClass();
 			$level = $a_char_skill['level'];
@@ -58,10 +59,10 @@ class skillsv2
 			}
 			$result->description =  $skill["level_".$skilllevel."_description"];
 			$result->parents=$skill['parents'];
-			$response = $response + array($a_char_skill['skill_id']=>$result);
+			$results = $results + array($a_char_skill['skill_id']=>$result);
 		}
 	}
-
+	$response = array($id=>$results);
 		return $response;
 	}
 

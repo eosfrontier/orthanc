@@ -11,7 +11,6 @@ if(isset($input['id'])){
 		exit;
 	}
 }
-else {
 	switch ( $method ) {
 		case 'DELETE':
 			require_once './_delete.php';
@@ -32,4 +31,4 @@ else {
 			require_once './_get.php';
 			break;
 	}
-}
+
