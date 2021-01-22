@@ -3,14 +3,14 @@ define('_JEXEC', 1);
 define('JPATH_BASE', '/var/www/html/');
 require_once JPATH_BASE . '/includes/defines.php';
 require_once JPATH_BASE . '/includes/framework.php';
+$app = JFactory::getApplication('site');
+$user = JFactory::getUser();
 
 class joomla {
 // Required Files
     // To use Joomla's Database Class
     function get_joomla_user_and_group(){ 
-        $app = JFactory::getApplication('site');
-        $user = JFactory::getUser();
-
+        
         if ($user->get('guest')) {
             $cookieName =
                 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
