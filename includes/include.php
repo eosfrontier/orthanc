@@ -25,7 +25,10 @@ spl_autoload_register(
 		include "classes/$classname.php";
 	}
 );
-
+define('_JEXEC', 1);
+define('JPATH_BASE', '/var/www/html/');
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 $app             = [];
 $app['includes'] = []; // opens an array to be filled later with the CSS and JS, which will eventually be included by PHP.
 $app['header']   = '/api/orthanc'; // location of the application. for example: http://localhost/api/orthanc/ == '/api/orthanc'. If the application is in the ROOT, you can leave this blank.
