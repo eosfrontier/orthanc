@@ -21,6 +21,7 @@
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close"/><!-- No more cURL whining -->
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_errno"/><!-- No more cURL whining -->
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_error"/><!-- No more cURL whining -->
+	<exclude name="WordPress.Security.EscapeOutput"/><!-- No more output whinig -->
 
         <exclude name="WordPress.PHP.DisallowShortTernary"/><!-- We actually don't dislike this -->
 
