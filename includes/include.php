@@ -1,19 +1,23 @@
 <?php
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/vendor/autoload.php';
+
 ini_set( 'display_errors', 1 );
 ini_set( 'display_startup_errors', 1 );
 error_reporting( E_ALL );
 
-// Inject Headers
+// Inject Headers.
 header( 'Access-Control-Allow-Origin: *' );
 header( 'Content-Type: application/json; charset=UTF-8' );
 header( 'Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS' );
 header( 'Access-Control-Allow-Headers: *' );
 
-// Store Input
+// Store Input.
 $input = json_decode( file_get_contents( 'php://input' ), true );
 
-// Grab HTTP REST Method
+// Grab HTTP REST Method.
 $method = $_SERVER['REQUEST_METHOD'];
 if ( $method === 'OPTIONS' ) {
 	http_response_code( 204 );

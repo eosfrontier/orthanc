@@ -1,6 +1,15 @@
 {
-    "require": {
-        "yoast/yoastcs": "^2.1",
-        "squizlabs/php_codesniffer": "^3.5"
-    }
+	"require": {
+		"yoast/yoastcs": "^2.1",
+		"squizlabs/php_codesniffer": "^3.5",
+		"symfony/dependency-injection": "^5.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Frontier\\Orthanc\\": "integrations"
+		},
+		"classmap": [
+			"includes/classes"
+		]
+	}
 }

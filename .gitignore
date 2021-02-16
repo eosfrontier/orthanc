@@ -2,3 +2,4 @@
 includes/database.php
 includes/classes/database.php
 /vendor/
+includes/config.php
