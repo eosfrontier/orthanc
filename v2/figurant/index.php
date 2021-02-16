@@ -11,8 +11,7 @@ switch ( $method ) {
 		require_once './_post.php';
 		break;
 	case 'PUT':
-		// require_once './_put.php';
-		http_response_code( 501 );
+		require_once './_put.php';
 		break;
 	case 'GET':
 		require_once './_get.php';

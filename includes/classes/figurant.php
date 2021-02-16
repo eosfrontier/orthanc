@@ -247,6 +247,16 @@ class figurant {
 		}
 	}
 
+	function put_figurant( $id, $character ) {
+		$count = 0;
+		foreach ($character as $key => $value) {
+			$stmt = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'");
+			$res  = $stmt->execute();
+			$count += $stmt->rowCount();
+		}
+		return $count;
+	}
+
 	public function delete_figurant( $id ) {
 		 $stmt = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
 		$res   = $stmt->execute();

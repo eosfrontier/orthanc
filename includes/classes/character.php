@@ -1,6 +1,14 @@
 <?php
 
 class character {
+	
+	private function check_card_id( $card_id ) {
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		$res  = $stmt->execute( [ $card_id ] );
+		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		return $res;
+	}
 
 	public function get_all() {
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
@@ -93,6 +101,29 @@ class character {
 			return $last_insert_id;
 	}
 
+	function put_character( $account, $id, $character ) {
+		$count = 0;
+		foreach ($character as $key => $value) {
+			$stmt = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'");
+			$res  = $stmt->execute();
+			$count += $stmt->rowCount();
+		}
+		return $count;
+	}
+
+	function patch_character( $account, $id, $character ) {
+		$count = 0;
+		foreach ($character as $key => $value) {
+			$stmt = database::$conn->prepare("SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'");
+			$res = $stmt->execute();
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+			// $stmt2 = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account' ");
+			// $res2  = $stmt2->execute();
+			// $count += $stmt2->rowCount();
+		}
+		return $response;
+	}
+
 	public function delete_character( $id ) {
 		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
 		$res   = $stmt->execute();
@@ -115,11 +146,4 @@ class character {
 		return $count;
 	}
 
-	private function check_card_id( $card_id ) {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
-		$res  = $stmt->execute( [ $card_id ] );
-		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-
-		return $res;
-	}
 }
