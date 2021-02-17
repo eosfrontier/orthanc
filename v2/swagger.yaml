@@ -3,7 +3,7 @@ info:
   version: '1.0'
   title: Orthanc
   contact: {}
-host: example.com
+host: apidev2.eosfrontier.space
 basePath: /orthanc/v2
 securityDefinitions:
   token:
