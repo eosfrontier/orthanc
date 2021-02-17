@@ -1,0 +1,1 @@
+This endpoint is deprecated. Please switch to [v2](https://github.com/eosfrontier/orthanc/blob/master/v2/README.md). 

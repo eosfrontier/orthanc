@@ -8,10 +8,10 @@ Descriptions of the methods are [here](https://www.restapitutorial.com/lessons/h
 | Characters    | [/orthanc/v2/character/](/v2/character/README.md)               | :heavy_check_mark: | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 | Characters    | [/orthanc/v2/character/meta/](/v2/character/meta/README.md)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Characters    | [/orthanc/v2/character/skills/](/v2/character/skills/README.md) | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/figurant/](/v2/figurant/README.md)                 | :heavy_check_mark: | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
+| Figurant      | [/orthanc/v2/figurant/](/v2/figurant/README.md)                 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/meta/](/v2/figurant/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)   | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
-| Joomla        | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                   | :heavy_check_mark: |                    |                    |                    |                    |
+| Joomla        | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                   | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
 
 
 ## Methods
