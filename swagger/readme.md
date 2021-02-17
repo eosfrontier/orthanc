@@ -1,0 +1,1 @@
+Transform Postman collection to Swagger.json here: [APIMatic](https://www.apimatic.io/dashboard?modal=transform)
