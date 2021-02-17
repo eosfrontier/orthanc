@@ -11,6 +11,7 @@ Descriptions of the methods are [here](https://www.restapitutorial.com/lessons/h
 | Figurant      | [/orthanc/v2/figurant/](/v2/figurant/README.md)                 | :heavy_check_mark: | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/meta/](/v2/figurant/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Figurant      | [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)   | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
+| Joomla        | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                   | :heavy_check_mark: |                    |                    |                    |                    |
 
 
 ## Methods
