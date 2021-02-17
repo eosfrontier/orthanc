@@ -12,7 +12,7 @@ securityDefinitions:
     name: token
     in: header
 schemes:
-- http
+- https
 consumes:
 - application/json
 produces:
