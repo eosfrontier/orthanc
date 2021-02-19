@@ -250,6 +250,10 @@ class figurant {
 	function put_figurant( $id, $character ) {
 		$count = 0;
 		foreach ($character as $key => $value) {
+			if ($key == 'card_id') {
+				$check = $this->check_card_id( $character['card_id'] );
+			}
+			
 			$stmt = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'");
 			$res  = $stmt->execute();
 			$count += $stmt->rowCount();

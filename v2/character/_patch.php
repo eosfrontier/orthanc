@@ -6,9 +6,10 @@ if ( empty( $input['character'] ) ) {
 	die();
 }
 $a_account   = $input['accountID'];
+$a_id = $input['id'];
 $a_character = json_decode( $input['character'], true );
 
-$a_result = $c_fetch->add_character( $a_account, $a_character );
-http_response_code( 201 );
+$a_result = $c_fetch->patch_character( $a_account, $a_id, $a_character );
+http_response_code( 200 );
 echo json_encode( $a_result );
 die();
