@@ -44,15 +44,16 @@ class event {
 
 	public function get_players($which) {
 		$player_ids = $this->get_player_ids($which);
-		$response = array();
+		$whereclause = '';
 		foreach ($player_ids as $player_id){
-		$id = $player_id['id'];
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE characterID = $id;");
+			$id = $player_id['id'];
+			$whereclause = $whereclause . 'characterID = '. $id . ' OR ';
+		}
+		$whereclause = rtrim ( $whereclause , " OR " );
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE $whereclause;");
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
-		$response += $res;
-		}
-		return $response;
+		return $res;
 	}
 
 	public function get_sleeping($which) {
