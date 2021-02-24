@@ -30,6 +30,7 @@ class event {
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
+	
 	public function get_player_ids($which) {
 		$eventid = $this->get_eventid($which);
 		$stmt = database::$conn->prepare( "SELECT SUBSTRING_INDEX(v1.field_value,' - ',-1)  as id from jml_eb_registrants r
@@ -51,6 +52,22 @@ class event {
 		}
 		$whereclause = rtrim ( $whereclause , " OR " );
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE $whereclause;");
+		$res  = $stmt->execute();
+		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $res;
+	}
+
+	public function get_figuranten($which) {
+		$eventid = $this->get_eventid($which);
+		$stmt = database::$conn->prepare( "SELECT r.id, v5.field_value as POSITION, 
+		REPLACE(REPLACE(REPLACE(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'), '><',''),  '<>',' ') as NAME, 
+		r.phone, r.email from jml_eb_registrants r
+		left join joomla.jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
+		left join joomla.jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
+		left join joomla.jml_eb_field_values v7 on (v7.registrant_id = r.id and v7.field_id = 59)
+			where ((v5.field_value != 'Speler' AND v7.field_value != 'No') or v5.field_value = 'Spelleider') 
+			AND r.event_id = 15 and ((r.published = 1 AND (r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR 
+			(r.published in (0,1) AND r.payment_method = 'os_offline')) ORDER BY POSITION	;");
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
