@@ -1,396 +1,1159 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This version of orthanc follows the RESTful API methodology.",
-    "version": "2.0.0",
+    "version": "2.0",
     "title": "Orthanc",
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
+    "contact": {}
   },
   "host": "api.eosfrontier.space",
-  "basePath": "/api/orthanc/v2",
+  "basePath": "/orthanc/v2",
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "description": "",
+      "name": "token",
+      "in": "header"
+    }
+  },
   "schemes": [
-    "https"
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
-    "/character": {
-      "get": {
-        "tags": [
-          "character"
-        ],
-        "summary": "Returns character details based on id or meta.",
-        "operationId": "getCharacter(s)",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "token",
-            "description": "provides authentication",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "id",
-            "description": "Character ID to return details for.",
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "meta",
-            "type": "object"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "character not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "character"
-        ],
-        "summary": "Adds a new character",
-        "description": "",
-        "operationId": "addcharacter",
-        "consumes": [
-          "application/headers"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "token",
-            "description": "provides authentication",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "id",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "character"
-        ],
-        "summary": "Update an existing character",
-        "description": "",
-        "operationId": "updatecharacter",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "token",
-            "type": "string",
-            "description": "character object that needs to be added to the store",
-            "required": true
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "character not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      }
-    },
     "/character/meta": {
-      "get": {
+      "patch": {
+        "summary": "character/meta",
         "tags": [
-          "character",
           "meta"
         ],
-        "summary": "Returns character meta",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "findcharactersByStatus",
+        "operationId": "character/meta",
+        "deprecated": false,
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "parameters": [
           {
-            "name": "status",
-            "in": "query",
-            "description": "Status values that need to be considered for filter",
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta",
+            "in": "header",
             "required": true,
             "type": "array",
             "items": {
-              "type": "string",
-              "enum": [
-                "available",
-                "pending",
-                "sold"
-              ],
-              "default": "available"
+              "type": "string"
             },
-            "collectionFormat": "multi"
+            "description": ""
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": ""
-              }
-            }
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "character/meta",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "Getcharacter/meta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
           },
-          "400": {
-            "description": "Invalid status value"
+          {
+            "name": "meta_name",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "wildcard",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "character/meta1",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "character/meta1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta",
+            "in": "header",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/figurant/meta": {
+      "post": {
+        "summary": "figurant/meta",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "figurant/meta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta",
+            "in": "header",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "figurant/meta",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "Getfigurant/meta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta_name",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "wildcard",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "figurant/meta1",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "figurant/meta1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta",
+            "in": "header",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "summary": "figurant/meta2",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "figurant/meta2",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta",
+            "in": "header",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
     "/character/skills": {
       "get": {
+        "summary": "character/skills",
         "tags": [
-          "character",
           "skills"
         ],
-        "summary": "Finds characters by tags",
-        "description": "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.",
-        "operationId": "findcharactersByTags",
+        "operationId": "character/skills",
+        "deprecated": false,
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "parameters": [
           {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
+            "name": "id",
+            "in": "header",
             "required": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "type": "integer",
+            "format": "int32",
+            "description": ""
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": ""
-              }
-            }
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/character/skills_v2": {
+      "delete": {
+        "summary": "character/skills",
+        "tags": [
+          "skills"
+        ],
+        "operationId": "Deletecharacter/skills",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
           },
-          "400": {
-            "description": "Invalid tag value"
+          {
+            "name": "skill_id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "character/skills_v2",
+        "tags": [
+          "skills_v2"
+        ],
+        "operationId": "character/skills_v2",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "get_all",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/figurant/skills": {
+      "get": {
+        "summary": "figurant/skills",
+        "tags": [
+          "skills"
+        ],
+        "operationId": "figurant/skills",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/character": {
+      "get": {
+        "summary": "character",
+        "tags": [
+          "character"
+        ],
+        "operationId": "character",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "summary": "character",
+        "tags": [
+          "character"
+        ],
+        "operationId": "Postcharacter",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "character",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "accountID",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "character",
+        "tags": [
+          "character"
+        ],
+        "operationId": "Putcharacter",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "character",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "accountID",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "summary": "character1",
+        "tags": [
+          "character"
+        ],
+        "operationId": "character1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "character",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "accountID",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete character",
+        "tags": [
+          "character"
+        ],
+        "operationId": "deletecharacter",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/joomla": {
+      "get": {
+        "summary": "joomla",
+        "tags": [
+          "joomla"
+        ],
+        "operationId": "joomla",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/figurant/namelists/": {
+      "get": {
+        "summary": "figurant/namelists",
+        "tags": [
+          "namelists"
+        ],
+        "operationId": "figurant/namelists",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "faction",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/figurant/": {
+      "post": {
+        "summary": "figurant",
+        "tags": [
+          "figurant"
+        ],
+        "operationId": "figurant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "figurant",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "figurant",
+        "tags": [
+          "figurant"
+        ],
+        "operationId": "Putfigurant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "figurant",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "figurant1",
+        "tags": [
+          "figurant"
+        ],
+        "operationId": "figurant1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/figurant": {
+      "get": {
+        "summary": "figurant",
+        "tags": [
+          "figurant"
+        ],
+        "operationId": "Getfigurant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/sleeping/": {
+      "get": {
+        "summary": "sleeping",
+        "tags": [
+          "sleeping"
+        ],
+        "operationId": "sleeping",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/players/": {
+      "get": {
+        "summary": "players",
+        "tags": [
+          "players"
+        ],
+        "operationId": "players",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/figuranten/": {
+      "get": {
+        "summary": "figuranten",
+        "tags": [
+          "figuranten"
+        ],
+        "operationId": "figuranten",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/": {
+      "get": {
+        "summary": "current event",
+        "tags": [
+          "current"
+        ],
+        "operationId": "currentevent",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/next/": {
+      "get": {
+        "summary": "next event",
+        "tags": [
+          "next"
+        ],
+        "operationId": "nextevent",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     }
   },
   "definitions": {
-    "Order": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "petId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "shipDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "description": "Order Status",
-          "enum": [
-            "placed",
-            "approved",
-            "delivered"
-          ]
-        },
-        "complete": {
-          "type": "boolean",
-          "default": false
-        }
+    "metum": {
+      "title": "metum",
+      "example": {
+        "name": "testdoIneedpost",
+        "value": "fourth test123456"
       },
-      "xml": {
-        "name": "Order"
-      }
-    },
-    "Category": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
         "name": {
           "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Category"
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
         },
-        "username": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User Status"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
+        "value": {
           "type": "string"
         }
       },
-      "xml": {
-        "name": "Tag"
-      }
-    },
-    "Character": {
-      "type": "object",
       "required": [
         "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "category": {
-          "$ref": "#/definitions/Category"
-        },
-        "name": {
-          "type": "string",
-          "example": "doggie"
-        },
-        "photoUrls": {
-          "type": "array",
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
-          },
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "xml": {
-            "name": "tag",
-            "wrapped": true
-          },
-          "items": {
-            "$ref": "#/definitions/Tag"
-          }
-        },
-        "status": {
-          "type": "string",
-          "description": "pet status in the store",
-          "enum": [
-            "available",
-            "pending",
-            "sold"
-          ]
-        }
-      },
-      "xml": {
-        "name": "Pet"
-      }
+        "value"
+      ]
     },
-    "ApiResponse": {
+    "metum1": {
+      "title": "metum1",
+      "example": {
+        "name": "testdoIneedpost"
+      },
       "type": "object",
       "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "type": {
-          "type": "string"
-        },
-        "message": {
+        "name": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "character": {
+      "title": "character",
+      "example": {
+        "card_id": "{{$timestamp}}",
+        "character_name": "{{$randomFullName}}",
+        "faction": "faction",
+        "rank": "rank",
+        "threat_assessment": "0",
+        "douane_disposition": "ICC VETTED",
+        "douane_notes": "notes",
+        "bastion_clearance": "0",
+        "icc_number": "{{$timestamp}}",
+        "bloodtype": "A",
+        "ic_birthday": "24 oct 231",
+        "homeplanet": "Dzar"
+      },
+      "type": "object",
+      "properties": {
+        "card_id": {
+          "type": "string"
+        },
+        "character_name": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "string"
+        },
+        "threat_assessment": {
+          "type": "string"
+        },
+        "douane_disposition": {
+          "type": "string"
+        },
+        "douane_notes": {
+          "type": "string"
+        },
+        "bastion_clearance": {
+          "type": "string"
+        },
+        "icc_number": {
+          "type": "string"
+        },
+        "bloodtype": {
+          "type": "string"
+        },
+        "ic_birthday": {
+          "type": "string"
+        },
+        "homeplanet": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "card_id",
+        "character_name",
+        "faction",
+        "rank",
+        "threat_assessment",
+        "douane_disposition",
+        "douane_notes",
+        "bastion_clearance",
+        "icc_number",
+        "bloodtype",
+        "ic_birthday",
+        "homeplanet"
+      ]
+    },
+    "character2": {
+      "title": "character2",
+      "example": {
+        "faction": "Aquila",
+        "rank": "Tatlor"
+      },
+      "type": "object",
+      "properties": {
+        "faction": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "faction",
+        "rank"
+      ]
+    },
+    "metum4": {
+      "title": "metum4",
+      "example": {
+        "name": "test90212",
+        "old_value": "eerste test josh",
+        "value": "tweede test josh"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "old_value": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "old_value",
+        "value"
+      ]
+    },
+    "figurant": {
+      "title": "figurant",
+      "example": {
+        "card_id": "{{$timestamp}}",
+        "character_name": "{{$randomFullName}}",
+        "faction": "faction",
+        "rank": "rank",
+        "threat_assessment": "0",
+        "douane_disposition": "ICC VETTED",
+        "douane_notes": "notes",
+        "bastion_clearance": "0",
+        "icc_number": "{{$timestamp}}",
+        "bloodtype": "A",
+        "ic_birthday": "24 oct 231",
+        "homeplanet": "Dzar",
+        "recurring": "1"
+      },
+      "type": "object",
+      "properties": {
+        "card_id": {
+          "type": "string"
+        },
+        "character_name": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "string"
+        },
+        "threat_assessment": {
+          "type": "string"
+        },
+        "douane_disposition": {
+          "type": "string"
+        },
+        "douane_notes": {
+          "type": "string"
+        },
+        "bastion_clearance": {
+          "type": "string"
+        },
+        "icc_number": {
+          "type": "string"
+        },
+        "bloodtype": {
+          "type": "string"
+        },
+        "ic_birthday": {
+          "type": "string"
+        },
+        "homeplanet": {
+          "type": "string"
+        },
+        "recurring": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "card_id",
+        "character_name",
+        "faction",
+        "rank",
+        "threat_assessment",
+        "douane_disposition",
+        "douane_notes",
+        "bastion_clearance",
+        "icc_number",
+        "bloodtype",
+        "ic_birthday",
+        "homeplanet",
+        "recurring"
+      ]
+    },
+    "figurant1": {
+      "title": "figurant1",
+      "example": {
+        "faction": "Aquila",
+        "rank": "Tatlor"
+      },
+      "type": "object",
+      "properties": {
+        "faction": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "faction",
+        "rank"
+      ]
     }
   },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
-  }
+  "security": [
+    {
+      "token": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "meta"
+    },
+    {
+      "name": "skills"
+    },
+    {
+      "name": "skills_v2"
+    },
+    {
+      "name": "character"
+    },
+    {
+      "name": "joomla"
+    },
+    {
+      "name": "namelists"
+    },
+    {
+      "name": "figurant"
+    },
+    {
+      "name": "sleeping"
+    },
+    {
+      "name": "players"
+    },
+    {
+      "name": "figuranten"
+    },
+    {
+      "name": "current"
+    },
+    {
+      "name": "next"
+    }
+  ]
 }
