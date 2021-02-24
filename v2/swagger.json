@@ -5,7 +5,7 @@
     "title": "Orthanc",
     "contact": {}
   },
-  "host": "apidev2.eosfrontier.space",
+  "host": "example.com",
   "basePath": "/orthanc/v2",
   "securityDefinitions": {
     "token": {
@@ -16,7 +16,7 @@
     }
   },
   "schemes": [
-    "https"
+    "http"
   ],
   "consumes": [
     "application/json"
@@ -373,6 +373,14 @@
         ],
         "parameters": [
           {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
             "name": "get_all",
             "in": "header",
             "required": true,
@@ -445,41 +453,6 @@
           }
         }
       },
-      "delete": {
-        "summary": "character (RESTORE)",
-        "tags": [
-          "character"
-        ],
-        "operationId": "character(RESTORE)",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          },
-          {
-            "name": "restore",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
       "post": {
         "summary": "character",
         "tags": [
@@ -514,12 +487,12 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "summary": "character",
         "tags": [
           "character"
         ],
-        "operationId": "Patchcharacter",
+        "operationId": "Putcharacter",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -556,7 +529,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "summary": "character1",
         "tags": [
           "character"
@@ -582,6 +555,33 @@
             "format": "int32",
             "description": ""
           },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete character",
+        "tags": [
+          "character"
+        ],
+        "operationId": "deletecharacter",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
           {
             "name": "id",
             "in": "header",
@@ -764,6 +764,106 @@
           }
         }
       }
+    },
+    "/event/current/sleeping/": {
+      "get": {
+        "summary": "sleeping",
+        "tags": [
+          "sleeping"
+        ],
+        "operationId": "sleeping",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/players/": {
+      "get": {
+        "summary": "players",
+        "tags": [
+          "players"
+        ],
+        "operationId": "players",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/figuranten/": {
+      "get": {
+        "summary": "figuranten",
+        "tags": [
+          "figuranten"
+        ],
+        "operationId": "figuranten",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/current/": {
+      "get": {
+        "summary": "current event",
+        "tags": [
+          "current"
+        ],
+        "operationId": "currentevent",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/event/next/": {
+      "get": {
+        "summary": "next event",
+        "tags": [
+          "next"
+        ],
+        "operationId": "nextevent",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -875,8 +975,8 @@
     "character1": {
       "title": "character1",
       "example": {
-        "faction": "Aquila",
-        "rank": "Tatlor"
+        "faction": "Dugo",
+        "rank": "Apatar"
       },
       "type": "object",
       "properties": {
@@ -1039,6 +1139,21 @@
     },
     {
       "name": "figurant"
+    },
+    {
+      "name": "sleeping"
+    },
+    {
+      "name": "players"
+    },
+    {
+      "name": "figuranten"
+    },
+    {
+      "name": "current"
+    },
+    {
+      "name": "next"
     }
   ]
 }
