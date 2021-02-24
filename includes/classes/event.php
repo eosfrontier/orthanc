@@ -58,7 +58,7 @@ class event {
 
 	public function get_sleeping($which) {
 		$eventid = $this->get_eventid($which);
-		$stmt2 = database::$conn->prepare( "SELECT r.id, v1.field_value as name, v2.field_value as building, v3.field_value as bastion_room, v4.field_value as tweede_room from jml_eb_registrants r
+		$stmt2 = database::$conn->prepare( "SELECT r.id, SUBSTRING_INDEX(v1.field_value,' - ',1) as name, SUBSTRING_INDEX(v1.field_value,' - ',-1) as characterID, v2.field_value as building, v3.field_value as bastion_room, v4.field_value as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join joomla.jml_eb_field_values v2 on (v2.registrant_id = r.id and v2.field_id = 36)
 			join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
@@ -68,7 +68,7 @@ class event {
 			(r.published in (0,1) AND r.payment_method = 'os_offline')) AND v2.field_value NOT LIKE 'medische%'
 			UNION
 			/* This TSQL Statement Grabs Figuranten (with real bed), SLs and Keuken Crew */
-			SELECT r.id, CONCAT(v5.field_value,' ',r.first_name, ' ', COALESCE(v6.field_value,''),' ', SUBSTRING(r.last_name,1,1),'.') as name, 'tweede gebouw' as building, 
+			SELECT r.id, CONCAT(v5.field_value,' ',r.first_name, ' ', COALESCE(v6.field_value,''),' ', SUBSTRING(r.last_name,1,1),'.') as name, NULL as characterID, 'tweede gebouw' as building, 
 			NULL as bastion_room, CONCAT(COALESCE(v4.field_value,''),COALESCE(v3.field_value,''),COALESCE(v8.field_value,'')) as tweede_room from jml_eb_registrants r
 			left join joomla.jml_eb_field_values v3 on (v3.registrant_id = r.id and v3.field_id = 73)
 			left join joomla.jml_eb_field_values v4 on (v4.registrant_id = r.id and v4.field_id = 72)
@@ -80,7 +80,7 @@ class event {
 			(r.published in (0,1) AND r.payment_method = 'os_offline'))
 			UNION
 			/* This TSQL Statement grabs data for medical sleepers in the Bastion */
-			SELECT r.id, v1.field_value as name, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, 
+			SELECT r.id, SUBSTRING_INDEX(v1.field_value,' - ',1) as name, SUBSTRING_INDEX(v1.field_value,' - ',-1) as characterID, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, 
 			substring_index(LEFT(v6.field_value,LOCATE(' - ',v6.field_value) - 1),',',-1) as bastion_room, 
 			v4.field_value as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
@@ -92,7 +92,7 @@ class event {
 			(r.published in (0,1) AND r.payment_method = 'os_offline'))
 			UNION
 			/* This TSQL Statement grabs data for medical sleepers in the tweede gebouw	*/
-			SELECT r.id, v1.field_value as name, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, v3.field_value as bastion_room,
+			SELECT r.id, SUBSTRING_INDEX(v1.field_value,' - ',1) as name, SUBSTRING_INDEX(v1.field_value,' - ',-1) as characterID, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, v3.field_value as bastion_room,
 			substring_index(LEFT(v6.field_value,LOCATE(' - ',v6.field_value) - 1),',',-1) as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			left join joomla.jml_eb_field_values v3 on (v3.registrant_id = r.id and v3.field_id = 37)
@@ -100,7 +100,7 @@ class event {
 			left join joomla.jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 71)
 			where LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) = 'tweede gebouw' AND r.event_id = $eventid
 			and ((r.published = 1 AND (r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR
-			(r.published in (0,1) AND r.payment_method = 'os_offline'));" );
+			(r.published in (0,1) AND r.payment_method = 'os_offline')) ORDER by length(tweede_room), tweede_room, length(bastion_room), bastion_room ASC;" );
 		$res2  = $stmt2->execute();
 		$res2  = $stmt2->fetchAll( PDO::FETCH_ASSOC );
 		return $res2;
