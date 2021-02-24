@@ -11,7 +11,10 @@ switch ( $method ) {
 		require_once './_post.php';
 		break;
 	case 'PUT':
-		// require_once './_put.php';
+		require_once './_put.php';
+		break;
+	case 'PATCH':
+		// require_once './_patch.php';
 		http_response_code( 501 );
 		break;
 	case 'GET':
