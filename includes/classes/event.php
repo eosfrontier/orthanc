@@ -59,7 +59,7 @@ class event {
 
 	public function get_figuranten($which) {
 		$eventid = $this->get_eventid($which);
-		$stmt = database::$conn->prepare( "SELECT r.id, v5.field_value as POSITION, 
+		$stmt = database::$conn->prepare( "SELECT r.user_id, v5.field_value as POSITION, 
 		REPLACE(REPLACE(REPLACE(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'), '><',''),  '<>',' ') as NAME, 
 		r.phone, r.email from jml_eb_registrants r
 		left join joomla.jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
