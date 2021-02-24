@@ -4,14 +4,14 @@ class event {
 	public function get_eventid($which) {
 		switch ( $which ) {
 			case 'current':
-				$stmt = database::$conn->prepare("SELECT e.id FROM joomla.jml_eb_events e                                                          
+				$stmt = database::$conn->prepare("SELECT e.id from jml_eb_events e                                                          
 				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1;");
 				$res  = $stmt->execute();
 				$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 				return ($res['0'])['id'];
 			case 'next':
-				$stmt = database::$conn->prepare("SELECT e.id FROM joomla.jml_eb_events e                                                          
+				$stmt = database::$conn->prepare("SELECT e.id FROM jml_eb_events e                                                          
 				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1,1;");
 				$res  = $stmt->execute();
@@ -23,7 +23,7 @@ class event {
     public function get_event($which) {
 		$eventid = $this->get_eventid($which);
 		$stmt = database::$conn->prepare( "SELECT e.id, parent_id,  c.category_id, location_id, title, event_type, SUBSTRING_INDEX(event_date,' ',1) AS start_date, SUBSTRING_INDEX(event_end_date,' ',1) AS end_date
-        FROM joomla.jml_eb_events e                                                          
+        from jml_eb_events e                                                          
         JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
         WHERE e.id = $eventid;" );
 		$res  = $stmt->execute();
@@ -32,7 +32,7 @@ class event {
 	}
 	public function get_player_ids($which) {
 		$eventid = $this->get_eventid($which);
-		$stmt = database::$conn->prepare( "SELECT SUBSTRING_INDEX(v1.field_value,' - ',-1)  as id from joomla.jml_eb_registrants r
+		$stmt = database::$conn->prepare( "SELECT SUBSTRING_INDEX(v1.field_value,' - ',-1)  as id from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 			where v5.field_value = 'Speler' AND r.event_id = $eventid and ((r.published = 1 AND (r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR 
@@ -58,7 +58,7 @@ class event {
 
 	public function get_sleeping($which) {
 		$eventid = $this->get_eventid($which);
-		$stmt2 = database::$conn->prepare( "SELECT r.id, v1.field_value as name, v2.field_value as building, v3.field_value as bastion_room, v4.field_value as tweede_room from joomla.jml_eb_registrants r
+		$stmt2 = database::$conn->prepare( "SELECT r.id, v1.field_value as name, v2.field_value as building, v3.field_value as bastion_room, v4.field_value as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join joomla.jml_eb_field_values v2 on (v2.registrant_id = r.id and v2.field_id = 36)
 			join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
@@ -69,7 +69,7 @@ class event {
 			UNION
 			/* This TSQL Statement Grabs Figuranten (with real bed), SLs and Keuken Crew */
 			SELECT r.id, CONCAT(v5.field_value,' ',r.first_name, ' ', COALESCE(v6.field_value,''),' ', SUBSTRING(r.last_name,1,1),'.') as name, 'tweede gebouw' as building, 
-			NULL as bastion_room, CONCAT(COALESCE(v4.field_value,''),COALESCE(v3.field_value,''),COALESCE(v8.field_value,'')) as tweede_room from joomla.jml_eb_registrants r
+			NULL as bastion_room, CONCAT(COALESCE(v4.field_value,''),COALESCE(v3.field_value,''),COALESCE(v8.field_value,'')) as tweede_room from jml_eb_registrants r
 			left join joomla.jml_eb_field_values v3 on (v3.registrant_id = r.id and v3.field_id = 73)
 			left join joomla.jml_eb_field_values v4 on (v4.registrant_id = r.id and v4.field_id = 72)
 			left join joomla.jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
@@ -82,7 +82,7 @@ class event {
 			/* This TSQL Statement grabs data for medical sleepers in the Bastion */
 			SELECT r.id, v1.field_value as name, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, 
 			substring_index(LEFT(v6.field_value,LOCATE(' - ',v6.field_value) - 1),',',-1) as bastion_room, 
-			v4.field_value as tweede_room from joomla.jml_eb_registrants r
+			v4.field_value as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			left join joomla.jml_eb_field_values v3 on (v3.registrant_id = r.id and v3.field_id = 37)
 			left join joomla.jml_eb_field_values v4 on (v4.registrant_id = r.id and v4.field_id = 38)
@@ -93,7 +93,7 @@ class event {
 			UNION
 			/* This TSQL Statement grabs data for medical sleepers in the tweede gebouw	*/
 			SELECT r.id, v1.field_value as name, LEFT(v6.field_value,LOCATE(',',v6.field_value) - 1) as building, v3.field_value as bastion_room,
-			substring_index(LEFT(v6.field_value,LOCATE(' - ',v6.field_value) - 1),',',-1) as tweede_room from joomla.jml_eb_registrants r
+			substring_index(LEFT(v6.field_value,LOCATE(' - ',v6.field_value) - 1),',',-1) as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			left join joomla.jml_eb_field_values v3 on (v3.registrant_id = r.id and v3.field_id = 37)
 			left join joomla.jml_eb_field_values v4 on (v4.registrant_id = r.id and v4.field_id = 38)
