@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0",
+    "version": "2.0",
     "title": "Orthanc",
     "contact": {}
   },
-  "host": "example.com",
+  "host": "api.eosfrontier.space",
   "basePath": "/orthanc/v2",
   "securityDefinitions": {
     "token": {
@@ -16,7 +16,7 @@
     }
   },
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
     "application/json"
