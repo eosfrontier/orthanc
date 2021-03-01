@@ -1,0 +1,72 @@
+<?php
+
+class Bank {
+
+	/**
+	 * Get_amount_by_id returns the the amount of sonuren someone has based on character ID
+	 *
+	 * @param  mixed $id
+	 * @return string
+	 */
+	public function get_amount_by_id( $id ): string {
+		$stmt     = database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE character_id=?' );
+		$res      = $stmt->execute( [ $id ] );
+		$negative = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		$stmt     = database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE id_to=?' );
+		$res      = $stmt->execute( [ $id ] );
+		$positive = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		$amount = ( $positive['total'] - $negative['total'] );
+
+		return $amount;
+	}
+
+	/**
+	 * Get_all_recepients get all viable bank recepients
+	 *
+	 * @return void
+	 */
+	public function get_all_recepients() {
+		$stmt       = database::$conn->prepare( 'SELECT * FROM ecc_characters WHERE bank = 1 ORDER BY character_name' );
+		$recepients = $stmt->execute();
+		$recepients = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+		return $recepients;
+	}
+
+	/**
+	 * Get_mutations get a list of al mutations from a character by ID
+	 *
+	 * @param  mixed $id
+	 * @return array
+	 */
+	public function get_mutations( $id ): array {
+		$stmt      = database::$conn->prepare( 'SELECT * FROM bank_logging WHERE character_id=? or id_to=?' );
+		$mutations = $stmt->execute( [ $id, $id ] );
+		$mutations = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+		return $mutations;
+	}
+
+	/**
+	 * Transfer
+	 *
+	 * @param  mixed $post
+	 * @return void
+	 */
+	public function transfer( $post ) {
+		$amount      = $post['amount'];
+		$from        = $post['from'];
+		$recepient   = $post['recepient'];
+		$description = $post['description'];
+
+		$stmt   = database::$conn->prepare(
+			'INSERT INTO 
+			bank_logging (character_id, id_to, amount, description) values (?, ?, ?, ?)'
+		);
+		$result = $stmt->execute( [ $from, $recepient, $amount, $description ] );
+
+		return str_replace( PHP_EOL, '', 'success' );
+	}
+}
