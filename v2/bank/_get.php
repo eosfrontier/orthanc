@@ -16,17 +16,17 @@ if ( isset( $input['amount'] ) ) {
 }
 
 /**
- * Get_all_recepients get all viable bank recepients
+ * Get_all_recipients get all viable bank recipients
  */
-if ( isset( $input['recepients'] ) ) {
-	$recepients = $bank->get_all_recepients();
-	if ( empty( $recepients ) ) {
+if ( isset( $input['recipients'] ) ) {
+	$recipients = $bank->get_all_recipients();
+	if ( empty( $recipients ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
 		die();
 	}
 	http_response_code( 200 );
-	echo json_encode( $recepients );
+	echo json_encode( $recipients );
 	die();
 }
 

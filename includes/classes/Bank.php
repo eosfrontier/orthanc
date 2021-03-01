@@ -23,16 +23,16 @@ class Bank {
 	}
 
 	/**
-	 * Get_all_recepients get all viable bank recepients
+	 * Get_all_recipients get all viable bank recipients
 	 *
 	 * @return void
 	 */
-	public function get_all_recepients() {
+	public function get_all_recipients() {
 		$stmt       = database::$conn->prepare( 'SELECT * FROM ecc_characters WHERE bank = 1 ORDER BY character_name' );
-		$recepients = $stmt->execute();
-		$recepients = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		$recipients = $stmt->execute();
+		$recipients = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-		return $recepients;
+		return $recipients;
 	}
 
 	/**
