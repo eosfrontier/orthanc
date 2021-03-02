@@ -31,7 +31,7 @@ if ( isset( $input['recipients'] ) ) {
 }
 
 /**
- * Get_mutations get a list of al mutations from a character by ID
+ * Get_mutations get a list of all mutations from a character by ID
  */
 $mutations = $bank->get_mutations( $input['id'] );
 if ( empty( $mutations ) ) {

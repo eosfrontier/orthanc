@@ -58,14 +58,14 @@ class Bank {
 	public function transfer( $post ) {
 		$amount      = $post['amount'];
 		$from        = $post['from'];
-		$recepient   = $post['recepient'];
+		$recipient   = $post['recipient'];
 		$description = $post['description'];
 
 		$stmt   = database::$conn->prepare(
 			'INSERT INTO 
 			bank_logging (character_id, id_to, amount, description) values (?, ?, ?, ?)'
 		);
-		$result = $stmt->execute( [ $from, $recepient, $amount, $description ] );
+		$result = $stmt->execute( [ $from, $recipient, $amount, $description ] );
 
 		return str_replace( PHP_EOL, '', 'success' );
 	}

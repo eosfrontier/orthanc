@@ -864,6 +864,92 @@
           }
         }
       }
+    },
+    "/bank/": {
+      "get": {
+        "summary": "GET amount by id",
+        "tags": [
+          "bank"
+        ],
+        "operationId": "GETamountbyid",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "summary": "POST transfer",
+        "tags": [
+          "bank"
+        ],
+        "operationId": "POSTtransfer",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "recipient",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "description",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1154,6 +1240,9 @@
     },
     {
       "name": "next"
+    },
+    {
+      "name": "bank"
     }
   ]
 }
