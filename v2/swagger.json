@@ -619,7 +619,7 @@
         }
       }
     },
-    "/figurant/namelists/": {
+    "/figurant/namelists": {
       "get": {
         "summary": "figurant/namelists",
         "tags": [
@@ -647,7 +647,7 @@
         }
       }
     },
-    "/figurant/": {
+    "/figurant": {
       "post": {
         "summary": "figurant",
         "tags": [
@@ -664,6 +664,33 @@
             "in": "header",
             "required": true,
             "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "figurant",
+        "tags": [
+          "figurant"
+        ],
+        "operationId": "Getfigurant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
             "description": ""
           }
         ],
@@ -736,36 +763,7 @@
         }
       }
     },
-    "/figurant": {
-      "get": {
-        "summary": "figurant",
-        "tags": [
-          "figurant"
-        ],
-        "operationId": "Getfigurant",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/event/current/sleeping/": {
+    "/event/current/sleeping": {
       "get": {
         "summary": "sleeping",
         "tags": [
@@ -785,7 +783,7 @@
         }
       }
     },
-    "/event/current/players/": {
+    "/event/current/players": {
       "get": {
         "summary": "players",
         "tags": [
@@ -805,7 +803,7 @@
         }
       }
     },
-    "/event/current/figuranten/": {
+    "/event/current/figuranten": {
       "get": {
         "summary": "figuranten",
         "tags": [
@@ -825,7 +823,7 @@
         }
       }
     },
-    "/event/current/": {
+    "/event/current": {
       "get": {
         "summary": "current event",
         "tags": [
@@ -845,7 +843,7 @@
         }
       }
     },
-    "/event/next/": {
+    "/event/next": {
       "get": {
         "summary": "next event",
         "tags": [
@@ -865,13 +863,13 @@
         }
       }
     },
-    "/bank/": {
+    "/bank": {
       "get": {
-        "summary": "GET amount by id",
+        "summary": "amount by id",
         "tags": [
           "bank"
         ],
-        "operationId": "GETamountbyid",
+        "operationId": "amountbyid",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -901,11 +899,11 @@
         }
       },
       "post": {
-        "summary": "POST transfer",
+        "summary": "transfer",
         "tags": [
           "bank"
         ],
-        "operationId": "POSTtransfer",
+        "operationId": "transfer",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -1176,26 +1174,6 @@
         "ic_birthday",
         "homeplanet",
         "recurring"
-      ]
-    },
-    "figurant1": {
-      "title": "figurant1",
-      "example": {
-        "faction": "Aquila",
-        "rank": "Tatlor"
-      },
-      "type": "object",
-      "properties": {
-        "faction": {
-          "type": "string"
-        },
-        "rank": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "faction",
-        "rank"
       ]
     }
   },
