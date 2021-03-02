@@ -1,6 +1,7 @@
 # Orthanc v2
 This version of orthanc follows the RESTful API methodology.
 Descriptions of the methods are [here](https://www.restapitutorial.com/lessons/httpmethods.html)
+Swagger examples on how to use the API are [here](https://api.eosfrontier.space/orthanc/swagger/)
 
 ## Testing Status
 | Endpoint Type | Endpoint                                                        | GET                | POST               | PUT                | PATCH              | DELETE             |
