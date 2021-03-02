@@ -898,6 +898,66 @@
           }
         }
       },
+      "get": {
+        "summary": "mutations by id",
+        "tags": [
+          "bank"
+        ],
+        "operationId": "mutationsbyid",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "mutations",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "recipients",
+        "tags": [
+          "bank"
+        ],
+        "operationId": "recipients",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "recipients",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
       "post": {
         "summary": "transfer",
         "tags": [
