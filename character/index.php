@@ -43,7 +43,7 @@ require_once '../includes/include.php';
 
 require_once '../includes/token.php';
 
-$c_fetch = new character();
+$c_fetch = new char_player();
 
 if ( isset( $input['all_characters'] ) ) {
 	$all_characters = $c_fetch->get_all();

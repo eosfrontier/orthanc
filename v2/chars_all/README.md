@@ -1,12 +1,12 @@
 
-# orthanc/v2/chars_player/
+# orthanc/v2/chars_all/
 places a character in the database with provided information, with the status 'character', or 'character-recurring'
 
 ## Resource URL
-orthanc/v2/chars_player/
+orthanc/v2/chars_all/
 ### Sub-URLs
-[/orthanc/v2/chars_player/meta/](/v2/chars_player/meta/README.md)  
-[/orthanc/v2/chars_player/skills/](/v2/chars_player/skills/README.md)
+[/orthanc/v2/chars_all/meta/](/v2/chars_all/meta/README.md)  
+[/orthanc/v2/chars_all/skills/](/v2/chars_all/skills/README.md)
 
 ## Resource Information
 |                          |      |
@@ -15,12 +15,12 @@ orthanc/v2/chars_player/
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
 
-| Method | Description                                        |
-| ------ | -------------------------------------------------- |
-| GET    | Gets character with ID **id**                      |
-| POST   | Adds new character                                 |
-| DELETE | Sets character **id** to deleted status            |
-<!-- | PATCH  | Updates character record for character with **id** | -->
+| Method | Description                             |
+| ------ | --------------------------------------- |
+| GET    | Gets character with ID **id**           |
+| POST   | Adds new character                      |
+| DELETE | Sets character **id** to deleted status |
+| <!--   | PATCH                                   | Updates character record for character with **id** | --> |
 
 ## Parameters
 | Name           | Description                                                                  | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                               |
