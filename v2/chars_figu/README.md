@@ -1,12 +1,12 @@
 
-# orthanc/v2/char_figu/
+# orthanc/v2/chars_figu/
 places a figurant in the database with provided information, with the status 'figurant', or 'figurant-recurring'
 
 ## Resource URL
-orthanc/v2/char_figu/
+orthanc/v2/chars_figu/
 ### Sub-URLs
-[/orthanc/v2/char_figu/meta/](/v2/char_figu/meta/README.md)  
-[/orthanc/v2/char_figu/skills/](/v2/char_figu/skills/README.md)
+[/orthanc/v2/chars_figu/meta/](/v2/chars_figu/meta/README.md)  
+[/orthanc/v2/chars_figu/skills/](/v2/chars_figu/skills/README.md)
 
 ## Resource Information
 |                          |      |

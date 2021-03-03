@@ -1,12 +1,12 @@
 
-# orthanc/v2/char_player/
+# orthanc/v2/chars_player/
 places a character in the database with provided information, with the status 'character', or 'character-recurring'
 
 ## Resource URL
-orthanc/v2/char_player/
+orthanc/v2/chars_player/
 ### Sub-URLs
-[/orthanc/v2/char_player/meta/](/v2/char_player/meta/README.md)  
-[/orthanc/v2/char_player/skills/](/v2/char_player/skills/README.md)
+[/orthanc/v2/chars_player/meta/](/v2/chars_player/meta/README.md)  
+[/orthanc/v2/chars_player/skills/](/v2/chars_player/skills/README.md)
 
 ## Resource Information
 |                          |      |
