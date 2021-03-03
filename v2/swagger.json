@@ -25,7 +25,7 @@
     "application/json"
   ],
   "paths": {
-    "/char_player/meta": {
+    "/chars_player/meta": {
       "patch": {
         "summary": "character/meta",
         "tags": [
@@ -142,7 +142,7 @@
         }
       }
     },
-    "/char_figu/meta": {
+    "/chars_figu/meta": {
       "post": {
         "summary": "figurant/meta",
         "tags": [
@@ -296,7 +296,7 @@
         }
       }
     },
-    "/char_player/skills": {
+    "/chars_player/skills": {
       "get": {
         "summary": "character/skills",
         "tags": [
@@ -325,7 +325,7 @@
         }
       }
     },
-    "/char_player/skills_v2": {
+    "/chars_player/skills_v2": {
       "delete": {
         "summary": "character/skills",
         "tags": [
@@ -396,7 +396,7 @@
         }
       }
     },
-    "/char_figu/skills": {
+    "/chars_figu/skills": {
       "get": {
         "summary": "figurant/skills",
         "tags": [
@@ -619,7 +619,7 @@
         }
       }
     },
-    "/char_figu/namelists": {
+    "/chars_figu/namelists": {
       "get": {
         "summary": "figurant/namelists",
         "tags": [
