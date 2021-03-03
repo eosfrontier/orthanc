@@ -1,14 +1,14 @@
-# orthanc/v2/character/skills/
+# orthanc/v2/char_player/skills_v2/
 
 | Method | Description                            |
 | ------ | -------------------------------------- |
 | GET    | Gets skills for **id**                 |
-<!-- | POST   | Adds **skills** for **id**             | -->
 | DELETE | Removes **skills** from **id**         |
+<!-- | POST   | Adds **skills** for **id**             | -->
 <!-- | PUT    | Replaces value of **skills** on **id** | -->
 
 ## Resource URL
-orthanc/v2/character/skills/
+orthanc/v2/char_player/skills_v2/
 
 ## Resource Information
 |                          |      |

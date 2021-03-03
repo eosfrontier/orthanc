@@ -1,4 +1,4 @@
-# orthanc/v2/figurant/meta/
+# orthanc/v2/char_figu/meta/
 
 | Method | Description                                                                                           |
 | ------ | ----------------------------------------------------------------------------------------------------- |
@@ -9,7 +9,7 @@
 | DELETE | Removes **meta** from **id**                                                                          |
 
 ## Resource URL
-orthanc/v2/figurant/meta/
+orthanc/v2/char_figu/meta/
 
 ## Resource Information
 |                          |      |

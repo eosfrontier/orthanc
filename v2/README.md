@@ -6,12 +6,12 @@ Swagger examples on how to use the API are [here](https://api.eosfrontier.space/
 ## Testing Status
 | Endpoint Type | Endpoint                                                        | GET                | POST               | PUT                | PATCH              | DELETE             |
 | ------------- | --------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| Characters    | [/orthanc/v2/character/](/v2/character/README.md)               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
-| Characters    | [/orthanc/v2/character/meta/](/v2/character/meta/README.md)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Characters    | [/orthanc/v2/character/skills/](/v2/character/skills/README.md) | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/figurant/](/v2/figurant/README.md)                 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/figurant/meta/](/v2/figurant/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/figurant/skills/](/v2/figurant/skills/README.md)   | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
+| Characters    | [/orthanc/v2/char_player/](/v2/char_player/README.md)               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Characters    | [/orthanc/v2/char_player/meta/](/v2/char_player/meta/README.md)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Characters    | [/orthanc/v2/char_player/skills/](/v2/char_player/skills/README.md) | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
+| Figurant      | [/orthanc/v2/char_figu/](/v2/char_figu/README.md)                 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Figurant      | [/orthanc/v2/char_figu/meta/](/v2/char_figu/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Figurant      | [/orthanc/v2/char_figu/skills/](/v2/char_figu/skills/README.md)   | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
 | Joomla        | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                   | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
 
 
