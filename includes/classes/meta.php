@@ -11,7 +11,7 @@ class meta {
 	}
 
 	function get_all_meta_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ?' );
+		$stmt = database::$conn->prepare( 'SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -19,14 +19,14 @@ class meta {
 	}
 
 	function get_by_meta_name( $id, $meta_name, $operator = 'in' ) {
-		$stmt = database::$conn->prepare( "SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
+		$stmt = database::$conn->prepare( "SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
 	function get_all_by_meta_name( $meta_name, $operator = 'in' ) {
-		$stmt = database::$conn->prepare( "SELECT id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
+		$stmt = database::$conn->prepare( "SELECT id, character_id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -34,7 +34,7 @@ class meta {
 
 	function put_metas( $id, $metas ) {
 		foreach ( $metas as $meta ) {
-			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
@@ -52,11 +52,11 @@ class meta {
 		$response = array();
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
-				$stmt = database::$conn->prepare('SELECT id,name,value from ecc_meta_character WHERE character_id = ? AND name = ?');
+				$stmt = database::$conn->prepare('SELECT id, character_id, name, value from ecc_meta_character WHERE character_id = ? AND name = ?');
 				$res = $stmt->execute([$id, $meta['name'] ] );
 				$res  = $stmt->fetchall( PDO::FETCH_ASSOC );
 				$res = $res[0];
@@ -87,7 +87,7 @@ class meta {
 		$response = array();
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count < 1 ) {
