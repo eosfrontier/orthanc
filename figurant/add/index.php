@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$c_fetch = new figurant();
+$c_fetch = new char_figu();
 
 if ( empty( $input['figurant'] ) ) {
 	http_response_code( 400 );

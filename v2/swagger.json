@@ -25,13 +25,56 @@
     "application/json"
   ],
   "paths": {
-    "/character/meta": {
-      "patch": {
-        "summary": "character/meta",
+    "/chars_all/meta": {
+      "get": {
+        "summary": "chars_player/meta",
         "tags": [
           "meta"
         ],
-        "operationId": "character/meta",
+        "operationId": "chars_player/meta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "meta_name",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "wildcard",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_player/meta": {
+      "patch": {
+        "summary": "chars_player/meta",
+        "tags": [
+          "meta"
+        ],
+        "operationId": "Patchchars_player/meta",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -64,11 +107,11 @@
         }
       },
       "get": {
-        "summary": "character/meta",
+        "summary": "chars_player/meta1",
         "tags": [
           "meta"
         ],
-        "operationId": "Getcharacter/meta",
+        "operationId": "chars_player/meta1",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -105,11 +148,11 @@
         }
       },
       "delete": {
-        "summary": "character/meta1",
+        "summary": "chars_player/meta1",
         "tags": [
           "meta"
         ],
-        "operationId": "character/meta1",
+        "operationId": "Deletechars_player/meta1",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -142,13 +185,13 @@
         }
       }
     },
-    "/figurant/meta": {
+    "/chars_figu/meta": {
       "post": {
-        "summary": "figurant/meta",
+        "summary": "chars_figu/meta",
         "tags": [
           "meta"
         ],
-        "operationId": "figurant/meta",
+        "operationId": "chars_figu/meta",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -181,11 +224,11 @@
         }
       },
       "get": {
-        "summary": "figurant/meta",
+        "summary": "chars_figu/meta",
         "tags": [
           "meta"
         ],
-        "operationId": "Getfigurant/meta",
+        "operationId": "Getchars_figu/meta",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -222,11 +265,11 @@
         }
       },
       "put": {
-        "summary": "figurant/meta1",
+        "summary": "chars_figu/meta1",
         "tags": [
           "meta"
         ],
-        "operationId": "figurant/meta1",
+        "operationId": "chars_figu/meta1",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -259,11 +302,11 @@
         }
       },
       "patch": {
-        "summary": "figurant/meta2",
+        "summary": "chars_figu/meta2",
         "tags": [
           "meta"
         ],
-        "operationId": "figurant/meta2",
+        "operationId": "chars_figu/meta2",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -296,13 +339,13 @@
         }
       }
     },
-    "/character/skills": {
+    "/chars_all/skills": {
       "get": {
-        "summary": "character/skills",
+        "summary": "chars_all/skills",
         "tags": [
           "skills"
         ],
-        "operationId": "character/skills",
+        "operationId": "chars_all/skills",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -325,13 +368,42 @@
         }
       }
     },
-    "/character/skills_v2": {
-      "delete": {
-        "summary": "character/skills",
+    "/chars_player/skills": {
+      "get": {
+        "summary": "chars_player/skills",
         "tags": [
           "skills"
         ],
-        "operationId": "Deletecharacter/skills",
+        "operationId": "chars_player/skills",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_player/skills_v2": {
+      "delete": {
+        "summary": "chars_player/skills",
+        "tags": [
+          "skills"
+        ],
+        "operationId": "Deletechars_player/skills",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -362,11 +434,11 @@
         }
       },
       "get": {
-        "summary": "character/skills_v2",
+        "summary": "chars_player/skills_v2",
         "tags": [
           "skills_v2"
         ],
-        "operationId": "character/skills_v2",
+        "operationId": "chars_player/skills_v2",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -396,13 +468,13 @@
         }
       }
     },
-    "/figurant/skills": {
+    "/chars_figu/skills": {
       "get": {
-        "summary": "figurant/skills",
+        "summary": "chars_figu/skills",
         "tags": [
           "skills"
         ],
-        "operationId": "figurant/skills",
+        "operationId": "chars_figu/skills",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -425,13 +497,78 @@
         }
       }
     },
-    "/character": {
+    "/chars_all/skills_v2": {
       "get": {
-        "summary": "character",
+        "summary": "chars_all/skills_v2",
         "tags": [
-          "character"
+          "skills_v2"
         ],
-        "operationId": "character",
+        "operationId": "chars_all/skills_v2",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "get_all",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_all": {
+      "get": {
+        "summary": "chars_all",
+        "tags": [
+          "chars_all"
+        ],
+        "operationId": "chars_all",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_player": {
+      "get": {
+        "summary": "chars_player",
+        "tags": [
+          "chars_player"
+        ],
+        "operationId": "chars_player",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -454,18 +591,18 @@
         }
       },
       "post": {
-        "summary": "character",
+        "summary": "chars_player",
         "tags": [
-          "character"
+          "chars_player"
         ],
-        "operationId": "Postcharacter",
+        "operationId": "Postchars_player",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "character",
+            "name": "chars_player",
             "in": "header",
             "required": true,
             "type": "string",
@@ -488,18 +625,18 @@
         }
       },
       "put": {
-        "summary": "character",
+        "summary": "chars_player",
         "tags": [
-          "character"
+          "chars_player"
         ],
-        "operationId": "Putcharacter",
+        "operationId": "Putchars_player",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "character",
+            "name": "chars_player",
             "in": "header",
             "required": true,
             "type": "string",
@@ -530,18 +667,18 @@
         }
       },
       "patch": {
-        "summary": "character1",
+        "summary": "chars_player1",
         "tags": [
-          "character"
+          "chars_player"
         ],
-        "operationId": "character1",
+        "operationId": "chars_player1",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "character",
+            "name": "chars_player",
             "in": "header",
             "required": true,
             "type": "string",
@@ -574,9 +711,155 @@
       "delete": {
         "summary": "delete character",
         "tags": [
-          "character"
+          "chars_player"
         ],
         "operationId": "deletecharacter",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_figu/namelists/": {
+      "get": {
+        "summary": "chars_figu/namelists",
+        "tags": [
+          "namelists"
+        ],
+        "operationId": "chars_figu/namelists",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "faction",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_figu/": {
+      "post": {
+        "summary": "chars_figu",
+        "tags": [
+          "chars_figu"
+        ],
+        "operationId": "chars_figu",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chars_figu",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "chars_figu",
+        "tags": [
+          "chars_figu"
+        ],
+        "operationId": "Putchars_figu",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chars_figu",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "chars_figu1",
+        "tags": [
+          "chars_figu"
+        ],
+        "operationId": "chars_figu1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/chars_figu": {
+      "get": {
+        "summary": "chars_figu",
+        "tags": [
+          "chars_figu"
+        ],
+        "operationId": "Getchars_figu",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -619,151 +902,7 @@
         }
       }
     },
-    "/figurant/namelists": {
-      "get": {
-        "summary": "figurant/namelists",
-        "tags": [
-          "namelists"
-        ],
-        "operationId": "figurant/namelists",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "faction",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/figurant": {
-      "post": {
-        "summary": "figurant",
-        "tags": [
-          "figurant"
-        ],
-        "operationId": "figurant",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "figurant",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "get": {
-        "summary": "figurant",
-        "tags": [
-          "figurant"
-        ],
-        "operationId": "Getfigurant",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "put": {
-        "summary": "figurant",
-        "tags": [
-          "figurant"
-        ],
-        "operationId": "Putfigurant",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "figurant",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "id",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "delete": {
-        "summary": "figurant1",
-        "tags": [
-          "figurant"
-        ],
-        "operationId": "figurant1",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "header",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/event/current/sleeping": {
+    "/event/current/sleeping/": {
       "get": {
         "summary": "sleeping",
         "tags": [
@@ -783,7 +922,7 @@
         }
       }
     },
-    "/event/current/players": {
+    "/event/current/players/": {
       "get": {
         "summary": "players",
         "tags": [
@@ -803,7 +942,7 @@
         }
       }
     },
-    "/event/current/figuranten": {
+    "/event/current/figuranten/": {
       "get": {
         "summary": "figuranten",
         "tags": [
@@ -823,7 +962,7 @@
         }
       }
     },
-    "/event/current": {
+    "/event/current/": {
       "get": {
         "summary": "current event",
         "tags": [
@@ -843,7 +982,7 @@
         }
       }
     },
-    "/event/next": {
+    "/event/next/": {
       "get": {
         "summary": "next event",
         "tags": [
@@ -863,7 +1002,7 @@
         }
       }
     },
-    "/bank": {
+    "/bank/": {
       "get": {
         "summary": "amount by id",
         "tags": [
@@ -986,8 +1125,8 @@
         "name"
       ]
     },
-    "character": {
-      "title": "character",
+    "chars_player": {
+      "title": "chars_player",
       "example": {
         "card_id": "{{$timestamp}}",
         "character_name": "{{$randomFullName}}",
@@ -1056,8 +1195,8 @@
         "homeplanet"
       ]
     },
-    "character2": {
-      "title": "character2",
+    "chars_player2": {
+      "title": "chars_player2",
       "example": {
         "faction": "Aquila",
         "rank": "Tatlor"
@@ -1101,8 +1240,8 @@
         "value"
       ]
     },
-    "figurant": {
-      "title": "figurant",
+    "chars_figu": {
+      "title": "chars_figu",
       "example": {
         "card_id": "{{$timestamp}}",
         "character_name": "{{$randomFullName}}",
@@ -1193,16 +1332,19 @@
       "name": "skills_v2"
     },
     {
-      "name": "character"
+      "name": "chars_all"
     },
     {
-      "name": "joomla"
+      "name": "chars_player"
     },
     {
       "name": "namelists"
     },
     {
-      "name": "figurant"
+      "name": "chars_figu"
+    },
+    {
+      "name": "joomla"
     },
     {
       "name": "sleeping"
