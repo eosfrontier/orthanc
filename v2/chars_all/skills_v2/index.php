@@ -7,9 +7,11 @@ $c_fetch    = new skillsv2();
 switch ( $method ) {
 	case 'DELETE':
 		require_once './_delete.php';
+		http_response_code( 501 );
 		break;
 	case 'POST':
-		require_once './_post.php';
+		// require_once './_post.php';
+		http_response_code( 501 );
 		break;
 	case 'PUT':
 		// require_once './_put.php';
