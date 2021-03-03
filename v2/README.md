@@ -4,15 +4,18 @@ Descriptions of the methods are [here](https://www.restapitutorial.com/lessons/h
 Swagger examples on how to use the API are [here](https://api.eosfrontier.space/orthanc/swagger/)
 
 ## Testing Status
-| Endpoint Type | Endpoint                                                        | GET                | POST               | PUT                | PATCH              | DELETE             |
-| ------------- | --------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| Characters    | [/orthanc/v2/chars_player/](/v2/chars_player/README.md)               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
-| Characters    | [/orthanc/v2/chars_player/meta/](/v2/chars_player/meta/README.md)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Characters    | [/orthanc/v2/chars_player/skills/](/v2/chars_player/skills/README.md) | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/chars_figu/](/v2/chars_figu/README.md)                 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/chars_figu/meta/](/v2/chars_figu/meta/README.md)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Figurant      | [/orthanc/v2/chars_figu/skills/](/v2/chars_figu/skills/README.md)   | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
-| Joomla        | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                   | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
+| Endpoint Type     | Endpoint                                                              | GET                | POST               | PUT                | PATCH              | DELETE             |
+| ----------------- | --------------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| All Characters    | [/orthanc/v2/chars_all/](/v2/chars_all/README.md)                     | :heavy_check_mark: | N/A                | N/A                | N/A                | N/A                |
+| All Characters    | [/orthanc/v2/chars_all/meta/](/v2/chars_all/meta/README.md)           | :heavy_check_mark: | N/A                | N/A                | N/A                | N/A                |
+| All Characters    | [/orthanc/v2/chars_all/skills/](/v2/chars_all/skills/README.md)       | :heavy_check_mark: | N/A                | N/A                | N/A                | N/A                |
+| Player Characters | [/orthanc/v2/chars_player/](/v2/chars_player/README.md)               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Player Characters | [/orthanc/v2/chars_player/meta/](/v2/chars_player/meta/README.md)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Player Characters | [/orthanc/v2/chars_player/skills/](/v2/chars_player/skills/README.md) | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
+| Figurant          | [/orthanc/v2/chars_figu/](/v2/chars_figu/README.md)                   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
+| Figurant          | [/orthanc/v2/chars_figu/meta/](/v2/chars_figu/meta/README.md)         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Figurant          | [/orthanc/v2/chars_figu/skills/](/v2/chars_figu/skills/README.md)     | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
+| Joomla            | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                         | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
 
 
 ## Methods
