@@ -1,17 +1,21 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$c_fetch = new char_player();
+$c_fetch_players = new char_player();
+$c_fetch_figus = new char_figu();
 
 switch ( $method ) {
 	case 'DELETE':
-		require_once './_delete.php';
+		// require_once './_delete.php';
+		http_response_code( 501 );
 		break;
 	case 'POST':
-		require_once './_post.php';
+		// require_once './_post.php';
+		http_response_code( 501 );
 		break;
 	case 'PUT':
-		require_once './_put.php';
+		// require_once './_put.php';
+		http_response_code( 501 );
 		break;
 	case 'PATCH':
 		// require_once './_patch.php';
