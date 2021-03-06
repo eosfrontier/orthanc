@@ -1,4 +1,4 @@
-# orthanc/v2/options/
+# orthanc/v2/app/options/
 
 | Method | Description                                                                                           |
 | ------ | ----------------------------------------------------------------------------------------------------- |
@@ -9,7 +9,7 @@
 | DELETE | Removes **option** from **id**                                                                          |
 
 ## Resource URL
-orthanc/v2/options/
+orthanc/v2/app/options/
 
 ## Resource Information
 |                          |      |
