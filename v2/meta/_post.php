@@ -15,7 +15,7 @@ if ( empty( $input['meta'] ) ) {
 
 $id    = $input['id'];
 $metas = json_decode($input['meta'], true);
-$a_result = $c_meta->patch_metas( $id, $metas );
+$a_result = $c_meta->post_metas( $id, $metas );
 	http_response_code( 200 );
 	echo json_encode( $a_result );
 die();
