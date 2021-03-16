@@ -5,7 +5,9 @@ Gets info for the current event or next event
 ## Resource URL
 orthanc/v2/event/<current or next>
 ### Sub-URLs
+  
 [/orthanc/v2/event/current/](current/README.md)
+ 
 [/orthanc/v2/event/next/](next/README.md)
 
 ## Resource Information
