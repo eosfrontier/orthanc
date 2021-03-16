@@ -16,6 +16,7 @@ Swagger examples on how to use the API are [here](https://api.eosfrontier.space/
 | Figurant          | [/orthanc/v2/chars_figu/meta/](/v2/chars_figu/meta/README.md)         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Figurant          | [/orthanc/v2/chars_figu/skills/](/v2/chars_figu/skills/README.md)     | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |
 | Joomla            | [/orthanc/v2/joomla/]([/v2/joomla/README.md])                         | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
+| event             | [/orthanc/v2/event/]([/v2/event/README.md])                           | :heavy_check_mark: | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    | :no_entry_sign:    |
 
 
 ## Methods
