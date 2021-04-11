@@ -19,7 +19,7 @@ class Bank {
 
 		$amount = ( $positive['total'] - $negative['total'] );
 
-		return $amount;
+		return intval( $amount );
 	}
 
 	/**
