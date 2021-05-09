@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/joomla.php';
 $j_fetch    = new joomla();
 
 switch ( $method ) {

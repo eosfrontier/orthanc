@@ -19,8 +19,6 @@ switch ( $method ) {
 		break;
 	case 'GET':
 		if( isset( $input['get_logged_in'])){
-			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/database.php';
-			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
 			$j_fetch    = new joomla();
 			$j_session = $j_fetch->get_joomla_user_and_group();
@@ -28,6 +26,7 @@ switch ( $method ) {
 			$a_character = $c_fetch->get($logged_in_player, 'accountID' );
 			http_response_code( 200 );
 			echo json_encode($a_character);
+			echo 'Test';
 			break;
 		} else{
 			require_once './_get.php';
