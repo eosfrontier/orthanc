@@ -34,7 +34,7 @@
 					http_response_code( 200 );
 					echo json_encode( $a_character );
 					break;
-				} elseif ($j_session['id'] != '0') {
+				} elseif ($j_session['id'] == '0') {
 					http_response_code ( 401 );
 					echo 'Not logged in.' ;
 				} 
