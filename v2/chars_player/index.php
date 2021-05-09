@@ -23,7 +23,15 @@
 				require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/joomla.php';
 				$j_fetch    = new joomla();
 				$j_session = $j_fetch->get_joomla_user_and_group();
-				echo $j_session['id'];
+				$a_character = $c_fetch->get( $j_session['id'], 'accountID' );
+				if ( empty( $a_character ) ) {
+					http_response_code( 404 );
+					echo json_encode( 'None found by accountID.' );
+					die();
+				}
+
+				http_response_code( 200 );
+				echo json_encode( $a_character );
 				break;
 			}
 			require_once './_get.php';
