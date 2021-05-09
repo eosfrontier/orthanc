@@ -20,6 +20,8 @@ if ( $method === 'OPTIONS' ) {
 	die();
 }
 
+
+include "classes/database.php";
 include "classes/char_player.php";
 
 $app             = [];
