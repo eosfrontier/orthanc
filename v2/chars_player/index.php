@@ -18,8 +18,21 @@ switch ( $method ) {
 		http_response_code( 501 );
 		break;
 	case 'GET':
-		require_once './_get.php';
-		break;
+		if( isset( $input['get_logged_in'])){
+			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/database.php';
+			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
+			require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
+			$j_fetch    = new joomla();
+			$j_session = $j_fetch->get_joomla_user_and_group();
+			$logged_in_user = $j_session['id'];
+			$a_character = $c_fetch->get_loggedin($logged_in_player);
+			http_response_code( 200 );
+			echo json_encode($a_character);
+			break;
+		} else{
+			require_once './_get.php';
+			break;
+		}
 	case 'OPTIONS':
 		http_response_code( 200 );
 	default:

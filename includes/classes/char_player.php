@@ -52,7 +52,7 @@ class char_player {
 	}
 
 	public function get_loggedin() {
-		require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
+		require_once './joomla.php';
 		$j_fetch    = new joomla();
 		$j_session = $j_fetch->get_joomla_user_and_group();
 		// if ( $needle == 'accountID' ) {
