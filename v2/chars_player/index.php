@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include_char_player.php';
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 	$c_fetch = new char_player();
 
