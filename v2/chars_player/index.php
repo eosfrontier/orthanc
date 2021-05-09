@@ -23,9 +23,9 @@ switch ( $method ) {
 			$j_fetch    = new joomla();
 			$j_session = $j_fetch->get_joomla_user_and_group();
 			$logged_in_user = $j_session['id'];
-			$a_character = $c_fetch->get($logged_in_player, 'accountID' );
-			http_response_code( 200 );
-			echo json_encode($a_character);
+			// $a_character = $c_fetch->get($logged_in_player, 'accountID' );
+			// http_response_code( 200 );
+			echo json_encode($logged_in_user);
 			echo 'Test';
 			break;
 		} else{
