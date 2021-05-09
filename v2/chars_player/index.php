@@ -23,7 +23,7 @@
 				require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/joomla.php';
 				$j_fetch    = new joomla();
 				$j_session = $j_fetch->get_joomla_user_and_group();
-				echo 'Test';
+				echo json_encode( $j_session );
 				break;
 			}
 			require_once './_get.php';

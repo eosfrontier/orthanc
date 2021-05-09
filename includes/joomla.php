@@ -44,4 +44,3 @@ class joomla {
         return $array;
     }
 }
-
