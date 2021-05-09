@@ -1,18 +1,4 @@
 <?php
-if( isset( $input['get_logged_in'])){
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/database.php';
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/joomla.php';
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/char_player.php';
-	$c_fetch = new char_player();
-	$j_fetch    = new joomla();
-	$j_session = $j_fetch->get_joomla_user_and_group();
-	$logged_in_user = $j_session['id'];
-	// $a_character = $c_fetch->get($logged_in_player, 'accountID' );
-	// http_response_code( 200 );
-	echo json_encode($logged_in_user);
-	echo 'Test';
-	} else {
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 	$c_fetch = new char_player();
@@ -32,6 +18,14 @@ if( isset( $input['get_logged_in'])){
 			http_response_code( 501 );
 			break;
 		case 'GET':
+			if( isset( $input['get_logged_in']))
+			{
+				require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/joomla.php';
+				$j_fetch    = new joomla();
+				$j_session = $j_fetch->get_joomla_user_and_group();
+				echo 'Test';
+				break;
+			}
 			require_once './_get.php';
 			break;
 		case 'OPTIONS':
@@ -40,4 +34,3 @@ if( isset( $input['get_logged_in'])){
 			require_once './_get.php';
 		break;
 	}
-}
