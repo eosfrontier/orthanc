@@ -37,6 +37,7 @@
 				} elseif ($j_session['id'] == '0') {
 					http_response_code ( 401 );
 					echo 'Not logged in.' ;
+					break;
 				} 
 			}
 			require_once './_get.php';
