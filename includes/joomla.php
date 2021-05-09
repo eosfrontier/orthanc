@@ -27,7 +27,7 @@ class joomla {
             }
         }
 
-        $myobj = new \stdClass();
+        $myobj = new stdClass();
         $myobj->id = $user->get('id');
         $myobj->groups = $user->get('groups');
 
