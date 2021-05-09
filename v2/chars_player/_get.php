@@ -12,6 +12,11 @@ if ( isset( $input['all_characters'] ) ) {
 }
 
 // CHECK BY JOOMLA ID
+if( isset( $input['get_logged_in'])){
+	$a_character = $c_fetch->get_loggedin();
+	http_response_code( 200 );
+	echo json_encode($a_character);
+}
 if ( isset( $input['accountID'] ) ) {
 	$a_character = $c_fetch->get( $input['accountID'], 'accountID' );
 	if ( empty( $a_character ) ) {

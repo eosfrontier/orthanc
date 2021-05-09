@@ -51,6 +51,22 @@ class char_player {
 		return $res;
 	}
 
+	public function get_loggedin() {
+		require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
+		$j_fetch    = new joomla();
+		$j_session = $j_fetch->get_joomla_user_and_group();
+		// if ( $needle == 'accountID' ) {
+		// 	$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		// 	$res  = $stmt->execute( [ $id ] );
+		// 	$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		// } else {
+		// 	$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		// 	$res  = $stmt->execute( [ $id ] );
+		// 	$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		// }
+		return $j_session;
+	}
+
 	function add_character( $account, $character ) {
 		// $check              = $this->check_card_id( $character['card_id'] );
 		$character_name     = $character['character_name'];
