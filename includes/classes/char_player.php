@@ -3,7 +3,7 @@
 class char_player {
 	
 	private function check_card_id( $card_id ) {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 		$res  = $stmt->execute( [ $card_id ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -11,7 +11,7 @@ class char_player {
 	}
 
 	public function get_all() {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -19,7 +19,7 @@ class char_player {
 
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -34,16 +34,16 @@ class char_player {
 					return 'false';
 				}
 
-				$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+				$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		} elseif ( $needle == 'accountID' ) {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 		} else {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status != 'deleted'" );
+			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 		}
@@ -125,7 +125,7 @@ class char_player {
 	}
 
 	public function delete_character( $id ) {
-		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
+		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'active'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {
