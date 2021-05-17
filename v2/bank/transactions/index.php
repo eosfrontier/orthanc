@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$bank = new bank();
+$bank = new Bank();
 
 /**
  * Get_mutations get a list of all mutations from a character by ID
