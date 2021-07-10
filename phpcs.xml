@@ -26,6 +26,7 @@
 		<exclude name="WordPress.DB.RestrictedClasses"/>
 		<exclude name="WordPress.WP.EnqueuedResources"/>
 		<exclude name="WordPress.WP.EnqueuedResourceParameters"/>
+		<exclude name="WordPress.Security.ValidatedSanitizedInput"/>
 
         <exclude name="WordPress.PHP.DisallowShortTernary"/><!-- We actually don't dislike this -->
 

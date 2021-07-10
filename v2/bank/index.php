@@ -12,6 +12,7 @@ switch ( $method ) {
 		break;
 	case 'OPTIONS':
 		http_response_code( 200 );
+		break;
 	default:
 		require_once './_get.php';
 		break;
