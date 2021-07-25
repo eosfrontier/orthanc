@@ -2,7 +2,7 @@
 
 class Options {
 
-	function get_all_options_by_id( $id ) {
+	public function get_all_options_by_id( $id ) {
 		$stmt = Database::$conn->prepare( 'SELECT id, app_id, name, value FROM ecc_app_options WHERE app_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -10,21 +10,21 @@ class Options {
 		return $res;
 	}
 
-	function get_by_option_name( $id, $option_name, $operator = 'in' ) {
+	public function get_by_option_name( $id, $option_name, $operator = 'in' ) {
 		$stmt = Database::$conn->prepare( "SELECT id, app_id, name, value FROM ecc_app_options WHERE app_id = ? AND name $operator ($option_name)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function get_all_by_option_name( $option_name, $operator = 'in' ) {
+	public function get_all_by_option_name( $option_name, $operator = 'in' ) {
 		$stmt = Database::$conn->prepare( "SELECT id, app_id, name, value, app_id FROM ecc_app_options WHERE name $operator ($option_name)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function put_options( $id, $options ) {
+	public function put_options( $id, $options ) {
 		foreach ( $options as $option ) {
 			$stmt  = Database::$conn->prepare( 'SELECT id,  app_id, name, value FROM ecc_app_options WHERE app_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $option['name'] ] );
@@ -41,7 +41,7 @@ class Options {
 		return 'success';
 	}
 
-	function patch_options( $id, $options ) {
+	public function patch_options( $id, $options ) {
 		$response = [];
 		foreach ( $options as $option ) {
 			$result = new stdClass();
@@ -77,7 +77,7 @@ class Options {
 		return $response;
 	}
 
-	function post_options( $id, $options ) {
+	public function post_options( $id, $options ) {
 		$response = [];
 		foreach ( $options as $option ) {
 			$result = new stdClass();
@@ -101,7 +101,7 @@ class Options {
 		return $response;
 	}
 
-	function delete_option( $id, $options ) {
+	public function delete_option( $id, $options ) {
 		$total_deleted = 0;
 		foreach ( $options as $option ) {
 			if ( array_key_exists( 'value', $option ) ) {

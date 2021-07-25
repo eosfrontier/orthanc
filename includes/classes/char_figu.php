@@ -137,7 +137,7 @@ class Char_Figu {
 		return $a_skills;
 	}
 
-	function add_figurant( $character ) {
+	public function add_figurant( $character ) {
 		$check = $this->check_card_id( $character['card_id'] );
 
 		$character_name     = $character['character_name'];
@@ -250,7 +250,7 @@ class Char_Figu {
 		}
 	}
 
-	function put_figurant( $id, $character ) {
+	public function put_figurant( $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
 			if ( $key == 'card_id' ) {

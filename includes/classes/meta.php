@@ -2,7 +2,7 @@
 
 class Meta {
 
-	function get_char_type_by_id( $id ) {
+	public function get_char_type_by_id( $id ) {
 		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
@@ -10,7 +10,7 @@ class Meta {
 		return $res;
 	}
 
-	function get_all_meta_by_id( $id ) {
+	public function get_all_meta_by_id( $id ) {
 		$stmt = Database::$conn->prepare( 'SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -18,21 +18,21 @@ class Meta {
 		return $res;
 	}
 
-	function get_by_meta_name( $id, $meta_name, $operator = 'in' ) {
+	public function get_by_meta_name( $id, $meta_name, $operator = 'in' ) {
 		$stmt = Database::$conn->prepare( "SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function get_all_by_meta_name( $meta_name, $operator = 'in' ) {
+	public function get_all_by_meta_name( $meta_name, $operator = 'in' ) {
 		$stmt = Database::$conn->prepare( "SELECT id, character_id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
-	function put_metas( $id, $metas ) {
+	public function put_metas( $id, $metas ) {
 		foreach ( $metas as $meta ) {
 			$stmt  = Database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
@@ -49,7 +49,7 @@ class Meta {
 		return 'success';
 	}
 
-	function patch_metas( $id, $metas ) {
+	public function patch_metas( $id, $metas ) {
 		$response = [];
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
@@ -85,7 +85,7 @@ class Meta {
 		return $response;
 	}
 
-	function post_metas( $id, $metas ) {
+	public function post_metas( $id, $metas ) {
 		$response = [];
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
@@ -109,7 +109,7 @@ class Meta {
 		return $response;
 	}
 
-	function delete_meta( $id, $metas ) {
+	public function delete_meta( $id, $metas ) {
 		$total_deleted = 0;
 		foreach ( $metas as $meta ) {
 			if ( array_key_exists( 'value', $meta ) ) {

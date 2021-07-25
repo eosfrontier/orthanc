@@ -12,7 +12,7 @@ class Joomla {
 	 *
 	 * @return void
 	 */
-	function get_joomla_user_and_group() {
+	public function get_joomla_user_and_group() {
 		// Required Files
 		define( '_JEXEC', 1 );
 		define( 'JPATH_BASE', '/var/www/html' );

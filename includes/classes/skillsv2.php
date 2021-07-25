@@ -2,7 +2,7 @@
 
 class Skillsv2 {
 
-	function get_char_type_by_id( $id ) {
+	public function get_char_type_by_id( $id ) {
 		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();

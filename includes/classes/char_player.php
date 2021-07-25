@@ -53,7 +53,7 @@ class Char_Player {
 		return $res;
 	}
 
-	function add_character( $account, $character ) {
+	public function add_character( $account, $character ) {
 		// $check              = $this->check_card_id( $character['card_id'] );
 		$character_name     = $character['character_name'];
 		$card_id            = $character['card_id'];
@@ -103,7 +103,7 @@ class Char_Player {
 			return $last_insert_id;
 	}
 
-	function put_character( $account, $id, $character ) {
+	public function put_character( $account, $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
 			$stmt   = Database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'" );
@@ -113,7 +113,7 @@ class Char_Player {
 		return $count;
 	}
 
-	function patch_character( $account, $id, $character ) {
+	public function patch_character( $account, $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
 			$stmt = Database::$conn->prepare( "SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'" );
