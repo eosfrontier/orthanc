@@ -42,6 +42,10 @@
 		<exclude name="Yoast.Yoast.AlternativeFunctions" />
 		<exclude name="Yoast.Commenting.FileComment.Missing" />
 		<exclude name="Squiz.Commenting.ClassComment.Missing" />
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
+		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
+		<exclude name="WordPress.PHP.IniSet.display_errors_Blacklisted" />
 	</rule>
 	<rule ref="ruleset.xml" />
 </ruleset>

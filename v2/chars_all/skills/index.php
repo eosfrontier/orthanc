@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_fetch    = new skills();
+$c_fetch = new skills();
 
 switch ( $method ) {
 	case 'DELETE':

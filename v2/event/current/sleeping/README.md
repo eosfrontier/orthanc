@@ -12,8 +12,8 @@ orthanc/v2/event/current/sleeping/
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
 
-| Method | Description                                                      |
-| ------ | ---------------------------------------------------------------- |
+| Method | Description                                     |
+| ------ | ----------------------------------------------- |
 | GET    | Gets sleeping information for the current event |
 
 ## Parameters

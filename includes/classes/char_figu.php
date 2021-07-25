@@ -30,7 +30,8 @@ class char_figu {
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
-		} elseif ( $needle == 'accountID' ) {
+		}
+		elseif ( $needle == 'accountID' ) {
 			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
@@ -249,13 +250,13 @@ class char_figu {
 
 	function put_figurant( $id, $character ) {
 		$count = 0;
-		foreach ($character as $key => $value) {
-			if ($key == 'card_id') {
+		foreach ( $character as $key => $value ) {
+			if ( $key == 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
 			}
-			
-			$stmt = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'");
-			$res  = $stmt->execute();
+
+			$stmt   = database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'" );
+			$res    = $stmt->execute();
 			$count += $stmt->rowCount();
 		}
 		return $count;

@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 $c_fetch_players = new char_player();
-$c_fetch_figus = new char_figu();
+$c_fetch_figus   = new char_figu();
 
 switch ( $method ) {
 	case 'DELETE':
@@ -28,5 +28,5 @@ switch ( $method ) {
 		http_response_code( 200 );
 	default:
 		require_once './_get.php';
-	  break;
+		break;
 }

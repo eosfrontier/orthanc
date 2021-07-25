@@ -23,7 +23,8 @@ $a_result = $c_meta->delete_meta( $id, $meta );
 if ( ! empty( $a_result ) ) {
 	http_response_code( 200 );
 	echo json_encode( $a_result );
-}else {
+}
+else {
 	http_response_code( 404 );
 	echo 'No result found';
 }

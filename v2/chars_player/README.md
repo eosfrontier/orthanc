@@ -15,12 +15,12 @@ orthanc/v2/chars_player/
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
 
-| Method | Description                                        |
-| ------ | -------------------------------------------------- |
-| GET    | Gets character with ID **id**                      |
-| POST   | Adds new character                                 |
-| DELETE | Sets character **id** to deleted status            |
-<!-- | PATCH  | Updates character record for character with **id** | -->
+| Method | Description                             |
+| ------ | --------------------------------------- |
+| GET    | Gets character with ID **id**           |
+| POST   | Adds new character                      |
+| DELETE | Sets character **id** to deleted status |
+| <!--   | PATCH                                   | Updates character record for character with **id** | --> |
 
 ## Parameters
 | Name           | Description                                                                  | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                               |

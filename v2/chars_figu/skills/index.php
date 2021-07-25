@@ -21,7 +21,7 @@ else {
 			// require_once './_patch.php';
 			http_response_code( 501 );
 			break;
-			case 'PUT':
+		case 'PUT':
 			// require_once './_put.php';
 			http_response_code( 501 );
 			break;

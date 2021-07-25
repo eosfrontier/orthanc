@@ -1,7 +1,7 @@
 <?php
 
 class char_player {
-	
+
 	private function check_card_id( $card_id ) {
 		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 		$res  = $stmt->execute( [ $card_id ] );
@@ -38,7 +38,8 @@ class char_player {
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
-		} elseif ( $needle == 'accountID' ) {
+		}
+		elseif ( $needle == 'accountID' ) {
 			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
@@ -103,9 +104,9 @@ class char_player {
 
 	function put_character( $account, $id, $character ) {
 		$count = 0;
-		foreach ($character as $key => $value) {
-			$stmt = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'");
-			$res  = $stmt->execute();
+		foreach ( $character as $key => $value ) {
+			$stmt   = database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'" );
+			$res    = $stmt->execute();
 			$count += $stmt->rowCount();
 		}
 		return $count;
@@ -113,9 +114,9 @@ class char_player {
 
 	function patch_character( $account, $id, $character ) {
 		$count = 0;
-		foreach ($character as $key => $value) {
-			$stmt = database::$conn->prepare("SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'");
-			$res = $stmt->execute();
+		foreach ( $character as $key => $value ) {
+			$stmt = database::$conn->prepare( "SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'" );
+			$res  = $stmt->execute();
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			// $stmt2 = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account' ");
 			// $res2  = $stmt2->execute();
@@ -145,5 +146,4 @@ class char_player {
 		}
 		return $count;
 	}
-
 }

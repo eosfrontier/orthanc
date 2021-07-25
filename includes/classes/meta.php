@@ -49,34 +49,33 @@ class meta {
 	}
 
 	function patch_metas( $id, $metas ) {
-		$response = array();
+		$response = [];
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
-			$res   = $stmt->execute( [ $id, $meta['name'] ] );
-			$count = $stmt->rowCount();
+			$stmt   = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$res    = $stmt->execute( [ $id, $meta['name'] ] );
+			$count  = $stmt->rowCount();
 			if ( $count > 0 ) {
-				$stmt = database::$conn->prepare('SELECT id, character_id, name, value from ecc_meta_character WHERE character_id = ? AND name = ?');
-				$res = $stmt->execute([$id, $meta['name'] ] );
+				$stmt = database::$conn->prepare( 'SELECT id, character_id, name, value from ecc_meta_character WHERE character_id = ? AND name = ?' );
+				$res  = $stmt->execute( [ $id, $meta['name'] ] );
 				$res  = $stmt->fetchall( PDO::FETCH_ASSOC );
-				$res = $res[0];
-				if ($meta['old_value'] == $res['value']){
-					$stmt2 = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
-					$res2  = $stmt2->execute( [ $meta['value'], $id, $meta['name'] ] );
+				$res  = $res[0];
+				if ( $meta['old_value'] == $res['value'] ) {
+					$stmt2            = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+					$res2             = $stmt2->execute( [ $meta['value'], $id, $meta['name'] ] );
 					$result->response = 'HTTP_200';
-					$result->message = 'success';
-					$response = $response + array($meta['name']=>$result);
+					$result->message  = 'success';
+					$response         = ( $response + [ $meta['name'] => $result ] );
 				} else {
 					$result->response = 'HTTP_422';
-					$result->message = 'Meta Name: ' . $meta['name'] . ' for characterID ' . $id . ' current value does not match old_value provided for validation. ';
-					$response = $response + array($meta['name']=>$result);
+					$result->message  = 'Meta Name: ' . $meta['name'] . ' for characterID ' . $id . ' current value does not match old_value provided for validation. ';
+					$response         = ( $response + [ $meta['name'] => $result ] );
 				}
-
 			}else {
-				$result = new stdClass();
+				$result           = new stdClass();
 				$result->response = 'HTTP_404';
-				$result->message = 'No meta called ' . $meta['name'] . ' found for characterID ' . $id;
-				$response = $response + array($meta['name']=>$result);
+				$result->message  = 'No meta called ' . $meta['name'] . ' found for characterID ' . $id;
+				$response         = ( $response + [ $meta['name'] => $result ] );
 			}
 		}
 
@@ -84,23 +83,23 @@ class meta {
 	}
 
 	function post_metas( $id, $metas ) {
-		$response = array();
+		$response = [];
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
-			$res   = $stmt->execute( [ $id, $meta['name'] ] );
-			$count = $stmt->rowCount();
+			$stmt   = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$res    = $stmt->execute( [ $id, $meta['name'] ] );
+			$count  = $stmt->rowCount();
 			if ( $count < 1 ) {
-				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
-				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
-				$last_insert_id = database::$conn->lastInsertId();
-				$result->response = 'HTTP_200';	
-				$result->message = 'success';
-				$response = $response + array($meta['name']=>$result);
+				$stmt             = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				$res              = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+				$last_insert_id   = database::$conn->lastInsertId();
+				$result->response = 'HTTP_200';
+				$result->message  = 'success';
+				$response         = ( $response + [ $meta['name'] => $result ] );
 			}else {
 				$result->response = 'HTTP_422';
-				$result->message = "CharacterId ". $id . ' already has a meta called '. $meta['name']. '. To update existing meta, use PUT or PATCH instead.';
-				$response = $response + array($meta['name']=>$result);
+				$result->message  = 'CharacterId ' . $id . ' already has a meta called ' . $meta['name'] . '. To update existing meta, use PUT or PATCH instead.';
+				$response         = ( $response + [ $meta['name'] => $result ] );
 			}
 		}
 		return $response;
