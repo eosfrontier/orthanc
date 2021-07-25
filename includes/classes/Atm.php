@@ -8,7 +8,7 @@ class Atm {
 	 * @return string
 	 */
 	public function check_if_code_exist( $code ) {
-		$stmt = database::$conn->prepare( 'SELECT * FROM atm_logging WHERE code= ?' );
+		$stmt = Database::$conn->prepare( 'SELECT * FROM atm_logging WHERE code= ?' );
 		$res  = $stmt->execute( [ $code ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -28,7 +28,7 @@ class Atm {
 		$string      = $amount . ' - ' . $withdraw_id . ' - ' . $create_date;
 		$code        = sha1( $string );
 
-		$stmt   = database::$conn->prepare(
+		$stmt   = Database::$conn->prepare(
 			'INSERT INTO 
 			atm_logging (code, amount, withdraw_id, create_date) values (?, ?, ?, ?)'
 		);
@@ -40,7 +40,7 @@ class Atm {
 			$return['code']   = $code;
 			$return['amount'] = $amount;
 
-			$stmt   = database::$conn->prepare(
+			$stmt   = Database::$conn->prepare(
 				'INSERT INTO 
 				bank_logging (character_id, amount, id_to, description) values (?, ?, ?, ?)'
 			);
@@ -72,7 +72,7 @@ class Atm {
 		if ( isset( $atm_row['deposit_id'] ) ) {
 			if ( $atm_row['deposit_id'] === '0' ) {
 
-				$atm_update = database::$conn->prepare( 'UPDATE atm_logging SET deposit_id = ?, deposit_date = ? WHERE id = ?' );
+				$atm_update = Database::$conn->prepare( 'UPDATE atm_logging SET deposit_id = ?, deposit_date = ? WHERE id = ?' );
 				$res        = $atm_update->execute( [ $deposit_id, $deposit_date, $atm_row['id'] ] );
 
 				$amount      = $atm_row['amount'];
@@ -80,7 +80,7 @@ class Atm {
 				$recipient   = $deposit_id;
 				$description = 'Scanned Sonuren chit';
 
-				$stmt   = database::$conn->prepare(
+				$stmt   = Database::$conn->prepare(
 					'INSERT INTO 
 					bank_logging (character_id, id_to, amount, description) values (?, ?, ?, ?)'
 				);

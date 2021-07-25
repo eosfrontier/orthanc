@@ -1,9 +1,9 @@
 <?php
 
-class skillsv2 {
+class Skillsv2 {
 
 	function get_char_type_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
+		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 
@@ -12,7 +12,7 @@ class skillsv2 {
 
 	public function get_skills_all_chars() {
 		$response = [];
-		$stmt     = database::$conn->prepare( 'SELECT characterID, sheet_status FROM ecc_characters ORDER BY characterID' );
+		$stmt     = Database::$conn->prepare( 'SELECT characterID, sheet_status FROM ecc_characters ORDER BY characterID' );
 		$res      = $stmt->execute();
 		$a_chars  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -29,7 +29,7 @@ class skillsv2 {
 
 	public function get_skills( $id ) {
 		 $response = [];
-		$stmt      = database::$conn->prepare( 'SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID' );
+		$stmt      = Database::$conn->prepare( 'SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID' );
 		$res       = $stmt->execute( [ $id ] );
 		if ( $stmt->rowCount() < 1 ) {
 			$response = [ 'http_response' => '404' ];
@@ -43,10 +43,11 @@ class skillsv2 {
 			$level  = $a_char_skill['level'];
 			if ( $level > 5 ) {
 				$skilllevel = ( $level - 5 );
-			} else {
+			}
+			else {
 				$skilllevel = $level;
 			}
-			$stmt2 = database::$conn->prepare( 'SELECT * from ecc_skills WHERE skill_id = ' . $a_char_skill['skill_id'] );
+			$stmt2 = Database::$conn->prepare( 'SELECT * from ecc_skills WHERE skill_id = ' . $a_char_skill['skill_id'] );
 			$res2  = $stmt2->execute();
 			$res2  = $stmt2->fetcHAll( PDO::FETCH_ASSOC );
 			foreach ( $res2 as $skill ) {
@@ -57,7 +58,8 @@ class skillsv2 {
 				$result->status  = $skill['status'];
 				if ( $level > 5 ) {
 					$result->specialty = true;
-				} else {
+				}
+				else {
 					$result->specialty = false;
 				}
 				// $result->description =  $skill["level_".$skilllevel."_description"]; // save for skill detail fetch
@@ -70,7 +72,7 @@ class skillsv2 {
 	}
 
 	public function del_skill( $char_id, $skill_id ) {
-		$stmtfinal = database::$conn->prepare( "DELETE FROM ecc_char_skills_v2 WHERE charID = $char_id AND skill_id = $skill_id" );
+		$stmtfinal = Database::$conn->prepare( "DELETE FROM ecc_char_skills_v2 WHERE charID = $char_id AND skill_id = $skill_id" );
 		$resfinal  = $stmtfinal->execute();
 		$count     = $stmtfinal->rowCount();
 		return $count;

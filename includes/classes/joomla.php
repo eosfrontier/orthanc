@@ -1,12 +1,17 @@
 <?php
-// Grab HTTP REST Method
-$method = $_SERVER['REQUEST_METHOD'];
+
+$method = $_SERVER['REQUEST_METHOD']; // Grab HTTP REST Method
 if ( $method === 'OPTIONS' ) {
 	http_response_code( 204 );
 	die();
 }
-class joomla {
-	// To use Joomla's Database Class
+class Joomla {
+
+	/**
+	 * To use Joomla's Database Class.
+	 *
+	 * @return void
+	 */
 	function get_joomla_user_and_group() {
 		// Required Files
 		define( '_JEXEC', 1 );

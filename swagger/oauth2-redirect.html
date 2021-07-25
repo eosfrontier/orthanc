@@ -19,7 +19,8 @@
 
         if (/code|token|error/.test(window.location.hash)) {
             qp = window.location.hash.substring(1);
-        } else {
+        }
+        else {
             qp = location.search.substring(1);
         }
 
@@ -51,7 +52,8 @@
                 delete oauth2.state;
                 oauth2.auth.code = qp.code;
                 oauth2.callback({ auth: oauth2.auth, redirectUrl: redirectUrl });
-            } else {
+            }
+            else {
                 let oauthErrorMsg
                 if (qp.error) {
                     oauthErrorMsg = "[" + qp.error + "]: " +
@@ -66,7 +68,8 @@
                     message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
                 });
             }
-        } else {
+        }
+        else {
             oauth2.callback({ auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl });
         }
         window.close();

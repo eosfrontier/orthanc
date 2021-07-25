@@ -1,9 +1,9 @@
 <?php
 
-class char_player {
+class Char_Player {
 
 	private function check_card_id( $card_id ) {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 		$res  = $stmt->execute( [ $card_id ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -11,7 +11,7 @@ class char_player {
 	}
 
 	public function get_all() {
-		$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -19,7 +19,7 @@ class char_player {
 
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -34,17 +34,18 @@ class char_player {
 					return 'false';
 				}
 
-				$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		}
 		elseif ( $needle == 'accountID' ) {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-		} else {
-			$stmt = database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+		}
+		else {
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 		}
@@ -70,7 +71,7 @@ class char_player {
 
 		// if ( ! $check ) {
 
-			$stmt           = database::$conn->prepare(
+			$stmt           = Database::$conn->prepare(
 				'INSERT into ecc_characters
                     (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
                 VALUES
@@ -94,7 +95,7 @@ class char_player {
 					$homeplanet,
 				]
 			);
-			$last_insert_id = database::$conn->lastInsertId();
+			$last_insert_id = Database::$conn->lastInsertId();
 		if ( $last_insert_id === '0' ) {
 			$error = $stmt->errorInfo();
 			return $error['2'];
@@ -105,7 +106,7 @@ class char_player {
 	function put_character( $account, $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
-			$stmt   = database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'" );
+			$stmt   = Database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account'" );
 			$res    = $stmt->execute();
 			$count += $stmt->rowCount();
 		}
@@ -115,10 +116,10 @@ class char_player {
 	function patch_character( $account, $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
-			$stmt = database::$conn->prepare( "SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'" );
+			$stmt = Database::$conn->prepare( "SELECT $key from `ecc_characters` WHERE `characterID` = '$id' AND `accountID` = '$account'" );
 			$res  = $stmt->execute();
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-			// $stmt2 = database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account' ");
+			// $stmt2 = Database::$conn->prepare("UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id' AND `accountID` = '$account' ");
 			// $res2  = $stmt2->execute();
 			// $count += $stmt2->rowCount();
 		}
@@ -126,22 +127,22 @@ class char_player {
 	}
 
 	public function delete_character( $id ) {
-		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'active'" );
+		$stmt  = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'active'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {
-			$stmt2 = database::$conn->prepare( "INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());" );
+			$stmt2 = Database::$conn->prepare( "INSERT INTO ecc_meta_character(character_id,name,value) VALUES($id,'deleted_date',UNIX_TIMESTAMP());" );
 			$res2  = $stmt2->execute();
 		}
 		return $count;
 	}
 
 	public function restore_character( $id ) {
-		$stmt  = database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
+		$stmt  = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE status NOT LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {
-			$stmt2 = database::$conn->prepare( "DELETE FROM ecc_meta_character where character_id = $id and name = 'deleted_date'" );
+			$stmt2 = Database::$conn->prepare( "DELETE FROM ecc_meta_character where character_id = $id and name = 'deleted_date'" );
 			$res2  = $stmt2->execute();
 		}
 		return $count;

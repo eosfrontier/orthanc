@@ -1,8 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$c_fetch_players = new char_player();
-$c_fetch_figus   = new char_figu();
+$c_fetch_players = new Char_Player();
+$c_fetch_figus   = new Char_Figu();
 
 switch ( $method ) {
 	case 'DELETE':

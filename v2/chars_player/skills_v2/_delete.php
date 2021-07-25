@@ -19,7 +19,8 @@ if ( $a_delskills == 0 ) {
 	http_response_code( 404 );
 	echo json_encode( 'No matching skill ' . $skill_id . ' for character ' . $char_id . '.' );
 	die();
-} else {
+}
+else {
 	http_response_code( 200 );
 	echo json_encode( $a_delskills );
 	die();

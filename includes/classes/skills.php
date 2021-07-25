@@ -1,9 +1,9 @@
 <?php
 
-class skills {
+class Skills {
 
 	function get_char_type_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
+		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 
@@ -11,7 +11,7 @@ class skills {
 	}
 
 	public function get_skills( $id ) {
-		 $stmt         = database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
+		 $stmt         = Database::$conn->prepare( 'SELECT skill_id FROM ecc_char_skills where charID = ? ORDER BY skill_ID' );
 		$res           = $stmt->execute( [ $id ] );
 		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -25,7 +25,7 @@ class skills {
 
 
 
-		$stmt          = database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
+		$stmt          = Database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
 		$res           = $stmt->execute();
 		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -38,7 +38,7 @@ class skills {
 			array_push( $a_skills, $a_char_skill );
 		}
 
-		$stmt       = database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
+		$stmt       = Database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
 		$res        = $stmt->execute( [ $id ] );
 		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -103,7 +103,7 @@ class skills {
 	}
 
 	public function del_skill( $char_id, $skill_id ) {
-		$stmt          = database::$conn->prepare(
+		$stmt          = Database::$conn->prepare(
 			"SELECT  c.id, c.skill_id, c.charID, s.parent, s.level, s.label FROM joomladev2.ecc_char_skills c 
 		JOIN joomladev2.ecc_skills_allskills s ON (s.skill_id = c.skill_id)
 		WHERE c.charID = $char_id AND c.skill_id = $skill_id"
@@ -115,7 +115,7 @@ class skills {
 			$level  = $a_char_skill['level'];
 			$parent = $a_char_skill['parent'];
 
-			$stmt2                 = database::$conn->prepare(
+			$stmt2                 = Database::$conn->prepare(
 				"SELECT  c.id, c.skill_id, c.charID, s.parent, s.level, s.label FROM joomladev2.ecc_char_skills c
 			JOIN joomladev2.ecc_skills_allskills s ON (s.skill_id = c.skill_id)
 			WHERE c.charID = $char_id and s.parent = $parent and s.level > $level"
@@ -127,8 +127,9 @@ class skills {
 			if ( $dependencies > 0 ) {
 				$count = ( $dependencies * -1 );
 				return $count;
-			} else {
-				$stmtfinal = database::$conn->prepare( "DELETE FROM ecc_char_skills WHERE charID = $char_id AND skill_id = $skill_id" );
+			}
+			else {
+				$stmtfinal = Database::$conn->prepare( "DELETE FROM ecc_char_skills WHERE charID = $char_id AND skill_id = $skill_id" );
 				$resfinal  = $stmtfinal->execute();
 				$count     = $stmtfinal->rowCount();
 				return $count;

@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_meta = new meta();
+$c_meta = new Meta();
 
 if ( isset( $input['id'] ) ) {
 	$sheet_type = $c_meta->get_char_type_by_id( $input['id'] );

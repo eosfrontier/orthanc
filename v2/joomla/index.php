@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/joomla.php';
-$j_fetch = new joomla();
+$j_fetch = new Joomla();
 
 switch ( $method ) {
 	case 'DELETE':

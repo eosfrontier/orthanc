@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$c_fetch = new event();
+$c_fetch = new Event();
 
 switch ( $method ) {
 	case 'GET':

@@ -1,11 +1,11 @@
 <?php
 
-class event {
+class Event {
 
 	public function get_eventid( $which ) {
 		switch ( $which ) {
 			case 'current':
-				$stmt = database::$conn->prepare(
+				$stmt = Database::$conn->prepare(
 					"SELECT e.id from jml_eb_events e                                                          
 				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1;"
@@ -14,7 +14,7 @@ class event {
 				$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 				return ( $res['0'] )['id'];
 			case 'next':
-				$stmt = database::$conn->prepare(
+				$stmt = Database::$conn->prepare(
 					"SELECT e.id FROM jml_eb_events e                                                          
 				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1,1;"
@@ -27,7 +27,7 @@ class event {
 
 	public function get_event( $which ) {
 		$eventid = $this->get_eventid( $which );
-		$stmt    = database::$conn->prepare(
+		$stmt    = Database::$conn->prepare(
 			"SELECT e.id, parent_id,  c.category_id, location_id, title, event_type, SUBSTRING_INDEX(event_date,' ',1) AS start_date, SUBSTRING_INDEX(event_end_date,' ',1) AS end_date
         from jml_eb_events e                                                          
         JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
@@ -40,7 +40,7 @@ class event {
 
 	public function get_player_ids( $which ) {
 		$eventid = $this->get_eventid( $which );
-		$stmt    = database::$conn->prepare(
+		$stmt    = Database::$conn->prepare(
 			"SELECT SUBSTRING_INDEX(v1.field_value,' - ',-1)  as id from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
@@ -60,7 +60,7 @@ class event {
 			$whereclause = $whereclause . 'characterID = ' . $id . ' OR ';
 		}
 		$whereclause = rtrim( $whereclause, ' OR ' );
-		$stmt        = database::$conn->prepare( "SELECT * FROM ecc_characters WHERE $whereclause;" );
+		$stmt        = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE $whereclause;" );
 		$res         = $stmt->execute();
 		$res         = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -68,7 +68,7 @@ class event {
 
 	public function get_figuranten( $which ) {
 		$eventid = $this->get_eventid( $which );
-		$stmt    = database::$conn->prepare(
+		$stmt    = Database::$conn->prepare(
 			"SELECT r.user_id, v5.field_value as POSITION, 
 		REPLACE(REPLACE(REPLACE(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'), '><',''),  '<>',' ') as NAME, 
 		r.phone, r.email from jml_eb_registrants r
@@ -86,7 +86,7 @@ class event {
 
 	public function get_sleeping( $which ) {
 		$eventid = $this->get_eventid( $which );
-		$stmt2   = database::$conn->prepare(
+		$stmt2   = Database::$conn->prepare(
 			"SELECT r.id, SUBSTRING_INDEX(v1.field_value,' - ',1) as name, SUBSTRING_INDEX(v1.field_value,' - ',-1) as characterID, v2.field_value as building, v3.field_value as bastion_room, v4.field_value as tweede_room from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join joomla.jml_eb_field_values v2 on (v2.registrant_id = r.id and v2.field_id = 36)

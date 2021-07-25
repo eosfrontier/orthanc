@@ -3,7 +3,7 @@
 class Planet {
 
 	public function get_planets() {
-		$stmt = database::$conn->prepare( 'SELECT * FROM eos_starmap_planets ORDER BY name ASC' );
+		$stmt = Database::$conn->prepare( 'SELECT * FROM eos_starmap_planets ORDER BY name ASC' );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -11,7 +11,7 @@ class Planet {
 	}
 
 	public function get_planets_with_portals() {
-		$stmt = database::$conn->prepare( 'SELECT * FROM eos_starmap_planets WHERE portal = 1 ORDER BY name ASC' );
+		$stmt = Database::$conn->prepare( 'SELECT * FROM eos_starmap_planets WHERE portal = 1 ORDER BY name ASC' );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 

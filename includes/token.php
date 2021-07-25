@@ -9,7 +9,7 @@ $token_table = 'eos_tokens';
  * @return mixed - Return either the name associated with the token as a string, if it exists, or boolean false if the token is invalid.
  */
 function token( $token, $token_table ) {
-	$stmt  = database::$conn->prepare( "SELECT * FROM $token_table WHERE token = ?" );
+	$stmt  = Database::$conn->prepare( "SELECT * FROM $token_table WHERE token = ?" );
 	$res   = $stmt->execute( [ $token ] );
 	$res   = $stmt->fetch( PDO::FETCH_ASSOC );
 	$count = $stmt->rowCount();

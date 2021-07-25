@@ -7,7 +7,7 @@ require_once '../../includes/include.php';
 
 require_once '../../includes/token.php';
 
-$c_fetch = new char_player();
+$c_fetch = new Char_Player();
 
 if ( empty( $input['id'] ) ) {
 	//Haven't answered a way to access.
