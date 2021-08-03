@@ -1,8 +1,13 @@
 <?php
+$db_host     = '127.0.0.1';
+$db_name     = 'mydb';
+$db_user     = 'myuser';
+$db_password = 'mypassword';
 
-class database {
-    public static $conn;
+class Database {
+
+	public static $conn;
 }
 
-  Database::$conn = new PDO('mysql:host=127.0.0.1;dbname=DBNAME;charset=utf8mb4', 'USER', 'PASSWORD');
-?>
+Database::$conn = new PDO( 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8mb4', $db_user, $db_password );
+
