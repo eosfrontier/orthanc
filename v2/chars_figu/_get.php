@@ -1,6 +1,6 @@
 <?php
-if ( isset( $input['all_characters'] ) ) {
-	$all_characters = $c_fetch->get_all( 'player' );
+if ( isset( $input['all_figurants'] ) ) {
+	$all_characters = $c_fetch->get_all( 'figurant' );
 	if ( empty( $all_characters ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );
