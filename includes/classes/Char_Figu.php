@@ -2,8 +2,15 @@
 
 class Char_Figu {
 
-	public function get_all() {
+	public function get_all_active() {
 		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status LIKE 'figurant%' AND sheet_status != 'deleted'" );
+		$res  = $stmt->execute();
+		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $res;
+	}
+
+	public function get_all() {
+		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status LIKE 'figurant%'" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;

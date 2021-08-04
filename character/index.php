@@ -9,7 +9,7 @@ require_once '../includes/token.php';
 $c_fetch = new Char_Player();
 
 if ( isset( $input['all_characters'] ) ) {
-	$all_characters = $c_fetch->get_all();
+	$all_characters = $c_fetch->get_all_active();
 	if ( empty( $all_characters ) ) {
 		http_response_code( 404 );
 		echo json_encode( 'None found.' );

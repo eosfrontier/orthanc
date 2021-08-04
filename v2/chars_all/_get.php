@@ -1,7 +1,29 @@
 <?php
 if ( isset( $input['all_characters'] ) ) {
-	$all_char_players = $c_fetch_players->get_all( 'player' );
-	$all_char_figus   = $c_fetch_figus->get_all( 'player' );
+	$all_char_players = $c_fetch_players->get_all_active();
+	$all_char_figus   = $c_fetch_figus->get_all_active();
+	if ( is_array( $a_char_figus ) && ! is_array( $a_char_players ) ) {
+		$a_character = $a_char_figus;
+	}
+	elseif ( ! is_array( $a_char_figus ) && is_array( $a_char_players ) ) {
+		$a_character = $a_char_players;
+	}
+	elseif ( is_array( $a_char_figus ) && is_array( $a_char_players ) ) {
+		$a_character = array_merge( $a_char_players, $a_char_figus );
+	}
+	if ( empty( $all_characters ) ) {
+		http_response_code( 404 );
+		echo json_encode( 'None found.' );
+		die();
+	}
+	http_response_code( 200 );
+	echo json_encode( $all_characters );
+	die();
+}
+
+if ( isset( $input['all_characters_all_statuses'] ) ) {
+	$all_char_players = $c_fetch_players->get_all();
+	$all_char_figus   = $c_fetch_figus->get_all();
 	if ( is_array( $a_char_figus ) && ! is_array( $a_char_players ) ) {
 		$a_character = $a_char_figus;
 	}
