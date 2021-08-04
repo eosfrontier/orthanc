@@ -45,8 +45,8 @@ if ( isset( $input['all_characters_all_statuses'] ) ) {
 
 // CHECK BY JOOMLA ID
 if ( isset( $input['accountID'] ) ) {
-	$all_char_players = $c_fetch_players->get( $input['accountID'], 'accountID' );
-	$all_char_figus   = $c_fetch_figus->get( $input['accountID'], 'accountID' );
+	$all_char_players = $c_fetch_players->get_active( $input['accountID'], 'accountID' );
+	$all_char_figus   = $c_fetch_figus->get_active( $input['accountID'], 'accountID' );
 	if ( is_array( $all_char_figus ) && ! is_array( $all_char_players ) ) {
 		$a_character = $all_char_figus;
 	}
@@ -72,9 +72,9 @@ if ( isset( $input['accountID'] ) ) {
 if ( isset( $input['char_id'] ) || isset( $input['id'] ) ) {
 	$charid           = isset( $input['char_id'] ) ? $input['char_id'] : ( isset( $input['id'] ) ? $input['id'] : '' );
 	$all_char_players = [];
-	$all_char_players = $c_fetch_players->get( $charid, 'characterID' );
+	$all_char_players = $c_fetch_players->get_active( $charid, 'characterID' );
 	$all_char_figus   = [];
-	$all_char_figus   = $c_fetch_figus->get( $charid, 'characterID' );
+	$all_char_figus   = $c_fetch_figus->get_active( $charid, 'characterID' );
 	if ( is_array( $all_char_figus ) && ! is_array( $all_char_players ) ) {
 		$a_character = $all_char_figus;
 	}
@@ -99,8 +99,8 @@ if ( isset( $input['char_id'] ) || isset( $input['id'] ) ) {
 
 // CHECK BY CARD ID
 if ( isset( $input['card_id'] ) ) {
-	$all_char_players = $c_fetch_players->get( $input['card_id'], 'card_id' );
-	$all_char_figus   = $c_fetch_figus->get( $input['card_id'], 'card_id' );
+	$all_char_players = $c_fetch_players->get_active( $input['card_id'], 'card_id' );
+	$all_char_figus   = $c_fetch_figus->get_active( $input['card_id'], 'card_id' );
 	if ( is_array( $all_char_figus ) && ! is_array( $all_char_players ) ) {
 		$a_character = $all_char_figus;
 	}
@@ -123,8 +123,8 @@ if ( isset( $input['card_id'] ) ) {
 
 // CHECK BY ICC NUMBER
 if ( isset( $input['icc_number'] ) ) {
-	$all_char_players = $c_fetch_players->get( $input['icc_number'], 'icc_number' );
-	$all_char_figus   = $c_fetch_figus->get( $input['icc_number'], 'icc_number' );
+	$all_char_players = $c_fetch_players->get_active( $input['icc_number'], 'icc_number' );
+	$all_char_figus   = $c_fetch_figus->get_active( $input['icc_number'], 'icc_number' );
 	if ( is_array( $all_char_figus ) && ! is_array( $all_char_players ) ) {
 		$a_character = $all_char_figus;
 	}

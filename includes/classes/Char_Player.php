@@ -26,6 +26,42 @@ class Char_Player {
 
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+
+			if ( $res == null ) {
+				$s_hex = dechex( $id );
+				$a_dec = str_split( $s_hex, 2 );
+				if ( ! isset( $a_dec[1] ) ) {
+					return 'false';
+				}
+				$s_dec = '%' . $a_dec[3] . $a_dec[2] . $a_dec[1] . $a_dec[0] . '%';
+				if ( $s_dec == '%0%' ) {
+					return 'false';
+				}
+
+				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status NOT LIKE 'figurant%'" );
+				$res  = $stmt->execute( [ $s_dec ] );
+				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+			}
+		}
+		elseif ( $needle == 'accountID' ) {
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		}
+		else {
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status NOT LIKE 'figurant%'" );
+			$res  = $stmt->execute( [ $id ] );
+			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
+		}
+
+		return $res;
+	}
+
+	public function get_active( $id, $needle ) {
+		if ( $needle == 'card_id' ) {
 			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
