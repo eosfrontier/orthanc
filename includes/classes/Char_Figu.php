@@ -69,11 +69,6 @@ class Char_Figu {
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		}
-		elseif ( $needle == 'accountID' ) {
-			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND sheet_status = 'active' AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
-			$res  = $stmt->execute( [ $id ] );
-			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-		}
 		else {
 			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
 			$res  = $stmt->execute( [ $id ] );
