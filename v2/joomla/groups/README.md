@@ -20,4 +20,4 @@ orthanc/v2/joomla/groups
 | Name  | Description                 | Required For | Optional For | Example |
 | ----- | --------------------------- | ------------ | ------------ | ------- |
 | token | provides authentication     | All Methods  |              |         |
-| name  | name of group to search for | GET          |              |         |
+| name  | name of group to search for |              | GET          |         |
