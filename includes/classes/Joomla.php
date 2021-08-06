@@ -49,14 +49,14 @@ class Joomla {
 		return $array;
 	}
 
-	public function get_joomla_users_by_group( $group_id, $event_id ) {
+	public function get_joomla_users_by_group( $group_id ) {
 		$response = [];
 		$stmt     = Database::$conn->prepare(
-			"SELECT DISTINCT u.id, replace(replace(replace(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'),'><',''),'<>',' ') as name FROM jml_users u
+			"SELECT DISTINCT u.id, coalesce(replace(replace(replace(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'),'><',''),'<>',' '), u.name) as name FROM jml_users u
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
-		join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
+		left join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
-		WHERE r.event_id = $event_id AND u.id in (SELECT user_id FROM jml_user_usergroup_map WHERE group_id IN (SELECT id FROM jml_usergroups WHERE id = $group_id UNION SELECT id FROM jml_usergroups WHERE parent_id = $group_id)) ORDER by name"
+		WHERE u.id in (SELECT user_id FROM jml_user_usergroup_map WHERE group_id IN (SELECT id FROM jml_usergroups WHERE id = $group_id UNION SELECT id FROM jml_usergroups WHERE parent_id = $group_id)) ORDER by name"
 		);
 		$users    = $stmt->execute();
 		$users    = $stmt->fetchAll( PDO::FETCH_ASSOC );
