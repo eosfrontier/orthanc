@@ -2,6 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 $j_fetch = new Joomla();
+$e_fetch = new Event();
 
 switch ( $method ) {
 	case 'DELETE':
