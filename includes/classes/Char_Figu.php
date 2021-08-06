@@ -192,12 +192,16 @@ class Char_Figu {
 				$figustatus = 'figurant-recurring';
 			}
 		}
+		$figu_account_id = 'NULL';
+		if ( isset( $character['figu_accountID'] ) ) {
+			$figu_account_id = $character['figu_accountID'];
+		}
 
 		if ( ! $check ) {
 
 			$stmt = Database::$conn->prepare(
 				'INSERT into ecc_characters
-                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
+                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID)
                 VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 			);
@@ -217,6 +221,7 @@ class Char_Figu {
 					$bloodtype,
 					$ic_birthday,
 					$homeplanet,
+					$figu_account_id,
 				]
 			);
 
