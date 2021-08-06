@@ -28,9 +28,9 @@ class Skillsv2 {
 	}
 
 	public function get_skills( $id ) {
-		 $response = [];
-		$stmt      = Database::$conn->prepare( 'SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID' );
-		$res       = $stmt->execute( [ $id ] );
+		$response = [];
+		$stmt     = Database::$conn->prepare( 'SELECT * FROM ecc_char_skills_v2 WHERE charID = ? ORDER BY skill_ID' );
+		$res      = $stmt->execute( [ $id ] );
 		if ( $stmt->rowCount() < 1 ) {
 			$response = [ 'http_response' => '404' ];
 			return $response;

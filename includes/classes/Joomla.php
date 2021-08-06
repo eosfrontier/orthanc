@@ -24,7 +24,7 @@ class Joomla {
 
 		if ( $user->get( 'guest' ) ) {
 			$cookie_name =
-				'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+			'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 			// Check for the cookie
 			if ( $app->input->cookie->get( $cookie_name ) ) {
 				$app->login( [ 'username' => '' ], [ 'silent' => true ] );
@@ -47,6 +47,21 @@ class Joomla {
 		];
 
 		return $array;
+	}
+
+	public function get_joomla_users_by_group( $group_id ) {
+		$response = [];
+		$stmt     = Database::$conn->prepare( "SELECT id,name,username FROM jml_users WHERE id in (SELECT user_id FROM jml_user_usergroup_map WHERE group_id = $group_id)" );
+		$users    = $stmt->execute();
+		$users    = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $users;
+	}
+
+	public function get_joomla_groups() {
+		$stmt   = Database::$conn->prepare( 'SELECT id,parent_id,title FROM jml_usergroups' );
+		$groups = $stmt->execute();
+		$groups = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $groups;
 	}
 }
 
