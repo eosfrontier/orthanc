@@ -57,8 +57,8 @@ class Joomla {
 		return $users;
 	}
 
-	public function get_joomla_groups() {
-		$stmt   = Database::$conn->prepare( 'SELECT id,parent_id,title FROM jml_usergroups' );
+	public function get_joomla_groups( $group_name = '%' ) {
+		$stmt   = Database::$conn->prepare( "SELECT id,parent_id,title FROM jml_usergroups WHERE title like '$group_name' ORDER by title asc" );
 		$groups = $stmt->execute();
 		$groups = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $groups;

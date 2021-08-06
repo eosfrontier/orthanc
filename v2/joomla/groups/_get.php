@@ -1,6 +1,13 @@
 <?php
 
-$j_groups = $j_fetch->get_joomla_groups();
+if ( isset( $input['name'] ) ) {
+	$group_name = '%' . $input['name'] . '%';
+	$j_groups   = $j_fetch->get_joomla_groups( $group_name );
+}
+
+else {
+	$j_groups = $j_fetch->get_joomla_groups( '%' );
+}
 
 if ( empty( $j_groups ) ) {
 	http_response_code( 404 );

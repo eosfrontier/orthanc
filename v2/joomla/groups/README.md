@@ -17,6 +17,7 @@ orthanc/v2/joomla/groups
 | GET    | Returns Joomla session information |
 
 ## Parameters
-| Name  | Description             | Required For | Optional For | Example |
-| ----- | ----------------------- | ------------ | ------------ | ------- |
-| token | provides authentication | All Methods  |              |         |
+| Name  | Description                 | Required For | Optional For | Example |
+| ----- | --------------------------- | ------------ | ------------ | ------- |
+| token | provides authentication     | All Methods  |              |         |
+| name  | name of group to search for | GET          |              |         |
