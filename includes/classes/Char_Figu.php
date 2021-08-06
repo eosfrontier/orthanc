@@ -188,7 +188,9 @@ class Char_Figu {
 
 		$figustatus = 'figurant';
 		if ( isset( $character['recurring'] ) ) {
-			$figustatus = 'figurant-recurring';
+			if ( $character['recurring'] == true ) {
+				$figustatus = 'figurant-recurring';
+			}
 		}
 
 		if ( ! $check ) {
