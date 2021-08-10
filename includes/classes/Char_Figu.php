@@ -320,11 +320,17 @@ class Char_Figu {
 				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant' WHERE `characterID` = '$id'" );
 				$res_recur  = $stmt_recur->execute();
 				$count     += $stmt_recur->rowCount();
+			} elseif ( $key == 'figu_accountID' && ( $value === '0' || $value === 0 ) ) {
+				$stmt_figu = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = '$id'" );
+				$res_figu  = $stmt_figu->execute();
+				$count    += $stmt_figu->rowCount();
 			}
+			else {
 
-			$stmt   = Database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'" );
-			$res    = $stmt->execute();
-			$count += $stmt->rowCount();
+				$stmt   = Database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'" );
+				$res    = $stmt->execute();
+				$count += $stmt->rowCount();
+			}
 		}
 
 		return $count;
