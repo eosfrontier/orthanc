@@ -312,8 +312,12 @@ class Char_Figu {
 			if ( $key == 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
 			}
-			if ( $key == 'recurring' && $value == true ) {
+			if ( $key == 'recurring' && ( $value === true || $value === 'true' ) ) {
 				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant-recurring' WHERE `characterID` = '$id'" );
+				$res_recur  = $stmt_recur->execute();
+				$count     += $stmt_recur->rowCount();
+			} elseif ( $key == 'recurring' && $value !== true ) {
+				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant' WHERE `characterID` = '$id'" );
 				$res_recur  = $stmt_recur->execute();
 				$count     += $stmt_recur->rowCount();
 			}
