@@ -309,24 +309,25 @@ class Char_Figu {
 	public function put_figurant( $id, $character ) {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
-			if ( $key == 'card_id' ) {
+			if ( $key === 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
 			}
-			if ( $key == 'recurring' && ( $value === true || $value === 'true' ) ) {
+			elseif ( $key === 'recurring' && ( $value === true || $value === 'true' ) ) {
 				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant-recurring' WHERE `characterID` = '$id'" );
 				$res_recur  = $stmt_recur->execute();
 				$count     += $stmt_recur->rowCount();
-			} elseif ( $key == 'recurring' && $value !== true ) {
+			}
+			elseif ( $key === 'recurring' && ( $value !== true || $value !== 'true' ) ) {
 				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant' WHERE `characterID` = '$id'" );
 				$res_recur  = $stmt_recur->execute();
 				$count     += $stmt_recur->rowCount();
-			} elseif ( $key == 'figu_accountID' && $value = 'null' ) {
+			}
+			elseif ( $key === 'figu_accountID' && $value === 'null' ) {
 				$stmt_figu = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = '$id'" );
 				$res_figu  = $stmt_figu->execute();
 				$count    += $stmt_figu->rowCount();
 			}
 			else {
-
 				$stmt   = Database::$conn->prepare( "UPDATE `ecc_characters` SET `$key` = '$value' WHERE `characterID` = '$id'" );
 				$res    = $stmt->execute();
 				$count += $stmt->rowCount();
