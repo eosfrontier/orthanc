@@ -52,7 +52,7 @@ class Joomla {
 	public function get_joomla_users_by_group( $group_id ) {
 		$response = [];
 		$stmt     = Database::$conn->prepare(
-			"SELECT DISTINCT u.id, coalesce(replace(replace(replace(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'),'><',''),'<>',' '), u.name) as name FROM jml_users u
+			"SELECT DISTINCT u.id, u.name as joomla_display_name, replace(replace(replace(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'),'><',''),'<>',' ') as name FROM jml_users u
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		left join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)

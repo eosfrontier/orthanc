@@ -15,12 +15,12 @@ orthanc/v2/chars_figu/
 | Requires authentication? | Yes  |
 | Rate limited?            | No   |
 
-| Method | Description                            |
-| ------ | -------------------------------------- |
-| GET    | Gets figurant with ID **id**           |
-| POST   | Adds new figurant                      |
-| DELETE | Sets figurant **id** to deleted status |
-| <!--   | PATCH                                  | Updates figurant record for figurant with **id** | --> |
+| Method | Description                                      |
+| ------ | ------------------------------------------------ |
+| GET    | Gets figurant with ID **id**                     |
+| POST   | Adds new figurant                                |
+| DELETE | Sets figurant **id** to deleted status           |
+| PUT    | Updates figurant record for figurant with **id** |
 
 ## Parameters
 | Name                       | Description                                                                 | Required For       | Optional For | Example                                                                                                                                                                                                                                                                                                                              |
