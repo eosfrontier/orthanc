@@ -25,6 +25,5 @@ $metas = $input['meta'];
 
 $a_result = $c_meta->update_meta( $id, $metas );
 	http_response_code( 200 );
-	echo var_dump(array_pop(array_reverse($a_result))['response']);
 	echo json_encode($a_result);
 die();
