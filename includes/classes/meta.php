@@ -47,6 +47,38 @@ class meta {
 
 		return 'success';
 	}
+// Add this function back for backwards compatibility
+	function update_meta( $id, $metas ) {
+		foreach ( $metas as $meta ) {
+			if ( array_key_exists( 'oldvalue', $meta ) ) {
+				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
+				$res  = $stmt->execute( [ $id, $meta['name'], $meta['oldvalue'] ] );
+			} else {
+				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+				$res  = $stmt->execute( [ $id, $meta['name'] ] );
+			}
+			$count = $stmt->rowCount();
+			if ( $count > 0 ) {
+				if ( array_key_exists( 'oldvalue', $meta ) ) {
+					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?' );
+					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'], $meta['oldvalue'] ] );
+
+				} else {
+					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+				}
+			}else {
+				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
+			}
+		}
+
+		return 'success';
+	}
+
+//End backwards compat
+
+
 
 	function patch_metas( $id, $metas ) {
 		$response = array();
