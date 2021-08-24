@@ -41,6 +41,28 @@ if ( isset( $input['accountID'] ) ) {
 	die();
 }
 
+if ( isset( $input['accountid'] ) ) {
+        $a_char_players = $c_fetch_players->get( $input['accountid'], 'accountid' );
+        $a_char_figus = $c_fetch_figus->get( $input['accountid'], 'accountid' );
+        if (is_array($a_char_figus) && !is_array($a_char_players)) {
+                $a_character = $a_char_figus;
+        } elseif (!is_array($a_char_figus) && is_array($a_char_players)) {
+                $a_character = $a_char_players;
+        } elseif (is_array($a_char_figus) && is_array($a_char_players)) {
+                $a_character = array_merge($a_char_players, $a_char_figus);
+        }
+        if ( empty( $a_character ) ) {
+                http_response_code( 404 );
+                echo json_encode( 'None found by accountid.' );
+                die();
+        }
+
+        http_response_code( 200 );
+        echo json_encode( $a_character );
+        die();
+}
+
+
 // CHECK BY CHARACTER ID
 
 if ( isset( $input['char_id'] ) || isset( $input['id'] ) ) {
