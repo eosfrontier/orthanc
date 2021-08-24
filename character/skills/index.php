@@ -7,7 +7,7 @@ require_once '../../includes/include.php';
 
 require_once '../../includes/token.php';
 
-$c_fetch = new Char_Player();
+$c_fetch = new Skills();
 
 if ( empty( $input['id'] ) ) {
 	//Haven't answered a way to access.
