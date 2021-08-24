@@ -68,8 +68,8 @@ if ( ! isset( $input['all_statuses'] ) ) { // Check only for active
 		die();
 	}
 	if ( isset( $input['accountid'] ) ) {
-		$a_char_players = $c_fetch_players->get( $input['accountid'], 'accountid' );
-		$a_char_figus   = $c_fetch_figus->get( $input['accountid'], 'accountid' );
+		$a_char_players = $c_fetch_players->get_active( $input['accountid'], 'accountid' );
+		$a_char_figus   = $c_fetch_figus->get_active( $input['accountid'], 'accountid' );
 		if ( is_array( $a_char_figus ) && ! is_array( $a_char_players ) ) {
 			$a_character = $a_char_figus;
 		}
