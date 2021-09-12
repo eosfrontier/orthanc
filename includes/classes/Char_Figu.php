@@ -311,7 +311,7 @@ class Char_Figu {
 		foreach ( $character as $key => $value ) {
 			if ( $key === 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
-				if ( $check['characterID'] === $id ) {
+				if ( $check['characterID'] == $id ) {
 					$count += 0;
 				}
 				elseif ( ! $check ) {
