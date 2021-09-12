@@ -1,9 +1,9 @@
 <?php
 
-class meta {
+class Meta {
 
 	function get_char_type_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
+		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 
@@ -11,7 +11,7 @@ class meta {
 	}
 
 	function get_all_meta_by_id( $id ) {
-		$stmt = database::$conn->prepare( 'SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ?' );
+		$stmt = Database::$conn->prepare( 'SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ?' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -19,14 +19,14 @@ class meta {
 	}
 
 	function get_by_meta_name( $id, $meta_name, $operator = 'in' ) {
-		$stmt = database::$conn->prepare( "SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
+		$stmt = Database::$conn->prepare( "SELECT id, character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name $operator ($meta_name)" );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
 	}
 
 	function get_all_by_meta_name( $meta_name, $operator = 'in' ) {
-		$stmt = database::$conn->prepare( "SELECT id, character_id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
+		$stmt = Database::$conn->prepare( "SELECT id, character_id, name, value, character_id FROM ecc_meta_character WHERE name $operator ($meta_name)" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
@@ -34,11 +34,11 @@ class meta {
 
 	function put_metas( $id, $metas ) {
 		foreach ( $metas as $meta ) {
-			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = Database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
-				$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+				$stmt = Database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
 				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
 			}else {
 				return '404';
@@ -51,24 +51,24 @@ class meta {
 	function update_meta( $id, $metas ) {
 		foreach ( $metas as $meta ) {
 			if ( array_key_exists( 'oldvalue', $meta ) ) {
-				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
+				$stmt = Database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
 				$res  = $stmt->execute( [ $id, $meta['name'], $meta['oldvalue'] ] );
 			} else {
-				$stmt = database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+				$stmt = Database::$conn->prepare( 'SELECT id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 				$res  = $stmt->execute( [ $id, $meta['name'] ] );
 			}
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
 				if ( array_key_exists( 'oldvalue', $meta ) ) {
-					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?' );
+					$stmt = Database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ? AND value = ?' );
 					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'], $meta['oldvalue'] ] );
 
 				} else {
-					$stmt = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+					$stmt = Database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
 					$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
 				}
 			}else {
-				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				$stmt = Database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
 				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
 			}
 		}
@@ -84,16 +84,16 @@ class meta {
 		$response = array();
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = Database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count > 0 ) {
-				$stmt = database::$conn->prepare('SELECT id, character_id, name, value from ecc_meta_character WHERE character_id = ? AND name = ?');
+				$stmt = Database::$conn->prepare('SELECT id, character_id, name, value from ecc_meta_character WHERE character_id = ? AND name = ?');
 				$res = $stmt->execute([$id, $meta['name'] ] );
 				$res  = $stmt->fetchall( PDO::FETCH_ASSOC );
 				$res = $res[0];
 				if ($meta['old_value'] == $res['value']){
-					$stmt2 = database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
+					$stmt2 = Database::$conn->prepare( 'UPDATE ecc_meta_character SET value=? WHERE character_id = ? AND name = ?' );
 					$res2  = $stmt2->execute( [ $meta['value'], $id, $meta['name'] ] );
 					$result->response = 'HTTP_200';
 					$result->message = 'success';
@@ -119,13 +119,13 @@ class meta {
 		$response = array();
 		foreach ( $metas as $meta ) {
 			$result = new stdClass();
-			$stmt  = database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+			$stmt  = Database::$conn->prepare( 'SELECT id,  character_id, name, value FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 			$res   = $stmt->execute( [ $id, $meta['name'] ] );
 			$count = $stmt->rowCount();
 			if ( $count < 1 ) {
-				$stmt = database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
+				$stmt = Database::$conn->prepare( 'INSERT into ecc_meta_character (value, character_id, name) VALUES (?, ?, ?)' );
 				$res  = $stmt->execute( [ $meta['value'], $id, $meta['name'] ] );
-				$last_insert_id = database::$conn->lastInsertId();
+				$last_insert_id = Database::$conn->lastInsertId();
 				$result->response = 'HTTP_200';	
 				$result->message = 'success';
 				$response = $response + array($meta['name']=>$result);
@@ -142,10 +142,10 @@ class meta {
 		$total_deleted = 0;
 		foreach ( $metas as $meta ) {
 			if ( array_key_exists( 'value', $meta ) ) {
-				$stmt = database::$conn->prepare( 'DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
+				$stmt = Database::$conn->prepare( 'DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ? AND value = ?' );
 				$res  = $stmt->execute( [ $id, $meta['name'], $meta['value'] ] );
 			} else {
-				$stmt = database::$conn->prepare( 'DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
+				$stmt = Database::$conn->prepare( 'DELETE FROM ecc_meta_character WHERE character_id = ? AND name = ?' );
 				$res  = $stmt->execute( [ $id, $meta['name'] ] );
 			}
 			$count = $stmt->rowCount();
