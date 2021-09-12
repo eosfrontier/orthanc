@@ -311,6 +311,19 @@ class Char_Figu {
 		foreach ( $character as $key => $value ) {
 			if ( $key === 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
+				if ( ! $check ) {
+					$stmt_cardid = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = $value WHERE `characterID` = '$id'" );
+					$res_cardid  = $stmt_cardid->execute();
+					$count      += $stmt_cardid->rowCount();
+				}
+				else {
+					$existing_assignment = $check['characterID'];
+					$stmt_cardid         = Database::$conn->prepare( 
+						"UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = $existing_assignment;
+						UPDATE `ecc_characters` SET $key = $value WHERE `characterID` = '$id';" );
+					$res_cardid          = $stmt_cardid->execute();
+					$count              += $stmt_cardid->rowCount();
+				}
 			}
 			elseif ( $key === 'recurring' && ( $value === true || $value === 'true' ) ) {
 				$stmt_recur = Database::$conn->prepare( "UPDATE `ecc_characters` SET `status` = 'figurant-recurring' WHERE `characterID` = '$id'" );
