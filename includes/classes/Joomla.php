@@ -70,7 +70,8 @@ class Joomla {
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		left join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
-		WHERE r.event_id = $event AND u.id in (SELECT user_id FROM jml_user_usergroup_map WHERE group_id IN (SELECT id FROM jml_usergroups WHERE id = $group_id UNION SELECT id FROM jml_usergroups WHERE parent_id = $group_id)) ORDER by name"
+		WHERE r.event_id = $event and ((r.published = 1 AND (r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR 
+(r.published in (0,1) AND r.payment_method = 'os_offline')) AND u.id in (SELECT user_id FROM jml_user_usergroup_map WHERE group_id IN (SELECT id FROM jml_usergroups WHERE id = $group_id UNION SELECT id FROM jml_usergroups WHERE parent_id = $group_id)) ORDER by name"
 		);
 		$users    = $stmt->execute();
 		$users    = $stmt->fetchAll( PDO::FETCH_ASSOC );
