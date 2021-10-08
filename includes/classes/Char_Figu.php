@@ -300,23 +300,25 @@ class Char_Figu {
 						echo 'Cannot assign player card to figurant!';
 						return false;
 					}
+					elseif ( $check['characterID'] === $id ) {
+						$count += 0;
+					}
+					else {
+						$existing_assignment = $check['characterID'];
+						$stmt_cardid         = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = $existing_assignment;" );
+						$res_cardid          = $stmt_cardid->execute();
+						$count              += $stmt_cardid->rowCount();
+						$stmt_cardid2        = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = '$value' WHERE `characterID` = '$id'" );
+						$res_cardid2         = $stmt_cardid2->execute();
+						$count              += $stmt_cardid2->rowCount();
+					}
 				}
-				if ( $check['characterID'] === '$id' ) {
-					$count += 0;
-				}
+
+
 				elseif ( ! $check ) {
 					$stmt_cardid = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = '$value' WHERE characterID = $id" );
 					$res_cardid  = $stmt_cardid->execute();
 					$count      += $stmt_cardid->rowCount();
-				}
-				else {
-					$existing_assignment = $check['characterID'];
-					$stmt_cardid         = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = $existing_assignment;" );
-					$res_cardid          = $stmt_cardid->execute();
-					$count              += $stmt_cardid->rowCount();
-					$stmt_cardid2        = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = '$value' WHERE `characterID` = '$id'" );
-					$res_cardid2         = $stmt_cardid2->execute();
-					$count              += $stmt_cardid2->rowCount();
 				}
 			}
 			elseif ( $key === 'recurring' && ( $value === true || $value === 'true' ) ) {
