@@ -251,8 +251,6 @@ class Char_Figu {
 			return $last_insert_id;
 		}
 		else {
-			if ( $check['status'] == 'figurant-recurring' ) {
-
 				$stmt = Database::$conn->prepare( 'UPDATE ecc_characters SET card_id=? WHERE characterID = ?' );
 				$res  = $stmt->execute( [ null, $check['characterID'] ] );
 
@@ -284,31 +282,6 @@ class Char_Figu {
 				);
 
 				return Database::$conn->lastInsertId();
-			}
-			else {
-
-				$stmt        = Database::$conn->prepare(
-					'UPDATE ecc_characters SET
-                        character_name=?,
-                        faction=?,
-                        status=?,
-                        rank=?,
-                        threat_assessment=?,
-                        douane_disposition=?,
-                        douane_notes=?,
-                        bastion_clearance=?,
-                        icc_number=?,
-                        bloodtype=?,
-                        ic_birthday=?,
-                        homeplanet=?
-						figu_account_id=?
-						plotname=?
-                    WHERE characterID = ?'
-				);
-						$res = $stmt->execute( [ $character_name, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $figu_account_id, $check['characterID'], $plotname ] );
-
-						return 'success';
-			}
 		}
 	}
 
