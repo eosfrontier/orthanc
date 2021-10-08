@@ -199,6 +199,7 @@ class Char_Figu {
 		$bloodtype          = $character['bloodtype'];
 		$ic_birthday        = $character['ic_birthday'];
 		$homeplanet         = $character['homeplanet'];
+		$plotname           = $character['plotname'];
 
 		$figustatus = 'figurant';
 		if ( isset( $character['recurring'] ) ) {
@@ -217,9 +218,9 @@ class Char_Figu {
 
 			$stmt = Database::$conn->prepare(
 				'INSERT into ecc_characters
-                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID)
+                    (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID,plotname)
                 VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)'
 			);
 			$res  = $stmt->execute(
 				[
@@ -238,6 +239,7 @@ class Char_Figu {
 					$ic_birthday,
 					$homeplanet,
 					$figu_account_id,
+					$plotname,
 				]
 			);
 
@@ -256,9 +258,9 @@ class Char_Figu {
 
 				$stmt = Database::$conn->prepare(
 					'INSERT into ecc_characters
-                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet)
+                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID plotname)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)'
 				);
 				$res  = $stmt->execute(
 					[
@@ -276,6 +278,8 @@ class Char_Figu {
 						$bloodtype,
 						$ic_birthday,
 						$homeplanet,
+						$figu_account_id,
+						$plotname,
 					]
 				);
 
@@ -297,9 +301,11 @@ class Char_Figu {
                         bloodtype=?,
                         ic_birthday=?,
                         homeplanet=?
+						figu_account_id=?
+						plotname=?
                     WHERE characterID = ?'
 				);
-						$res = $stmt->execute( [ $character_name, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $check['characterID'] ] );
+						$res = $stmt->execute( [ $character_name, $faction, $figustatus, $rank, $threat_assessment, $douane_disposition, $douane_notes, $bastion_clearance, $icc_number, $bloodtype, $ic_birthday, $homeplanet, $figu_account_id, $check['characterID'], $plotname ] );
 
 						return 'success';
 			}
