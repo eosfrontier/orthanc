@@ -186,22 +186,27 @@ class Char_Figu {
 
 	public function add_figurant( $character ) {
 		$check = $this->check_card_id( $character['card_id'] );
+		if ( $check ) {
+			if ( stripos( $check['status'], 'figurant' ) === false ) {
+				echo 'Cannot assign player card to figurant!';
+				return false;
+			}
+		}
+			$character_name     = $character['character_name'];
+			$card_id            = $character['card_id'];
+			$faction            = $character['faction'];
+			$rank               = $character['rank'];
+			$threat_assessment  = $character['threat_assessment'];
+			$douane_disposition = $character['douane_disposition'];
+			$douane_notes       = $character['douane_notes'];
+			$bastion_clearance  = $character['bastion_clearance'];
+			$icc_number         = $character['icc_number'];
+			$bloodtype          = $character['bloodtype'];
+			$ic_birthday        = $character['ic_birthday'];
+			$homeplanet         = $character['homeplanet'];
+			$plotname           = $character['plotname'];
 
-		$character_name     = $character['character_name'];
-		$card_id            = $character['card_id'];
-		$faction            = $character['faction'];
-		$rank               = $character['rank'];
-		$threat_assessment  = $character['threat_assessment'];
-		$douane_disposition = $character['douane_disposition'];
-		$douane_notes       = $character['douane_notes'];
-		$bastion_clearance  = $character['bastion_clearance'];
-		$icc_number         = $character['icc_number'];
-		$bloodtype          = $character['bloodtype'];
-		$ic_birthday        = $character['ic_birthday'];
-		$homeplanet         = $character['homeplanet'];
-		$plotname           = $character['plotname'];
-
-		$figustatus = 'figurant';
+			$figustatus = 'figurant';
 		if ( isset( $character['recurring'] ) ) {
 			if ( $character['recurring'] == true ) {
 				$figustatus = 'figurant-recurring';
@@ -251,16 +256,16 @@ class Char_Figu {
 			return $last_insert_id;
 		}
 		else {
-				$stmt = Database::$conn->prepare( 'UPDATE ecc_characters SET card_id=? WHERE characterID = ?' );
-				$res  = $stmt->execute( [ null, $check['characterID'] ] );
+			$stmt = Database::$conn->prepare( 'UPDATE ecc_characters SET card_id=? WHERE characterID = ?' );
+			$res  = $stmt->execute( [ null, $check['characterID'] ] );
 
-				$stmt = Database::$conn->prepare(
-					'INSERT into ecc_characters
+			$stmt    = Database::$conn->prepare(
+				'INSERT into ecc_characters
                         (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID plotname)
                     VALUES
                         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)'
-				);
-				$res  = $stmt->execute(
+			);
+				$res = $stmt->execute(
 					[
 						0,
 						$character_name,
@@ -290,7 +295,13 @@ class Char_Figu {
 		foreach ( $character as $key => $value ) {
 			if ( $key === 'card_id' ) {
 				$check = $this->check_card_id( $character['card_id'] );
-				if ( $check['characterID'] == $id ) {
+				if ( $check ) {
+					if ( stripos( $check['status'], 'figurant' ) === false ) {
+						echo 'Cannot assign player card to figurant!';
+						return false;
+					}
+				}
+				if ( $check['characterID'] === $id ) {
 					$count += 0;
 				}
 				elseif ( ! $check ) {
@@ -356,7 +367,7 @@ class Char_Figu {
 	}
 
 	private function check_card_id( $card_id ) {
-		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status like 'figurant%'" );
+		$stmt = Database::$conn->prepare( 'SELECT * FROM ecc_characters WHERE card_id = ?' );
 		$res  = $stmt->execute( [ $card_id ] );
 		$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
