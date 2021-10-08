@@ -9,6 +9,5 @@ $a_id       = $input['id'];
 $a_figurant = json_decode( $input['figurant'], true );
 
 $a_result = $c_fetch->put_figurant( $a_id, $a_figurant );
-http_response_code( 200 );
-echo json_encode( $a_result );
-die();
+	http_response_code( 200 );
+	echo json_encode( $a_result );

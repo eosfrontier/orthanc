@@ -188,8 +188,9 @@ class Char_Figu {
 		$check = $this->check_card_id( $character['card_id'] );
 		if ( $check ) {
 			if ( stripos( $check['status'], 'figurant' ) === false ) {
-				echo 'Cannot assign player card to figurant!';
-				return false;
+				echo json_encode('Cannot assign player card to figurant!');
+				http_response_code( 400 );
+				die;
 			}
 		}
 			$character_name     = $character['character_name'];
@@ -297,8 +298,9 @@ class Char_Figu {
 				$check = $this->check_card_id( $value );
 				if ( $check ) {
 					if ( stripos( $check['status'], 'figurant' ) === false ) {
-						echo 'Cannot assign player card to figurant!';
-						return false;
+						echo json_encode('Cannot assign player card to figurant!');
+						http_response_code( 400 );
+						die;
 					}
 					elseif ( $check['characterID'] === $id ) {
 						$count += 0;
