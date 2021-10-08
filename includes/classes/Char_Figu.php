@@ -294,18 +294,18 @@ class Char_Figu {
 		$count = 0;
 		foreach ( $character as $key => $value ) {
 			if ( $key === 'card_id' ) {
-				$check = $this->check_card_id( $character['card_id'] );
+				$check = $this->check_card_id( $value );
 				if ( $check ) {
 					if ( stripos( $check['status'], 'figurant' ) === false ) {
 						echo 'Cannot assign player card to figurant!';
 						return false;
 					}
 				}
-				if ( $check['characterID'] === $id ) {
+				if ( $check['characterID'] === '$id' ) {
 					$count += 0;
 				}
 				elseif ( ! $check ) {
-					$stmt_cardid = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = $value WHERE `characterID` = '$id'" );
+					$stmt_cardid = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = '$value' WHERE characterID = $id" );
 					$res_cardid  = $stmt_cardid->execute();
 					$count      += $stmt_cardid->rowCount();
 				}
@@ -314,7 +314,7 @@ class Char_Figu {
 					$stmt_cardid         = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = NULL WHERE `characterID` = $existing_assignment;" );
 					$res_cardid          = $stmt_cardid->execute();
 					$count              += $stmt_cardid->rowCount();
-					$stmt_cardid2        = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = $value WHERE `characterID` = '$id'" );
+					$stmt_cardid2        = Database::$conn->prepare( "UPDATE `ecc_characters` SET $key = '$value' WHERE `characterID` = '$id'" );
 					$res_cardid2         = $stmt_cardid2->execute();
 					$count              += $stmt_cardid2->rowCount();
 				}
