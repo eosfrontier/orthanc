@@ -17,7 +17,8 @@ orthanc/v2/joomla/users
 | GET    | Returns Joomla session information |
 
 ## Parameters
-| Name     | Description                                                       | Required For | Optional For | Example |
-| -------- | ----------------------------------------------------------------- | ------------ | ------------ | ------- |
-| token    | provides authentication                                           | All Methods  |              |         |
-| group_id | id of [group](../groups/README.md) whose users you want a list of | GET          | 2            |
+| Name          | Description                                                                                | Required For | Optional For | Example |
+| ------------- | ------------------------------------------------------------------------------------------ | ------------ | ------------ | ------- |
+| token         | provides authentication                                                                    | All Methods  |              |         |
+| group_id      | id of [group](../groups/README.md) whose users you want a list of                          | GET          | 2            |         |
+| current_event | if this header is present, will only return users that are registered for the curent event |              |              |
