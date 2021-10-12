@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$c_fetch = new char_figu();
+$c_fetch = new Char_Figu();
 
 switch ( $method ) {
 	case 'DELETE':

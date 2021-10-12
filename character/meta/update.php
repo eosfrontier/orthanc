@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$c_meta = new meta();
+$c_meta = new Meta();
 
 if ( empty( $input['id'] ) ) {
 	http_response_code( 400 ); // Haven't answered a way t acccess.
