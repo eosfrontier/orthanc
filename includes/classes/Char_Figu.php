@@ -227,7 +227,6 @@ class Char_Figu {
                     (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID,plotname)
                 VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)'
-
 			);
 			$res  = $stmt->execute(
 				[
