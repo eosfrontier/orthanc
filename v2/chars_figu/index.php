@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$c_fetch = new char_figu();
+$c_fetch = new Char_Figu();
 
 switch ( $method ) {
 	case 'DELETE':
@@ -15,6 +15,9 @@ switch ( $method ) {
 		break;
 	case 'GET':
 		require_once './_get.php';
+		break;
+	case 'PATCH':
+		http_response_code( 501 );
 		break;
 	case 'OPTIONS':
 		http_response_code( 200 );
