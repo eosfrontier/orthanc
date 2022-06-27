@@ -1,11 +1,12 @@
 # orthanc/v2/chars_player/skills_v2/
 
-| Method | Description                            |
-| ------ | -------------------------------------- |
-| GET    | Gets skills for **id**                 |
-| DELETE | Removes **skills** from **id**         |
-<!-- | POST   | Adds **skills** for **id**             | -->
-<!-- | PUT    | Replaces value of **skills** on **id** | -->
+| Method | Description                    |
+| ------ | ------------------------------ |
+| GET    | Gets skills for **id**         |
+| DELETE | Removes **skills** from **id** |
+
+<!--   | POST                           | Adds **skills** for **id**             | --> 
+ <!--   | PUT                            | Replaces value of **skills** on **id** | -->
 
 ## Resource URL
 orthanc/v2/chars_player/skills_v2/

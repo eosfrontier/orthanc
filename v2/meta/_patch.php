@@ -13,8 +13,8 @@ if ( empty( $input['meta'] ) ) {
 	die();
 }
 
-$id    = $input['id'];
-$metas = json_decode($input['meta'], true);
+$id       = $input['id'];
+$metas    = json_decode( $input['meta'], true );
 $a_result = $c_meta->patch_metas( $id, $metas );
 	http_response_code( 200 );
 	echo json_encode( $a_result );

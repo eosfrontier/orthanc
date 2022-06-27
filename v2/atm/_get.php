@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Get_amount_by_id returns the the amount of sonuren someone has based on character ID
  */

@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_option = new option();
+$c_option = new Option();
 
 switch ( $method ) {
 	case 'DELETE':
