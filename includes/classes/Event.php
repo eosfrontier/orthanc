@@ -6,8 +6,8 @@ class Event {
 		switch ( $which ) {
 			case 'current':
 				$stmt = Database::$conn->prepare(
-					"SELECT e.id from jml_eb_events e                                                          
-				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
+					"SELECT e.id from jml_eb_events e
+				JOIN jml_eb_event_categories c ON (c.event_id = e.id)
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1;"
 				);
 				$res  = $stmt->execute();
@@ -15,8 +15,8 @@ class Event {
 				return ( $res['0'] )['id'];
 			case 'next':
 				$stmt = Database::$conn->prepare(
-					"SELECT e.id FROM jml_eb_events e                                                          
-				JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
+					"SELECT e.id FROM jml_eb_events e
+				JOIN jml_eb_event_categories c ON (c.event_id = e.id)
 				WHERE SUBSTRING_INDEX(event_end_date,' ',1) >= CURDATE() AND c.category_id = 1 ORDER BY SUBSTRING_INDEX(event_date,' ',1) ASC LIMIT 1,1;"
 				);
 				$res  = $stmt->execute();
@@ -29,8 +29,8 @@ class Event {
 		$eventid = $this->get_eventid( $which );
 		$stmt    = Database::$conn->prepare(
 			"SELECT e.id, parent_id,  c.category_id, location_id, title, event_type, SUBSTRING_INDEX(event_date,' ',1) AS start_date, SUBSTRING_INDEX(event_end_date,' ',1) AS end_date
-        from jml_eb_events e                                                          
-        JOIN jml_eb_event_categories c ON (c.event_id = e.id)                                
+        from jml_eb_events e
+        JOIN jml_eb_event_categories c ON (c.event_id = e.id)
         WHERE e.id = $eventid;"
 		);
 		$res     = $stmt->execute();
@@ -69,7 +69,7 @@ class Event {
 	public function get_figuranten( $which ) {
 		$eventid = $this->get_eventid( $which );
 		$stmt    = Database::$conn->prepare(
-			"SELECT r.user_id, v5.field_value as POSITION, 
+			"SELECT r.user_id, v5.field_value as POSITION,
 		REPLACE(REPLACE(REPLACE(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'), '><',''),  '<>',' ') as NAME, 
 		r.phone, r.email from jml_eb_registrants r
 		left join joomla.jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
