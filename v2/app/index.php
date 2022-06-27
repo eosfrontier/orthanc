@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$app = new app();
+$app = new App();
 
 /**
  * Get_amount_by_id returns the the amount of sonuren someone has based on character ID
