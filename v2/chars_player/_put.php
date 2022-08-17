@@ -6,7 +6,7 @@ if ( empty( $input['character'] ) ) {
 	die();
 }
 $a_account   = $input['accountID'];
-$a_id = $input['id'];
+$a_id        = $input['id'];
 $a_character = json_decode( $input['character'], true );
 
 $a_result = $c_fetch->put_character( $a_account, $a_id, $a_character );

@@ -9,11 +9,11 @@ class Bank {
 	 * @return string
 	 */
 	public function get_amount_by_id( $id ): string {
-		$stmt     = database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE character_id=?' );
+		$stmt     = Database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE character_id=?' );
 		$res      = $stmt->execute( [ $id ] );
 		$negative = $stmt->fetch( PDO::FETCH_ASSOC );
 
-		$stmt     = database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE id_to=?' );
+		$stmt     = Database::$conn->prepare( 'SELECT SUM(amount) AS total FROM bank_logging WHERE id_to=?' );
 		$res      = $stmt->execute( [ $id ] );
 		$positive = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -25,10 +25,10 @@ class Bank {
 	/**
 	 * Get_all_recipients get all viable bank recipients
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function get_all_recipients() {
-		$stmt       = database::$conn->prepare( 'SELECT * FROM ecc_characters WHERE bank = 1 ORDER BY character_name' );
+		$stmt       = Database::$conn->prepare( 'SELECT * FROM ecc_characters WHERE bank = 1 ORDER BY character_name' );
 		$recipients = $stmt->execute();
 		$recipients = $stmt->fetchAll( PDO::FETCH_ASSOC );
 

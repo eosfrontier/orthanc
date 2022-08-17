@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_fetch    = new skills();
+$c_fetch    = new Skills();
 $sheet_type = $c_fetch->get_char_type_by_id( $input['id'] );
 if ( ! ( strpos( $sheet_type, 'figurant' ) !== false ) ) {
 	http_response_code( 404 );
@@ -21,7 +21,7 @@ else {
 			// require_once './_patch.php';
 			http_response_code( 501 );
 			break;
-			case 'PUT':
+		case 'PUT':
 			// require_once './_put.php';
 			http_response_code( 501 );
 			break;

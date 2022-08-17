@@ -6,7 +6,7 @@ $input = json_decode( file_get_contents( 'php://input' ), true );
 require_once '../../includes/include.php';
 require_once '../../includes/token.php';
 
-$c_fetch = new char_figu();
+$c_fetch = new Char_Figu();
 
 if ( empty( $input['character'] ) ) {
 	http_response_code( 400 );
