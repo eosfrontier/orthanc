@@ -42,7 +42,7 @@ class Bank {
 	 * @return array
 	 */
 	public function get_mutations( $id ): array {
-		$stmt      = database::$conn->prepare( 'SELECT * FROM bank_logging WHERE character_id=? or id_to=?' );
+		$stmt      = database::$conn->prepare( 'SELECT * FROM bank_logging WHERE character_id=? or id_to=? ORDER BY id DESC' );
 		$mutations = $stmt->execute( [ $id, $id ] );
 		$mutations = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -62,7 +62,7 @@ class Bank {
 		$description = $post['description'];
 
 		$stmt   = database::$conn->prepare(
-			'INSERT INTO 
+			'INSERT INTO
 			bank_logging (character_id, id_to, amount, description) values (?, ?, ?, ?)'
 		);
 		$result = $stmt->execute( [ $from, $recipient, $amount, $description ] );

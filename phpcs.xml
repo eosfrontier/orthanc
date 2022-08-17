@@ -41,6 +41,7 @@
         <exclude name="Yoast.NamingConventions.ObjectNameDepth"/>
 		<exclude name="Yoast.Yoast.AlternativeFunctions"/>
         <exclude name="Squiz.Commenting.ClassComment.Missing"/>
+		<exclude name="Yoast.Commenting.FileComment.Missing"/>
     </rule>
 
     <rule ref="ruleset.xml" />

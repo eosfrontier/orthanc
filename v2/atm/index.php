@@ -1,7 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
-$atm = new Atm();
+$atm  = new Atm();
+$bank = new Bank();
 
 switch ( $method ) {
 	case 'POST':
