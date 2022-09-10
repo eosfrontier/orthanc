@@ -166,7 +166,7 @@ class Char_Player {
 			// $res2  = $stmt2->execute();
 			// $count += $stmt2->rowCount();
 		}
-		return $response;
+		return $res;
 	}
 
 	public function delete_character( $id ) {
