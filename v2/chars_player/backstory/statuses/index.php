@@ -13,8 +13,7 @@ switch ( $method ) {
 		http_response_code( 501 );
 		break;
 	case 'PUT':
-		// require_once './_put.php';
-		http_response_code( 501 );
+		require_once './_put.php';
 		break;
 	case 'PATCH':
 		// require_once './_patch.php';
