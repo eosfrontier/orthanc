@@ -23,12 +23,39 @@
             return $res;
         }
 
-        public function set_backstory( $id, $type, $content ) {
+        public function get_all_backstories( $type ) {
             if ($type == 'concept'){
-                $query = "UPDATE ecc_backstory SET concept_content = TO_BASE64('$content') WHERE characterID = $id";
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(concept_content) as content,
+                status.status_name, status.status_description, timestamp
+                FROM ecc_backstory
+                LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
+                LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)";
             }
             if ($type == 'backstory'){
-                $query = "UPDATE ecc_backstory SET backstory_content = TO_BASE64('$content') WHERE characterID = $id";
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(backstory_content) as content,
+                status.status_name, status.status_description, timestamp
+                FROM ecc_backstory
+                LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
+                LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)";
+            }
+            $stmt = Database::$conn->prepare($query);
+			$res  = $stmt->execute();
+			$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+            return $res;
+        }
+
+        public function set_backstory( $id, $type, $content ) {
+            if ($type == 'concept'){
+                $query = "INSERT INTO ecc_backstory (characterID, concept_content)
+                VALUES ($id, TO_BASE64('$content'))
+                ON DUPLICATE KEY UPDATE
+                concept_content = TO_BASE64('$content')";
+            }
+            if ($type == 'backstory'){
+                $query = "INSERT INTO ecc_backstory (characterID, backstory_content)
+                VALUES ($id, TO_BASE64('$content'))
+                ON DUPLICATE KEY UPDATE
+                backstory_content = TO_BASE64('$content')";
             }
             $stmt = Database::$conn->prepare($query);
             $res  = $stmt->execute();

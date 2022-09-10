@@ -12,7 +12,14 @@ else {
 		http_response_code( 400 );
 		die(json_encode("Invalid type. 'type' must be 'concept' or 'backstory'"));
 	}
-$a_result = $c_fetch->get_backstory( $input['char_id'], $input['type'] );
+
+	if ( $input['char_id'] == 'all' ){
+		$a_result = $c_fetch->get_all_backstories( $input['type'] );
+	}
+	else {
+		$a_result = $c_fetch->get_backstory( $input['char_id'], $input['type'] );
+	}
+
 if ( empty( $a_result ) ) {
 	http_response_code( 404 );
 	die(json_encode('None found.'));
