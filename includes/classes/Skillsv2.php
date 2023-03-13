@@ -104,4 +104,16 @@ class SkillsV2 {
 		$a_skills  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $a_skills;
 	}
+	public function get_skill($id) {
+		$response = [];
+		$stmt     = Database::$conn->prepare( "SELECT sk.skill_id, sk.label, sk.skill_index,  sk.level, sk.version, sk.description,
+		sk.parent AS parent_id, parent.name AS parent_name, parent.siteindex as parent_shortname, parent.psychic, parent.parents as grandparents, parent.`status`
+		FROM ecc_skills_allskills sk
+		LEFT JOIN ecc_skills_groups parent ON sk.parent = parent.primaryskill_id
+		WHERE STATUS NOT LIKE 'disabled' AND sk.skill_id = '$id'
+		ORDER BY sk.level;" );
+		$res      = $stmt->execute();
+		$a_skills  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $a_skills;
+	}
 }

@@ -42,3 +42,16 @@ if ( isset( $input['category'] ) && $input['category'] != 'all' ) {
 		die();
 	}
 }
+
+// Get Skills by ID
+if ( isset( $input['skill_id'] ) ) {
+	$skill = $c_fetch->get_skill($input['skill_id']);
+	if ( empty( $skill ) ) {
+		http_response_code( 404 );
+		echo json_encode( 'Invalid skill id.' );
+		die();
+	}
+	http_response_code( 200 );
+	echo json_encode( $skill );
+	die();
+}
