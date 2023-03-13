@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/classes/Skillsv2.php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_fetch = new Char_Player();
+$c_fetch = new SkillsV2();
 
 switch ( $method ) {
 	case 'DELETE':

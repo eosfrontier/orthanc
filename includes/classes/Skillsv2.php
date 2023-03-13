@@ -78,3 +78,30 @@ class charSkillsv2 {
 		return $count;
 	}
 }
+
+class SkillsV2 {
+	public function get_all_skills() {
+		$response = [];
+		$stmt     = Database::$conn->prepare( 'SELECT sk.skill_id, sk.label, sk.skill_index,  sk.level, sk.version, sk.description,
+		sk.parent AS parent_id, parent.name AS parent_name, parent.siteindex as parent_shortname, parent.psychic, parent.parents as grandparents, parent.`status`
+		FROM ecc_skills_allskills sk
+		LEFT JOIN ecc_skills_groups parent ON sk.parent = parent.primaryskill_id
+		WHERE STATUS NOT LIKE "disabled"
+		ORDER BY parent.name, sk.level;' );
+		$res      = $stmt->execute();
+		$a_skills  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $a_skills;
+	}
+	public function get_skills_by_category($category) {
+		$response = [];
+		$stmt     = Database::$conn->prepare( "SELECT sk.skill_id, sk.label, sk.skill_index,  sk.level, sk.version, sk.description,
+		sk.parent AS parent_id, parent.name AS parent_name, parent.siteindex as parent_shortname, parent.psychic, parent.parents as grandparents, parent.`status`
+		FROM ecc_skills_allskills sk
+		LEFT JOIN ecc_skills_groups parent ON sk.parent = parent.primaryskill_id
+		WHERE STATUS NOT LIKE 'disabled' AND parent.siteindex = '$category'
+		ORDER BY sk.level;" );
+		$res      = $stmt->execute();
+		$a_skills  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $a_skills;
+	}
+}
