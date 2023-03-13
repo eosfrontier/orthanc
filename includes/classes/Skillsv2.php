@@ -1,6 +1,6 @@
 <?php
 
-class Skillsv2 {
+class charSkillsv2 {
 
 	public function get_char_type_by_id( $id ) {
 		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );

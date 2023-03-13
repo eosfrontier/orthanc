@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
-$c_fetch = new Skillsv2();
+$c_fetch = new charSkillsv2();
 if ( isset( $input['id'] ) ) {
 	$sheet_type = $c_fetch->get_char_type_by_id( $input['id'] );
 	if ( strpos( $sheet_type, 'figurant' ) !== false ) {
