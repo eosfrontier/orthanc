@@ -6,9 +6,15 @@ if ( empty( $input['id'] ) ) {
 	die();
 }
 
-$id = $input['id'];
+if ( isset( $input['tree'] )) {
+	$a_skills = $c_fetch->get_skills_by_tree( $input['id'], $input['tree'] );
+}
+else {
+	$a_skills = $c_fetch->get_skills( $input['id'] );
+}
 
-$a_skills = $c_fetch->get_skills( $id );
+
+
 
 http_response_code( 200 );
 echo json_encode( $a_skills );

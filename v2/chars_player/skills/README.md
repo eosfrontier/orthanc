@@ -22,6 +22,7 @@ orthanc/v2/chars_player/skills/
 | -------- | -------- | ------------------------------------- | ------------ | ------------ | -------- |
 | token    | yes      | provides authentication               | All Methods  |              | q1w2e3r4 |
 | id       | yes      | Character ID to add/update skills for | All Methods  |              | 42       |
-| skill_id | yes      | skill_id to maniplate for character   | DELETE       | 31014        |          |
+| skill_id | yes      | skill_id to maniplate for character   | DELETE       |          |  31014        |
+| tree     | no       | indicate a skill tree (from the name field of a normal result) to get only skills from that skill tree |  | GET | it |
 
 

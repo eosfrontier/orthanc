@@ -47,7 +47,7 @@ class charSkillsv2 {
 			else {
 				$skilllevel = $level;
 			}
-			$stmt2 = Database::$conn->prepare( 'SELECT * from ecc_skills WHERE skill_id = ' . $a_char_skill['skill_id'] );
+			$stmt2 = Database::$conn->prepare( 'SELECT * from ecc_skills_allskills WHERE skill_id = ' . $a_char_skill['skill_id'] );
 			$res2  = $stmt2->execute();
 			$res2  = $stmt2->fetcHAll( PDO::FETCH_ASSOC );
 			foreach ( $res2 as $skill ) {
