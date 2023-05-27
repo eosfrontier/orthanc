@@ -196,7 +196,12 @@ class Char_Figu {
 			$character_name     = $character['character_name'];
 			$card_id            = $character['card_id'];
 			$faction            = $character['faction'];
-			$rank               = $character['rank'];
+			if ( isset($character['rank']) ) {
+				$rank               = $character['rank'];
+			}
+			else {
+				$rank = 'NULL';
+			}
 			$threat_assessment  = $character['threat_assessment'];
 			$douane_disposition = $character['douane_disposition'];
 			$douane_notes       = $character['douane_notes'];
@@ -205,7 +210,13 @@ class Char_Figu {
 			$bloodtype          = $character['bloodtype'];
 			$ic_birthday        = $character['ic_birthday'];
 			$homeplanet         = $character['homeplanet'];
-			$plotname           = $character['plotname'];
+			
+			if ( isset($character['plotname']) ) {
+				$plotname           = $character['plotname'];
+			}
+			else {
+				$plotname = 'NULL';
+			}
 
 			$figustatus = 'figurant';
 		if ( isset( $character['recurring'] ) ) {
