@@ -2,7 +2,7 @@
     class Backstory {
         public function get_backstory( $id, $type ) {
             if ($type == 'concept'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(concept_content) as content,
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes,
                 status.status_name, status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
@@ -10,7 +10,7 @@
                 WHERE ecc_backstory.characterID = $id";
             }
             if ($type == 'backstory'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(backstory_content) as content,
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(backstory_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes,
                 status.status_name, status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
@@ -25,14 +25,14 @@
 
         public function get_all_backstories( $type ) {
             if ($type == 'concept'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(concept_content) as content,
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes,
                 status.status_name, status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
                 LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)";
             }
             if ($type == 'backstory'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(backstory_content) as content,
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, FROM_BASE64(backstory_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes,
                 status.status_name, status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
@@ -56,6 +56,18 @@
                 VALUES ($id, TO_BASE64('$content'))
                 ON DUPLICATE KEY UPDATE
                 backstory_content = TO_BASE64('$content')";
+            }
+			if ($type == 'concept_changes'){
+                $query = "INSERT INTO ecc_backstory (characterID, concept_changes)
+                VALUES ($id, TO_BASE64('$content'))
+                ON DUPLICATE KEY UPDATE
+                changes_content = TO_BASE64('$content')";
+            }
+			if ($type == 'backstory_changes'){
+                $query = "INSERT INTO ecc_backstory (characterID, backstory_changes)
+                VALUES ($id, TO_BASE64('$content'))
+                ON DUPLICATE KEY UPDATE
+                changes_content = TO_BASE64('$content')";
             }
             $stmt = Database::$conn->prepare($query);
             $res  = $stmt->execute();
@@ -88,4 +100,3 @@
             return $stmt->rowCount();
         }
     }
-
