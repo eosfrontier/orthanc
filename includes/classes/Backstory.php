@@ -61,13 +61,13 @@
                 $query = "INSERT INTO ecc_backstory (characterID, concept_changes)
                 VALUES ($id, TO_BASE64('$content'))
                 ON DUPLICATE KEY UPDATE
-                changes_content = TO_BASE64('$content')";
+                concept_changes = TO_BASE64('$content')";
             }
 			if ($type == 'backstory_changes'){
                 $query = "INSERT INTO ecc_backstory (characterID, backstory_changes)
                 VALUES ($id, TO_BASE64('$content'))
                 ON DUPLICATE KEY UPDATE
-                changes_content = TO_BASE64('$content')";
+                backstory_changes = TO_BASE64('$content')";
             }
             $stmt = Database::$conn->prepare($query);
             $res  = $stmt->execute();

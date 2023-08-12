@@ -11,7 +11,7 @@ else {
 	$types = ['concept', 'backstory', 'concept_changes' ,'backstory_changes'];
 	if ( ! in_array( $input['type'], $types ) ){
 		http_response_code( 400 );
-		die(json_encode("Invalid type. 'type' must be 'concept' or 'backstory'3"));
+		die(json_encode("Invalid type. 'type' must be 'concept' or 'backstory'"));
 	}
 $a_result = $c_fetch->get_statuses( $input['type'] );
 if ( empty( $a_result ) ) {
