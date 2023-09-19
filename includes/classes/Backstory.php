@@ -2,8 +2,8 @@
     class Backstory {
         public function get_backstory( $id, $type ) {
             if ($type == 'concept'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction, 
-		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, 
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
+		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
   		status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
@@ -11,7 +11,7 @@
                 WHERE ecc_backstory.characterID = $id";
             }
             if ($type == 'backstory'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction, 
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
 		FROM_BASE64(backstory_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes,
                 status.status_name, status.status_description, timestamp
                 FROM ecc_backstory
@@ -27,8 +27,8 @@
 
         public function get_all_backstories( $type ) {
             if ($type == 'concept'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction, 
-		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, 
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
+		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
   		status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
@@ -36,8 +36,8 @@
 		ORDER by characters.faction ASC, characters.character_name ASC";
             }
             if ($type == 'backstory'){
-                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction, 
-		FROM_BASE64(backstory_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, 
+                $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
+		FROM_BASE64(backstory_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name as backstory_status, ecc_backstory.concept_status as concept_status,
   		status.status_description, timestamp
                 FROM ecc_backstory
                 LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
