@@ -54,29 +54,30 @@
             $content = base64_encode($content);
             if ($type == 'concept'){
                 $query = "INSERT INTO ecc_backstory (characterID, concept_content)
-                VALUES ($id, $content)
+                VALUES (?, ?)
                 ON DUPLICATE KEY UPDATE
-                concept_content = $content";
+                concept_content = ?";
             }
             if ($type == 'backstory'){
                 $query = "INSERT INTO ecc_backstory (characterID, backstory_content)
-                VALUES ($id, $content)
+                VALUES (?, ?)
                 ON DUPLICATE KEY UPDATE
-                backstory_content = $content";
+                backstory_content = ?";
             }
 			if ($type == 'concept_changes'){
                 $query = "INSERT INTO ecc_backstory (characterID, concept_changes)
-                VALUES ($id, $content)
+                VALUES (?, ?)
                 ON DUPLICATE KEY UPDATE
-                concept_changes = $content";
+                concept_changes = ?";
             }
 			if ($type == 'backstory_changes'){
                 $query = "INSERT INTO ecc_backstory (characterID, backstory_changes)
-                VALUES ($id, $content)
+                VALUES (?, ?)
                 ON DUPLICATE KEY UPDATE
-                backstory_changes = $content";
+                backstory_changes = ?";
             }
             $stmt = Database::$conn->prepare($query);
+            $stmt->bind_param("iss", $id, $content, $content);
             $res  = $stmt->execute();
             return $stmt->rowCount();
             }
