@@ -51,7 +51,6 @@ class Backstory {
     }
 
     public function set_backstory($id, $type, $content) {
-        $content = base64_encode($content);
         if ($type == 'concept') {
             $query = "INSERT INTO ecc_backstory (characterID, concept_content)
                 VALUES (:id, :content)
@@ -77,8 +76,9 @@ class Backstory {
                 backstory_changes = :content";
         }
         $stmt = Database::$conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
+        #bindParam takes arguments var, replacement, type
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
+        $stmt->bindParam(':content', base64_encode($content), PDO::PARAM_STR);
         $res = $stmt->execute();
         return $stmt->rowCount();
     }
