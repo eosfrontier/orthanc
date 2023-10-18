@@ -54,7 +54,7 @@
             $content = base64_encode($content);
             if ($type == 'concept'){
                 $query = "INSERT INTO ecc_backstory (characterID, concept_content)
-                VALUES ($id, c)
+                VALUES ($id, $content)
                 ON DUPLICATE KEY UPDATE
                 concept_content = $content";
             }
