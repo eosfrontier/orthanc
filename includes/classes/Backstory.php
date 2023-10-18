@@ -1,8 +1,6 @@
 <?php
-class Backstory
-{
-    public function get_backstory($id, $type)
-    {
+class Backstory {
+    public function get_backstory($id, $type) {
         if ($type == 'concept') {
             $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
 		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
@@ -27,8 +25,7 @@ class Backstory
         return $res;
     }
 
-    public function get_all_backstories($type)
-    {
+    public function get_all_backstories($type) {
         if ($type == 'concept') {
             $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
 		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
@@ -53,9 +50,8 @@ class Backstory
         return $res;
     }
 
-    public function set_backstory($id, $type, $content)
-    {
-        $content = base64_encode( $content );
+    public function set_backstory($id, $type, $content) {
+        $content = base64_encode($content);
         if ($type == 'concept') {
             $query = "INSERT INTO ecc_backstory (characterID, concept_content)
                 VALUES (:id, :content)
@@ -81,14 +77,13 @@ class Backstory
                 backstory_changes = :content";
         }
         $stmt = Database::$conn->prepare($query);
-        $stmt->bindParam( ':id', $id, PDO::PARAM_INT );
-        $stmt->bindParam( ':content', $content, PDO::PARAM_STR );
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
         $res = $stmt->execute();
         return $stmt->rowCount();
     }
 
-    public function get_statuses($type)
-    {
+    public function get_statuses($type) {
         $stmt = Database::$conn->prepare("SELECT id, status_name, status_description FROM ecc_backstory_status WHERE status_type = '$type'");
         $res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -102,8 +97,7 @@ class Backstory
         return $new_array;
     }
 
-    public function update_status($id, $type, $status)
-    {
+    public function update_status($id, $type, $status) {
         if ($type == 'concept') {
             $query = "UPDATE ecc_backstory SET concept_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id";
         }
