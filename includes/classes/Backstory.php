@@ -51,29 +51,30 @@
         }
 
         public function set_backstory( $id, $type, $content ) {
+            $content = base64_encode($content);
             if ($type == 'concept'){
                 $query = "INSERT INTO ecc_backstory (characterID, concept_content)
-                VALUES ($id, TO_BASE64('$content'))
+                VALUES ($id, c)
                 ON DUPLICATE KEY UPDATE
-                concept_content = TO_BASE64('$content')";
+                concept_content = $content";
             }
             if ($type == 'backstory'){
                 $query = "INSERT INTO ecc_backstory (characterID, backstory_content)
-                VALUES ($id, TO_BASE64('$content'))
+                VALUES ($id, $content)
                 ON DUPLICATE KEY UPDATE
-                backstory_content = TO_BASE64('$content')";
+                backstory_content = $content";
             }
 			if ($type == 'concept_changes'){
                 $query = "INSERT INTO ecc_backstory (characterID, concept_changes)
-                VALUES ($id, TO_BASE64('$content'))
+                VALUES ($id, $content)
                 ON DUPLICATE KEY UPDATE
-                concept_changes = TO_BASE64('$content')";
+                concept_changes = $content";
             }
 			if ($type == 'backstory_changes'){
                 $query = "INSERT INTO ecc_backstory (characterID, backstory_changes)
-                VALUES ($id, TO_BASE64('$content'))
+                VALUES ($id, $content)
                 ON DUPLICATE KEY UPDATE
-                backstory_changes = TO_BASE64('$content')";
+                backstory_changes = $content";
             }
             $stmt = Database::$conn->prepare($query);
             $res  = $stmt->execute();
