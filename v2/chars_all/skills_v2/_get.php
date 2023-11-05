@@ -1,7 +1,7 @@
 <?php
 if ( ( ! isset( $input['id'] ) && ! isset( $input['get_all'] ) ) || ( isset( $input['id'] ) && isset( $input['get_all'] ) ) ) {
 	http_response_code( 400 );
-	echo json_encode( "You MUST provide an 'id' OR 'get_all'." );
+	echo json_encode( "You MUST provide an 'id' OR 'get_all'(not both!)." );
 	die();
 }
 if ( isset( $input['id'] ) ) {
