@@ -18,7 +18,7 @@ class Char_Player {
 	}
 
 	public function get_all_active() {
-		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active'" );
+		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active' AND character_name IS NOT NULL" );
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
 		return $res;
