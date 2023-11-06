@@ -11,6 +11,18 @@ if ( isset( $input['all_characters'] ) ) {
 	die();
 }
 
+if ( isset( $input['all_characters_no_backstory'] ) ) {
+	$all_characters = $c_fetch->get_all_active_no_backstory();
+	if ( empty( $all_characters ) ) {
+		http_response_code( 404 );
+		echo json_encode( 'None found.' );
+		die();
+	}
+	http_response_code( 200 );
+	echo json_encode( $all_characters );
+	die();
+}
+
 if ( isset( $input['all_characters_all_statuses'] ) ) {
 	$all_characters = $c_fetch->get_all();
 	if ( empty( $all_characters ) ) {

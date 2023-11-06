@@ -24,6 +24,16 @@ class Char_Player {
 		return $res;
 	}
 
+	public function get_all_active_no_backstory() {
+		$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters c
+		LEFT JOIN ecc_backstory b on (b.characterID = c.characterID)
+		WHERE status NOT LIKE 'figurant%' AND sheet_status = 'active' AND b.backstory_status IS NULL AND c.character_name IS NOT NULL
+		ORDER by c.character_name" );
+		$res  = $stmt->execute();
+		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		return $res;
+	}
+
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
 			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status NOT LIKE 'figurant%'" );
