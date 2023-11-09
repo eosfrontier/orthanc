@@ -106,13 +106,13 @@ class Backstory
     public function update_status($id, $type, $status, $user)
     {
         if ($type == 'concept') {
-            $query = "UPDATE ecc_backstory SET concept_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id";
+            $query = "UPDATE ecc_backstory SET concept_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id;";
             if ($status == "approved") {
                 $query = $query . " UPDATE ecc_backstory SET concept_approved_by = $user WHERE characterID = $id;";
             }
         }
         if ($type == 'backstory') {
-            $query = "UPDATE ecc_backstory SET backstory_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id";
+            $query = "UPDATE ecc_backstory SET backstory_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id;";
             if ($status == "approved") {
                 $query = $query . " UPDATE ecc_backstory SET backstory_approved_by = $user WHERE characterID = $id;";
             }
