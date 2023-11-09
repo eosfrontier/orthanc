@@ -56,13 +56,13 @@ class Backstory
     public function set_backstory($id, $type, $content, $user)
     {
         if ($type == 'concept') {
-            $query = "INSERT INTO ecc_backstory (characterID, concept_content, concept_approved_by)
+            $query = "INSERT INTO ecc_backstory (characterID, concept_content, concept_updated_by)
                 VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
                 concept_content = :content, concept_updated_by = :user";
         }
         if ($type == 'backstory') {
-            $query = "INSERT INTO ecc_backstory (characterID, backstory_content, backstory_approved_by)
+            $query = "INSERT INTO ecc_backstory (characterID, backstory_content, backstory_updated_by)
                 VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
                 backstory_content = :content, backstory_updated_by = :user";
