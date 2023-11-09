@@ -1,6 +1,8 @@
 <?php
-class Backstory {
-    public function get_backstory($id, $type) {
+class Backstory
+{
+    public function get_backstory($id, $type)
+    {
         if ($type == 'concept') {
             $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
 		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
@@ -25,7 +27,8 @@ class Backstory {
         return $res;
     }
 
-    public function get_all_backstories($type) {
+    public function get_all_backstories($type)
+    {
         if ($type == 'concept') {
             $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.faction as faction,
 		FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
@@ -50,18 +53,19 @@ class Backstory {
         return $res;
     }
 
-    public function set_backstory($id, $type, $content, $user) {
+    public function set_backstory($id, $type, $content, $user)
+    {
         if ($type == 'concept') {
             $query = "INSERT INTO ecc_backstory (characterID, concept_content, concept_approved_by)
                 VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
-                concept_content = :content, concept_approved_by = :user";
+                concept_content = :content, concept_updated_by = :user";
         }
         if ($type == 'backstory') {
             $query = "INSERT INTO ecc_backstory (characterID, backstory_content, backstory_approved_by)
                 VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
-                backstory_content = :content, backstory_approved_by = :user";
+                backstory_content = :content, backstory_updated_by = :user";
         }
         if ($type == 'concept_changes') {
             $query = "INSERT INTO ecc_backstory (characterID, concept_changes, concept_changes_requested_by)
@@ -77,13 +81,14 @@ class Backstory {
         }
         $stmt = Database::$conn->prepare($query);
         #bindParam takes arguments var, replacement, type
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':content', base64_encode($content), PDO::PARAM_STR);
         $res = $stmt->execute();
         return $stmt->rowCount();
     }
 
-    public function get_statuses($type) {
+    public function get_statuses($type)
+    {
         $stmt = Database::$conn->prepare("SELECT id, status_name, status_description FROM ecc_backstory_status WHERE status_type = '$type'");
         $res = $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -97,12 +102,19 @@ class Backstory {
         return $new_array;
     }
 
-    public function update_status($id, $type, $status) {
+    public function update_status($id, $type, $status, $user)
+    {
         if ($type == 'concept') {
             $query = "UPDATE ecc_backstory SET concept_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id";
+            if ($status == "approved") {
+                $query .= "UPDATE ecc_backstory SET concept_approved_by = $user;";
+            }
         }
         if ($type == 'backstory') {
             $query = "UPDATE ecc_backstory SET backstory_status = (SELECT id from ecc_backstory_status WHERE status_name = '$status' AND status_type = '$type') WHERE characterID = $id";
+            if ($status == "approved") {
+                $query .= "UPDATE ecc_backstory SET backstory_approved_by = $user;";
+            }
         }
         $stmt = Database::$conn->prepare($query);
         $res = $stmt->execute();
