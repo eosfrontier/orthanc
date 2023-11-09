@@ -82,6 +82,7 @@ class Backstory
         $stmt = Database::$conn->prepare($query);
         #bindParam takes arguments var, replacement, type
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':user', $user, PDO::PARAM_INT);
         $stmt->bindParam(':content', base64_encode($content), PDO::PARAM_STR);
         $res = $stmt->execute();
         return $stmt->rowCount();
