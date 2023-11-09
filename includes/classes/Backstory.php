@@ -50,30 +50,30 @@ class Backstory {
         return $res;
     }
 
-    public function set_backstory($id, $type, $content) {
+    public function set_backstory($id, $type, $content, $user) {
         if ($type == 'concept') {
-            $query = "INSERT INTO ecc_backstory (characterID, concept_content)
-                VALUES (:id, :content)
+            $query = "INSERT INTO ecc_backstory (characterID, concept_content, concept_approved_by)
+                VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
-                concept_content = :content";
+                concept_content = :content, concept_approved_by = :user";
         }
         if ($type == 'backstory') {
-            $query = "INSERT INTO ecc_backstory (characterID, backstory_content)
-                VALUES (:id, :content)
+            $query = "INSERT INTO ecc_backstory (characterID, backstory_content, backstory_approved_by)
+                VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
-                backstory_content = :content";
+                backstory_content = :content, backstory_approved_by = :user";
         }
         if ($type == 'concept_changes') {
-            $query = "INSERT INTO ecc_backstory (characterID, concept_changes)
-                VALUES (:id, :content)
+            $query = "INSERT INTO ecc_backstory (characterID, concept_changes, concept_changes_requested_by)
+                VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
-                concept_changes = :content";
+                concept_changes = :content, concept_changes_requested_by = :user";
         }
         if ($type == 'backstory_changes') {
-            $query = "INSERT INTO ecc_backstory (characterID, backstory_changes)
+            $query = "INSERT INTO ecc_backstory (characterID, backstory_changes, backstory_changes_requested_by)
                 VALUES (:id, :content)
                 ON DUPLICATE KEY UPDATE
-                backstory_changes = :content";
+                backstory_changes = :content, backstory_changes_requested_by = :user";
         }
         $stmt = Database::$conn->prepare($query);
         #bindParam takes arguments var, replacement, type
