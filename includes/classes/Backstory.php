@@ -75,7 +75,7 @@ class Backstory
         }
         if ($type == 'backstory_changes') {
             $query = "INSERT INTO ecc_backstory (characterID, backstory_changes, backstory_changes_requested_by)
-                VALUES (:id, :content)
+                VALUES (:id, :content, :user)
                 ON DUPLICATE KEY UPDATE
                 backstory_changes = :content, backstory_changes_requested_by = :user";
         }
