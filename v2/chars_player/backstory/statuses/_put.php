@@ -1,7 +1,7 @@
 <?php
-if ( !isset( $input['char_id'] ) || !isset( $input['type'] ) || !isset($input['status']) ) {
+if ( !isset( $input['char_id'] ) || !isset( $input['type'] ) || !isset($input['status']) || !isset($input['user']) ) {
 	http_response_code( 400 );
-	die(json_encode("You must include 'char_id', 'type' and 'status' headers" ));
+	die(json_encode("You must include 'char_id', 'type', 'user' and 'status' headers" ));
 }
 else {
 	$types = ['concept', 'backstory', 'concept_changes' ,'backstory_changes'];
@@ -14,7 +14,7 @@ else {
 	$stmt = Database::$conn->prepare("SELECT id, status_name, status_description FROM ecc_backstory_status WHERE status_type = '$type'");
 	$res  = $stmt->execute();
 	if ($stmt->rowCount() > 0) {
-	$a_result = $c_fetch->update_status( $input['char_id'], $input['type'], $input['status'] );
+	$a_result = $c_fetch->update_status( $input['char_id'], $input['type'], $input['status'], $input['user'] );
 	http_response_code( 200 );
 	echo json_encode( $a_result );
 	die();

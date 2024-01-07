@@ -44,7 +44,7 @@ class Event {
 			"SELECT SUBSTRING_INDEX(v1.field_value,' - ',-1)  as id from jml_eb_registrants r
 			join joomla.jml_eb_field_values v1 on (v1.registrant_id = r.id and v1.field_id = 21)
 			join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
-			where v5.field_value = 'Speler' AND r.event_id = $eventid and ((r.published = 1 AND (r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR 
+			where v5.field_value = 'Speler' AND r.event_id = $eventid and ((r.published = 1 AND (r.payment_method = 'os_bancontact' OR r.payment_method = 'os_ideal' OR r.payment_method = 'os_paypal')) OR 
 			(r.published in (0,1) AND r.payment_method = 'os_offline'));"
 		);
 		$res     = $stmt->execute();
