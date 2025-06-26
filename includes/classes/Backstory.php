@@ -14,7 +14,7 @@ class Backstory
             FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(ecc_backstory.concept_comment) as concept_comment, FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, 
             status.status_description, last_reminder_sent, timestamp
                 FROM ecc_backstory
-                LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
+                LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND ecc_characters.status.status_type = 'concept')
                 LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)
                 LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.concept_updated_by)
                 LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.concept_approved_by)
@@ -26,10 +26,10 @@ class Backstory
             characters.faction as faction, update_user.name AS backstory_updated_by, ecc_backstory.backstory_updated_date, 
             change_requester.name as backstory_changes_requested_by, ecc_backstory.backstory_changes_requested_date, 
             approved_user.name AS backstory_approved_by, ecc_backstory.backstory_approval_date, FROM_BASE64(backstory_content) as content,
-            FROM_BASE64(concept_changes) as concept_changes, FROM_BASE64(ecc_backstory.concept_comment) as concept_comment, FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, 
+            FROM_BASE64(concept_changes) as concept_changes, FROM_BASE64(ecc_backstory.concept_comment) as concept_comment, FROM_BASE64(backstory_changes) as backstory_changes, status.status_name,
             status.status_description, last_reminder_sent, timestamp
                     FROM ecc_backstory
-                    LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
+                    LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND ecc_characters.status.status_type = 'backstory')
                     LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)
                     LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.backstory_updated_by)
                     LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.backstory_approved_by)
@@ -51,7 +51,7 @@ class Backstory
             ecc_backstory.concept_approval_date, FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes, 
             FROM_BASE64(ecc_backstory.concept_comment) as concept_comment, FROM_BASE64(backstory_changes) as backstory_changes, status.status_name, status.status_description, last_reminder_sent, timestamp
                 FROM ecc_backstory
-                LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND status.status_type = 'concept')
+                LEFT join ecc_backstory_status status on (ecc_backstory.concept_status = status.id AND ecc_characters.status.status_type = 'concept')
                 LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)
                 LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.concept_updated_by)
                 LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.concept_approved_by)
@@ -67,7 +67,7 @@ class Backstory
             FROM_BASE64(concept_content) as concept_content, FROM_BASE64(concept_changes) as concept_changes,  FROM_BASE64(ecc_backstory.concept_comment) as concept_comment, 
             FROM_BASE64(backstory_changes) as backstory_changes, status.status_name as backstory_status, status.status_description, last_reminder_sent, timestamp
                 FROM ecc_backstory
-                LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND status.status_type = 'backstory')
+                LEFT join ecc_backstory_status status on (ecc_backstory.backstory_status = status.id AND ecc_characters.status.status_type = 'backstory')
                 LEFT join ecc_characters characters on (ecc_backstory.characterID = characters.characterID)
                 LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.backstory_updated_by)
                 LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.backstory_approved_by)

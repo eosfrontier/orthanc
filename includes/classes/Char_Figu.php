@@ -9,7 +9,7 @@ class Char_Figu {
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		LEFT join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
-		WHERE status LIKE 'figurant%' AND sheet_status != 'deleted'"
+		WHERE ecc_characters.status LIKE 'figurant%' AND sheet_status != 'deleted'"
 		);
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -23,7 +23,7 @@ class Char_Figu {
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		LEFT join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16) 
-		WHERE status LIKE 'figurant%'"
+		WHERE ecc_characters.status LIKE 'figurant%'"
 		);
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -32,7 +32,7 @@ class Char_Figu {
 
 	public function get( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
-			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status LIKE 'figurant%'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND ecc_characters.status LIKE 'figurant%'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -47,13 +47,13 @@ class Char_Figu {
 					return 'false';
 				}
 
-				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status LIKE 'figurant%'" );
+				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND ecc_characters.status LIKE 'figurant%'" );
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		}
 		else {
-			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status LIKE 'figurant%'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND ecc_characters.status LIKE 'figurant%'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 		}
@@ -63,7 +63,7 @@ class Char_Figu {
 
 	public function get_active( $id, $needle ) {
 		if ( $needle == 'card_id' ) {
-			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND status LIKE 'figurant%' AND sheet_status != 'deleted'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id = ? AND ecc_characters.status LIKE 'figurant%' AND sheet_status != 'deleted'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 
@@ -78,13 +78,13 @@ class Char_Figu {
 					return 'false';
 				}
 
-				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
+				$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters WHERE card_id LIKE ? AND ecc_characters.status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
 				$res  = $stmt->execute( [ $s_dec ] );
 				$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 			}
 		}
 		else {
-			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
+			$stmt = Database::$conn->prepare( "SELECT * FROM ecc_characters where $needle = ? AND ecc_characters.status LIKE 'figurant%' AND sheet_status NOT LIKE 'deleted'" );
 			$res  = $stmt->execute( [ $id ] );
 			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
 		}
@@ -120,7 +120,7 @@ class Char_Figu {
 			array_push( $a_skills, $a_char_skill );
 		}
 
-		$stmt       = Database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND status = 'active' AND type != 'flavour'" );
+		$stmt       = Database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND ecc_characters.status = 'active' AND type != 'flavour'" );
 		$res        = $stmt->execute( [ $id ] );
 		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -262,7 +262,7 @@ class Char_Figu {
 
 			$stmt    = Database::$conn->prepare(
 				'INSERT into ecc_characters
-                        (accountID, character_name, card_id, faction, status, rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID, plotname)
+                        (accountID, character_name, card_id, faction, ecc_characters.status, ecc_characters.rank, threat_assessment, douane_disposition, douane_notes, bastion_clearance, icc_number, bloodtype, ic_birthday, homeplanet, figu_accountID, plotname)
                     VALUES
                         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 			);
@@ -349,7 +349,7 @@ class Char_Figu {
 	}
 
 	public function delete_figurant( $id ) {
-		 $stmt = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
+		 $stmt = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'deleted', card_id = NULL WHERE ecc_characters.status LIKE 'figurant%' AND characterID = $id  AND sheet_status != 'deleted'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {
@@ -360,7 +360,7 @@ class Char_Figu {
 	}
 
 	public function restore_figurant( $id ) {
-		$stmt  = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE status LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
+		$stmt  = Database::$conn->prepare( "UPDATE ecc_characters SET sheet_status = 'active' WHERE ecc_characters.status LIKE 'figurant%' AND characterID = $id  AND sheet_status = 'deleted'" );
 		$res   = $stmt->execute();
 		$count = $stmt->rowCount();
 		if ( $count > 0 ) {

@@ -3,7 +3,7 @@
 class Meta {
 
 	public function get_char_type_by_id( $id ) {
-		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
+		$stmt = Database::$conn->prepare( 'SELECT ecc_characters.status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 

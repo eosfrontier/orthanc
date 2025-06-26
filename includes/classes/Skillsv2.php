@@ -3,7 +3,7 @@
 class charSkillsv2 {
 
 	public function get_char_type_by_id( $id ) {
-		$stmt = Database::$conn->prepare( 'SELECT status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
+		$stmt = Database::$conn->prepare( 'SELECT ecc_characters.status FROM ecc_characters WHERE characterID = ? AND sheet_status != "deleted"' );
 		$res  = $stmt->execute( [ $id ] );
 		$res  = $stmt->fetchColumn();
 
@@ -82,7 +82,7 @@ class charSkillsv2 {
 class SkillsV2 {
 	public function get_all_skills($include_disabled) {
 		if ( $include_disabled == 'do_not_include_disabled') {
-			$where_clause = 'WHERE STATUS NOT LIKE "disabled"';
+			$where_clause = 'WHERE ecc_characters.status NOT LIKE "disabled"';
 		}
 		if ($include_disabled == 'include_disabled') {
 			$where_clause = '';
