@@ -25,7 +25,7 @@ class Skills {
 
 
 
-		$stmt          = Database::$conn->prepare( "SELECT label, skill_index, level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
+		$stmt          = Database::$conn->prepare( "SELECT label, skill_index, ecc_skills_allskills.level FROM ecc_skills_allskills WHERE skill_id IN ($s_skillid)" );
 		$res           = $stmt->execute();
 		$a_char_skills = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -38,7 +38,7 @@ class Skills {
 			array_push( $a_skills, $a_char_skill );
 		}
 
-		$stmt       = Database::$conn->prepare( "SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND ecc_characters.status = 'active' AND type != 'flavour'" );
+		$stmt       = Database::$conn->prepare( "SELECT ecc_char_implants.type, skillgroup_siteindex, skillgroup_level, ecc_char_implants.description FROM ecc_char_implants WHERE charID = ? AND ecc_characters.status = 'active' AND ecc_char_implants.type != 'flavour'" );
 		$res        = $stmt->execute( [ $id ] );
 		$a_implants = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
