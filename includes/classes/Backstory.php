@@ -185,11 +185,10 @@ class Backstory
     }
     public function set_reminder_date($id)
     {
-        $date = str_replace(': ', ':', date("Y-m-d H:i:s")); 
+        $date = str_replace(': ', ':', date("Y-m-d H:i:s"));
         $query = "UPDATE ecc_backstory SET last_reminder_sent = '$date' WHERE characterID = $id;";
         $stmt = Database::$conn->prepare($query);
         $res = $stmt->execute();
         return $stmt->rowCount();
     }
 }
-

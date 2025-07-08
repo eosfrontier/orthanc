@@ -1,6 +1,7 @@
 <?php
 
-class Shuttlebay {
+class Shuttlebay
+{
 
     public function runQuery($sql)
     {
@@ -49,5 +50,4 @@ class Shuttlebay {
         $res = $this->runQuery($sql);
         return $res;
     }
-
 }

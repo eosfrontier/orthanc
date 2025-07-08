@@ -8,11 +8,11 @@ $bank = new Bank();
  */
 
 $recipients = $bank->get_all_recipients();
-if ( empty( $recipients ) ) {
-	http_response_code( 404 );
-	echo json_encode( 'None found.' );
+if (empty($recipients)) {
+	http_response_code(404);
+	echo json_encode('None found.');
 	die();
 }
-http_response_code( 200 );
-echo json_encode( $recipients );
+http_response_code(200);
+echo json_encode($recipients);
 die();
