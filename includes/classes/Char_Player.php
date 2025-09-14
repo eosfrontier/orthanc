@@ -32,7 +32,7 @@ class Char_Player
 	{
 		$stmt = Database::$conn->prepare("SELECT c.* FROM ecc_characters c
 		LEFT JOIN ecc_backstory b on (c.characterID = b.characterID)
-		WHERE ecc_characters.status NOT LIKE 'figurant%' AND sheet_status = 'active' AND ( b.backstory_status IS NULL OR b.backstory_status = 0 )  AND c.character_name IS NOT NULL
+		WHERE c.status NOT LIKE 'figurant%' AND sheet_status = 'active' AND ( b.backstory_status IS NULL OR b.backstory_status = 0 )  AND c.character_name IS NOT NULL
 		ORDER by c.character_name");
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll(PDO::FETCH_ASSOC);
