@@ -11,7 +11,7 @@ class Char_Figu
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		LEFT join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
-		WHERE ecc_characters.status LIKE 'figurant%' AND sheet_status != 'deleted'"
+		WHERE c.status LIKE 'figurant%' AND sheet_status != 'deleted'"
 		);
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ class Char_Figu
 		left JOIN jml_eb_registrants r ON u.id = r.user_id
 		LEFT join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16) 
-		WHERE ecc_characters.status LIKE 'figurant%'"
+		WHERE c.status LIKE 'figurant%'"
 		);
 		$res  = $stmt->execute();
 		$res  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -124,7 +124,7 @@ class Char_Figu
 			array_push($a_skills, $a_char_skill);
 		}
 
-		$stmt       = Database::$conn->prepare("SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND ecc_characters.status = 'active' AND type != 'flavour'");
+		$stmt       = Database::$conn->prepare("SELECT type, skillgroup_siteindex, skillgroup_level, description FROM ecc_char_implants WHERE charID = ? AND ecc_char_implants.status = 'active' AND type != 'flavour'");
 		$res        = $stmt->execute([$id]);
 		$a_implants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
