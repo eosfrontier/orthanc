@@ -8,7 +8,7 @@ class Char_Figu
 		$stmt = Database::$conn->prepare(
 			"SELECT DISTINCT c.*, replace(replace(replace(CONCAT(r.first_name, ' ', COALESCE(v6.field_value,''),' ', r.last_name),' ','<>'),'><',''),'<>',' ') as figu_name FROM ecc_characters c
 		LEFT JOIN jml_users u ON u.id = c.figu_accountID
-		left JOIN jml_eb_registrants r ON u.id = r.user_id
+		left JOIN jml_eb_registrants r ON (u.id = r.user_id AND r.group_id = 0)
 		LEFT join jml_eb_field_values v5 on (v5.registrant_id = r.id and v5.field_id = 14)
 		left join jml_eb_field_values v6 on (v6.registrant_id = r.id and v6.field_id = 16)
 		WHERE c.status LIKE 'figurant%' AND sheet_status != 'deleted'"
