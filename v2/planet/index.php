@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
 $planet = new Planet();
 
-switch ( $method ) {
+switch ($method) {
 	case 'GET':
 		require_once './_get.php';
 		break;

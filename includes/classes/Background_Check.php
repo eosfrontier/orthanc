@@ -1,7 +1,9 @@
 <?php
-    class Background_Check {
-        public function get_background_check( $id, $needle ) {
-            $stmt = Database::$conn->prepare( "
+class Background_Check
+{
+    public function get_background_check($id, $needle)
+    {
+        $stmt = Database::$conn->prepare("
             SELECT id,
             bg.characterID,
             chargen.character_name as chargen_name,
@@ -34,10 +36,9 @@
             FROM ecc_background_check bg 
             LEFT JOIN ecc_characters chargen ON (chargen.characterID = bg.characterID)
             where bg.$needle = ?
-                " );
-			$res  = $stmt->execute( [ $id ] );
-			$res  = $stmt->fetch( PDO::FETCH_ASSOC );
-            return $res;
-            }
+                ");
+        $res  = $stmt->execute([$id]);
+        $res  = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res;
     }
-
+}

@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/include.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 $c_fetch = new Char_Player();
 
-switch ( $method ) {
+switch ($method) {
 	case 'DELETE':
 		require_once './_delete.php';
 		break;
@@ -15,13 +15,13 @@ switch ( $method ) {
 		break;
 	case 'PATCH':
 		// require_once './_patch.php';
-		http_response_code( 501 );
+		http_response_code(501);
 		break;
 	case 'GET':
 		require_once './_get.php';
 		break;
 	case 'OPTIONS':
-		http_response_code( 200 );
+		http_response_code(200);
 	default:
 		require_once './_get.php';
 		break;

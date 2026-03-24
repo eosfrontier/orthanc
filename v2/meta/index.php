@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/orthanc/includes/token.php';
 
 $c_meta = new Meta();
 
-switch ( $method ) {
+switch ($method) {
 	case 'DELETE':
 		require_once './_delete.php';
 		break;
@@ -21,7 +21,7 @@ switch ( $method ) {
 		require_once './_get.php';
 		break;
 	case 'OPTIONS':
-		http_response_code( 200 );
+		http_response_code(200);
 	default:
 		require_once './_get.php';
 		break;
