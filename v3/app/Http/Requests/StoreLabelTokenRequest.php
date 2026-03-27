@@ -33,9 +33,8 @@ class StoreLabelTokenRequest extends FormRequest
             ],
             'quantity'        => 'required|integer|min:1',
             'note'           => 'nullable|string|max:255',
-            'source'         => 'required|string|max:50',
+            'source'         => ['required', Rule::in(['mint', 'burn'])],
             'source_char_id' => 'nullable|integer',
-            'created_by'     => 'required|integer',
         ];
     }
 }
