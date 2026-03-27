@@ -413,12 +413,12 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-04 ([orthanc#72](https://github.com/eosfrontier/orthanc/issues/72)): `IssueToken` + `RevokeToken` artisan commands
 
 ### Step 3 — DB migrations ([orthanc#98](https://github.com/eosfrontier/orthanc/issues/98))
-- [ ] V3-DB-00 ([orthanc#73](https://github.com/eosfrontier/orthanc/issues/73)): `ecc_storage_categories` migration (with `is_system` column) + seeder for "Currency" category row
-- [ ] V3-DB-01 ([orthanc#74](https://github.com/eosfrontier/orthanc/issues/74)): `ecc_storage_item_types` migration (with `category_id` FK, NOT NULL; `is_system` column; `max_quantity INT UNSIGNED NULL`) + seeder for Sonuren row (`id=1, is_system=1`)
-- [ ] V3-DB-02 ([orthanc#75](https://github.com/eosfrontier/orthanc/issues/75)): `ecc_storage_inventory` migration
-- [ ] V3-DB-03 ([orthanc#76](https://github.com/eosfrontier/orthanc/issues/76)): `ecc_storage_log` migration (with `brokered` column)
-- [ ] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`)
-- [ ] V3-DB-05 ([orthanc#78](https://github.com/eosfrontier/orthanc/issues/78)): Write rollback SQL
+- [x] V3-DB-00 ([orthanc#73](https://github.com/eosfrontier/orthanc/issues/73)): `ecc_storage_categories` migration (with `is_system` column) + seeder for "Currency" category row
+- [x] V3-DB-01 ([orthanc#74](https://github.com/eosfrontier/orthanc/issues/74)): `ecc_storage_item_types` migration (with `category_id` FK, NOT NULL; `is_system` column; `max_quantity INT UNSIGNED NULL`) + seeder for Sonuren row (`id=1, is_system=1`)
+- [x] V3-DB-02 ([orthanc#75](https://github.com/eosfrontier/orthanc/issues/75)): `ecc_storage_inventory` migration
+- [x] V3-DB-03 ([orthanc#76](https://github.com/eosfrontier/orthanc/issues/76)): `ecc_storage_log` migration (with `brokered` column)
+- [x] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`)
+- [x] V3-DB-05 ([orthanc#78](https://github.com/eosfrontier/orthanc/issues/78)): Write rollback SQL
 
 ### Step 4 — Models + Resources + FormRequests ([orthanc#100](https://github.com/eosfrontier/orthanc/issues/100))
 - [ ] V3-05 ([orthanc#82](https://github.com/eosfrontier/orthanc/issues/82)): All Eloquent models (`$timestamps = false`, explicit table names, scopes, relations): `StorageCategory`, `StorageItemType`, `StorageInventory`, `StorageLog`, `StorageSetting`, `StorageLabelToken`
