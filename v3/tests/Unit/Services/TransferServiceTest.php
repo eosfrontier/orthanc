@@ -70,12 +70,14 @@ class TransferServiceTest extends TestCase
      */
     private function seedBrokerFee(int $fee = 20): void
     {
-        StorageSetting::create([
-            'key_name'   => 'broker_fee_sonuren',
-            'value'      => (string) $fee,
-            'updated_at' => time(),
-            'updated_by' => 1,
-        ]);
+        StorageSetting::updateOrCreate(
+            ['key_name' => 'broker_fee_sonuren'],
+            [
+                'value'      => (string) $fee,
+                'updated_at' => time(),
+                'updated_by' => 1,
+            ],
+        );
     }
 
     /**
@@ -210,6 +212,53 @@ class TransferServiceTest extends TestCase
             'quantity'        => 20,
             'source_char_id'  => 100,
             'action'          => 'broker_fee',
+            'brokered'        => true,
+        ]);
+    }
+
+    public function test_brokered_transfer_of_sonuren_deducts_fee_and_quantity(): void
+    {
+        $this->enableTransfers();
+        $this->seedBrokerFee(20);
+        $sonuren = $this->createSonurenType();
+
+        // Source has 50 Sonuren, target has 10
+        $this->seedInventory(100, $sonuren->id, 50);
+        $this->seedInventory(200, $sonuren->id, 10);
+
+        $result = $this->service->transfer(100, 200, $sonuren->id, 5, 1, true, 'sonuren trade');
+
+        // 50 - 20 (fee) - 5 (transfer) = 25
+        $this->assertEquals(25, $result['source']->quantity);
+        $this->assertEquals(15, $result['target']->quantity);
+
+        $this->assertDatabaseHas('ecc_storage_inventory', [
+            'character_id' => 100,
+            'item_type_id' => $sonuren->id,
+            'quantity'     => 25,
+        ]);
+
+        $this->assertDatabaseHas('ecc_storage_inventory', [
+            'character_id' => 200,
+            'item_type_id' => $sonuren->id,
+            'quantity'     => 15,
+        ]);
+
+        // Broker fee log
+        $this->assertDatabaseHas('ecc_storage_log', [
+            'item_type_id'    => $sonuren->id,
+            'quantity'        => 20,
+            'source_char_id'  => 100,
+            'action'          => 'broker_fee',
+        ]);
+
+        // Transfer log
+        $this->assertDatabaseHas('ecc_storage_log', [
+            'item_type_id'    => $sonuren->id,
+            'quantity'        => 5,
+            'source_char_id'  => 100,
+            'target_char_id'  => 200,
+            'action'          => 'transfer',
             'brokered'        => true,
         ]);
     }
@@ -384,6 +433,13 @@ class TransferServiceTest extends TestCase
         $this->assertDatabaseMissing('ecc_storage_log', [
             'action' => 'transfer',
         ]);
+    }
+
+    public function test_transfer_throws_on_self_transfer(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Source and target character must be different');
+        $this->service->transfer(100, 100, 1, 5, 1);
     }
 
     public function test_transfer_throws_on_zero_quantity(): void

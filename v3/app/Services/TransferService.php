@@ -35,8 +35,9 @@ class TransferService
      * @return array{source: StorageInventory, target: StorageInventory}
      *
      * @throws TransfersLockedException If transfers are disabled.
-     * @throws \DomainException         If quantity is not positive, source has insufficient quantity,
-     *                                  receiver cap would be exceeded, or sender lacks Sonuren for broker fee.
+     * @throws \DomainException         If quantity is not positive, source and target are the same,
+     *                                  source has insufficient quantity, receiver cap would be exceeded,
+     *                                  or sender lacks Sonuren for broker fee.
      */
     public function transfer(
         int $sourceCharId,
@@ -49,6 +50,10 @@ class TransferService
     ): array {
         if ($quantity <= 0) {
             throw new \DomainException('Transfer quantity must be a positive integer.');
+        }
+
+        if ($sourceCharId === $targetCharId) {
+            throw new \DomainException('Source and target character must be different.');
         }
 
         return DB::transaction(function () use ($sourceCharId, $targetCharId, $itemTypeId, $quantity, $actorId, $brokered, $note) {
