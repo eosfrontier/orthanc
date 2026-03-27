@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->unsignedInteger('source_char_id')->nullable();
             $table->unsignedInteger('target_char_id')->nullable();
-            $table->unsignedInteger('actor_joomla_id');
+            $table->unsignedInteger('actor_id');
             $table->string('action', 30);
             $table->tinyInteger('brokered')->default(0);
             $table->string('note', 255)->nullable();

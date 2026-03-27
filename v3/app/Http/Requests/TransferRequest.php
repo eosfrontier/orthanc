@@ -35,7 +35,7 @@ class TransferRequest extends FormRequest
             ],
             'quantity'        => 'required|integer|min:1',
             'brokered'        => 'sometimes|boolean',
-            'actor_joomla_id' => 'required|integer',
+            'actor_id' => 'required|integer',
             'note'           => 'nullable|string|max:255',
         ];
     }

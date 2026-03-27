@@ -26,7 +26,7 @@ class AdjustInventoryRequest extends FormRequest
     {
         return [
             'quantity'        => 'required|integer',
-            'actor_joomla_id' => 'required|integer',
+            'actor_id' => 'required|integer',
             'note'           => 'nullable|string|max:255',
         ];
     }

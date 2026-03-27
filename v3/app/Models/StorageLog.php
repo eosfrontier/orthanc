@@ -22,7 +22,7 @@ class StorageLog extends Model
         'quantity',
         'source_char_id',
         'target_char_id',
-        'actor_joomla_id',
+        'actor_id',
         'action',
         'brokered',
         'note',
@@ -34,7 +34,7 @@ class StorageLog extends Model
         'quantity'        => 'integer',
         'source_char_id'  => 'integer',
         'target_char_id'  => 'integer',
-        'actor_joomla_id' => 'integer',
+        'actor_id' => 'integer',
         'brokered'        => 'boolean',
         'created_at'      => 'integer',
     ];
