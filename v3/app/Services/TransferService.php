@@ -11,12 +11,18 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Handles item transfers between characters with gate checks,
- * receiver cap enforcement, brokered flag support, and audit logging.
+ * receiver cap enforcement, broker fee deduction, and audit logging.
  */
 class TransferService
 {
+    /** @var int Sonuren item type ID (seeded as id=1, is_system=1). */
+    private const SONUREN_ITEM_TYPE_ID = 1;
+
     /**
      * Transfer a quantity of an item type from one character to another.
+     *
+     * When brokered, a broker fee in Sonuren is deducted from the sender
+     * and a separate `broker_fee` log row is created in the same transaction.
      *
      * @param int         $sourceCharId  The character sending the items.
      * @param int         $targetCharId  The character receiving the items.
@@ -29,7 +35,8 @@ class TransferService
      * @return array{source: StorageInventory, target: StorageInventory}
      *
      * @throws TransfersLockedException If transfers are disabled.
-     * @throws \DomainException         If source has insufficient quantity or receiver cap would be exceeded.
+     * @throws \DomainException         If quantity is not positive, source has insufficient quantity,
+     *                                  receiver cap would be exceeded, or sender lacks Sonuren for broker fee.
      */
     public function transfer(
         int $sourceCharId,
@@ -40,12 +47,21 @@ class TransferService
         bool $brokered = false,
         ?string $note = null,
     ): array {
+        if ($quantity <= 0) {
+            throw new \DomainException('Transfer quantity must be a positive integer.');
+        }
+
         return DB::transaction(function () use ($sourceCharId, $targetCharId, $itemTypeId, $quantity, $actorId, $brokered, $note) {
             // Gate check
             $enabled = StorageSetting::where('key_name', 'transfers_enabled')->value('value');
 
             if ($enabled !== '1') {
                 throw new TransfersLockedException();
+            }
+
+            // Broker fee deduction
+            if ($brokered) {
+                $this->deductBrokerFee($sourceCharId, $actorId);
             }
 
             // Load item type
@@ -125,5 +141,54 @@ class TransferService
 
             return ['source' => $sourceInventory, 'target' => $targetInventory];
         });
+    }
+
+    /**
+     * Deduct the broker fee in Sonuren from the sender's inventory.
+     *
+     * Locks the sender's Sonuren row, validates sufficient balance,
+     * deducts the fee, and creates a `broker_fee` audit log entry.
+     *
+     * @param int $sourceCharId The character paying the fee.
+     * @param int $actorId      The user ID performing the action.
+     *
+     * @throws \DomainException If the sender has insufficient Sonuren for the fee.
+     */
+    private function deductBrokerFee(int $sourceCharId, int $actorId): void
+    {
+        $fee = (int) StorageSetting::where('key_name', 'broker_fee_sonuren')->value('value');
+
+        if ($fee <= 0) {
+            throw new \RuntimeException('Broker fee setting is missing or invalid.');
+        }
+
+        $sonurenInventory = StorageInventory::where('character_id', $sourceCharId)
+            ->where('item_type_id', self::SONUREN_ITEM_TYPE_ID)
+            ->lockForUpdate()
+            ->first();
+
+        $currentBalance = $sonurenInventory ? $sonurenInventory->quantity : 0;
+
+        if ($currentBalance < $fee) {
+            throw new \DomainException(
+                "Insufficient Sonuren for broker fee: have {$currentBalance}, need {$fee}."
+            );
+        }
+
+        $sonurenInventory->quantity -= $fee;
+        $sonurenInventory->updated_at = time();
+        $sonurenInventory->save();
+
+        StorageLog::create([
+            'item_type_id'    => self::SONUREN_ITEM_TYPE_ID,
+            'quantity'        => $fee,
+            'source_char_id'  => $sourceCharId,
+            'target_char_id'  => null,
+            'actor_id'        => $actorId,
+            'action'          => 'broker_fee',
+            'brokered'        => true,
+            'note'            => null,
+            'created_at'      => time(),
+        ]);
     }
 }

@@ -345,7 +345,7 @@ Guard: reject `count($char_ids) > 200` with 400.
 
 Uses `DB::transaction()`. Validates sender has sufficient quantity. Checks receiver's `max_quantity` cap — if `receiver_current + qty > max_quantity`, reject with 422. Inserts one log row with `action = 'transfer'`.
 
-**Brokered transfer:** If `brokered = true` in request body, a 20 Sonuren broker fee is deducted from the sender in the same transaction (log row: `action = 'broker_fee'`, `brokered = 1`). The transfer log row is also written with `brokered = 1`. Both the fee deduction and the transfer are atomic. Fails with 422 if the sender has fewer than 20 Sonuren for the fee. The `BROKER_FEE_SONUREN = 20` constant is defined in the Laravel config.
+**Brokered transfer:** If `brokered = true` in request body, a 20 Sonuren broker fee is deducted from the sender in the same transaction (log row: `action = 'broker_fee'`, `brokered = 1`). The transfer log row is also written with `brokered = 1`. Both the fee deduction and the transfer are atomic. Fails with 422 if the sender has fewer than 20 Sonuren for the fee. The broker fee amount is stored in `ecc_storage_settings` as `broker_fee_sonuren` (seeded default: `20`), so it can be changed at runtime without a code deploy.
 
 #### Log — `LogController`
 | Verb | Route | Action |
@@ -417,7 +417,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-DB-01 ([orthanc#74](https://github.com/eosfrontier/orthanc/issues/74)): `ecc_storage_item_types` migration (with `category_id` FK, NOT NULL; `is_system` column; `max_quantity INT UNSIGNED NULL`) + seeder for Sonuren row (`id=1, is_system=1`)
 - [x] V3-DB-02 ([orthanc#75](https://github.com/eosfrontier/orthanc/issues/75)): `ecc_storage_inventory` migration
 - [x] V3-DB-03 ([orthanc#76](https://github.com/eosfrontier/orthanc/issues/76)): `ecc_storage_log` migration (with `brokered` column)
-- [x] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`)
+- [x] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`, `broker_fee_sonuren = 20`)
 - [x] V3-DB-05 ([orthanc#78](https://github.com/eosfrontier/orthanc/issues/78)): Write rollback SQL
 
 ### Step 4 — Models + Resources + FormRequests ([orthanc#100](https://github.com/eosfrontier/orthanc/issues/100))
@@ -426,7 +426,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 
 ### Step 5 — Services ([orthanc#101](https://github.com/eosfrontier/orthanc/issues/101))
 - [x] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
-- [ ] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
+- [x] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
 - [ ] V3-09 ([orthanc#86](https://github.com/eosfrontier/orthanc/issues/86)): `LabelService` — token creation, claim flow + unit tests
 
 ### Step 6 — Controllers + routes ([orthanc#102](https://github.com/eosfrontier/orthanc/issues/102))
