@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->renderable(function (\App\Exceptions\TransfersLockedException $e) {
+            return response()->json(['message' => $e->getMessage()], 423);
+        });
+
         $exceptions->renderable(function (\DomainException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         });
