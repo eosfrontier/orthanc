@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\DB;
  */
 class TransferService
 {
-    /** @var int Sonuren item type ID (seeded as id=1, is_system=1). */
-    private const SONUREN_ITEM_TYPE_ID = 1;
+    /** @var string Sonuren item name used to look up the system currency. */
+    private const SONUREN_ITEM_NAME = 'Sonuren';
 
     /**
      * Transfer a quantity of an item type from one character to another.
@@ -64,7 +64,10 @@ class TransferService
                 throw new TransfersLockedException();
             }
 
-            // Broker fee deduction
+            // Broker fee deduction (locks the sender's Sonuren row).
+            // This lock targets a different item_type row than the transfer itself
+            // (unless transferring Sonuren), so it cannot deadlock with the
+            // per-item locks below which use min/max character_id ordering.
             if ($brokered) {
                 $this->deductBrokerFee($sourceCharId, $actorId);
             }
@@ -167,8 +170,16 @@ class TransferService
             throw new \RuntimeException('Broker fee setting is missing or invalid.');
         }
 
+        $sonurenType = StorageItemType::where('name', self::SONUREN_ITEM_NAME)
+            ->where('is_system', true)
+            ->first();
+
+        if ($sonurenType === null) {
+            throw new \RuntimeException('Sonuren item type not found.');
+        }
+
         $sonurenInventory = StorageInventory::where('character_id', $sourceCharId)
-            ->where('item_type_id', self::SONUREN_ITEM_TYPE_ID)
+            ->where('item_type_id', $sonurenType->id)
             ->lockForUpdate()
             ->first();
 
@@ -185,7 +196,7 @@ class TransferService
         $sonurenInventory->save();
 
         StorageLog::create([
-            'item_type_id'    => self::SONUREN_ITEM_TYPE_ID,
+            'item_type_id'    => $sonurenType->id,
             'quantity'        => $fee,
             'source_char_id'  => $sourceCharId,
             'target_char_id'  => null,

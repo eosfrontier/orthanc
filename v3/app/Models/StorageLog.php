@@ -46,4 +46,7 @@ class StorageLog extends Model
     {
         return $this->belongsTo(StorageItemType::class, 'item_type_id');
     }
+
+    // NOTE: sourceCharacter(), targetCharacter(), and actor() relationships
+    // will be added once the Character and User models are available.
 }

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * A row in a character's inventory, linking a character to an item type
  * with a specific quantity.
+ *
+ * NOTE: All ecc_storage_* models use Unix timestamps (int) via time() instead
+ * of Laravel's Carbon-based $timestamps. This matches the existing Joomla schema
+ * convention. Columns are cast as 'integer' and $timestamps is disabled.
  */
 class StorageInventory extends Model
 {

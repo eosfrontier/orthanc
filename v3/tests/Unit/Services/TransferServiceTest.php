@@ -338,8 +338,22 @@ class TransferServiceTest extends TestCase
         $this->seedInventory(100, $itemType->id, 10);
         $this->seedInventory(200, $itemType->id, 8);
 
+        $this->expectException(\DomainException::class);
+        $this->service->transfer(100, 200, $itemType->id, 5, 1);
+
+        // Rollback assertions run via a separate test (PHPUnit stops after the exception).
+    }
+
+    public function test_transfer_cap_violation_does_not_mutate_data(): void
+    {
+        $this->enableTransfers();
+        $itemType = $this->createItemType(['max_quantity' => 10]);
+        $this->seedInventory(100, $itemType->id, 10);
+        $this->seedInventory(200, $itemType->id, 8);
+
         try {
             $this->service->transfer(100, 200, $itemType->id, 5, 1);
+            $this->fail('Expected DomainException was not thrown.');
         } catch (\DomainException) {
             // expected
         }
@@ -408,6 +422,7 @@ class TransferServiceTest extends TestCase
 
         try {
             $this->service->transfer(100, 200, $itemType->id, 2, 1, true);
+            $this->fail('Expected DomainException was not thrown.');
         } catch (\DomainException) {
             // expected
         }

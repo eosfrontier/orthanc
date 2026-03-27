@@ -22,11 +22,7 @@ class StorageSettingsSeeder extends Seeder
             'updated_by' => 0,
         ]);
 
-        DB::table('ecc_storage_settings')->insertOrIgnore([
-            'key_name' => 'broker_fee_sonuren',
-            'value' => '20',
-            'updated_at' => time(),
-            'updated_by' => 0,
-        ]);
+        // broker_fee_sonuren is seeded via migration 000016 for existing databases.
+        // No need to duplicate it here.
     }
 }

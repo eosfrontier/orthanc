@@ -29,6 +29,10 @@ class InventoryService
      */
     public function mint(int $characterId, int $itemTypeId, int $quantity, int $actorId, ?string $note = null): StorageInventory
     {
+        if ($quantity <= 0) {
+            throw new \DomainException('Mint quantity must be a positive integer.');
+        }
+
         return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorId, $note) {
             $itemType = StorageItemType::findOrFail($itemTypeId);
 
@@ -87,6 +91,10 @@ class InventoryService
      */
     public function burn(int $characterId, int $itemTypeId, int $quantity, int $actorId, ?string $note = null): StorageInventory
     {
+        if ($quantity <= 0) {
+            throw new \DomainException('Burn quantity must be a positive integer.');
+        }
+
         return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorId, $note) {
             $inventory = StorageInventory::where('character_id', $characterId)
                 ->where('item_type_id', $itemTypeId)
@@ -214,7 +222,7 @@ class InventoryService
                     'character_id' => $characterId,
                     'new_quantity' => $inventory->quantity,
                 ];
-            } catch (\Throwable $e) {
+            } catch (\DomainException $e) {
                 $failed[] = [
                     'character_id' => $characterId,
                     'error'        => $e->getMessage(),

@@ -50,6 +50,18 @@ class StorageLabelToken extends Model
     }
 
     /**
+     * Scope to only tokens that are unclaimed and not expired.
+     */
+    public function scopeValid(Builder $query): Builder
+    {
+        return $query->whereNull('claimed_by')
+            ->where(function (Builder $q) {
+                $q->whereNull('expires_at')
+                    ->orWhere('expires_at', '>', time());
+            });
+    }
+
+    /**
      * The item type this label token grants.
      */
     public function itemType(): BelongsTo
