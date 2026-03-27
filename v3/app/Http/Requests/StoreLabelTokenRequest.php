@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\LabelTokenSource;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * Validates a request to create a new label token.
+ * Validates a request to create a new label token with one or more item lines.
  */
 class StoreLabelTokenRequest extends FormRequest
 {
@@ -26,16 +27,17 @@ class StoreLabelTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_type_id' => [
+            'items'                => 'required|array|min:1',
+            'items.*.item_type_id' => [
                 'required',
                 'integer',
+                'distinct',
                 Rule::exists('ecc_storage_item_types', 'id')->whereNull('deleted_at'),
             ],
-            'quantity'        => 'required|integer|min:1',
-            'note'           => 'nullable|string|max:255',
-            'source'         => 'required|string|max:50',
-            'source_char_id' => 'nullable|integer',
-            'created_by'     => 'required|integer',
+            'items.*.quantity'    => 'required|integer|min:1',
+            'note'               => 'nullable|string|max:255',
+            'source'             => ['required', Rule::in(LabelTokenSource::cases())],
+            'source_char_id'     => 'nullable|integer',
         ];
     }
 }

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * A single-use token printed on a physical label that can be claimed
- * by a character to receive items.
+ * by a character to receive one or more item types.
  */
 class StorageLabelToken extends Model
 {
@@ -18,8 +18,6 @@ class StorageLabelToken extends Model
 
     protected $fillable = [
         'token',
-        'item_type_id',
-        'quantity',
         'note',
         'source',
         'source_char_id',
@@ -31,8 +29,6 @@ class StorageLabelToken extends Model
     ];
 
     protected $casts = [
-        'item_type_id'   => 'integer',
-        'quantity'       => 'integer',
         'source_char_id' => 'integer',
         'created_by'     => 'integer',
         'created_at'     => 'integer',
@@ -62,10 +58,10 @@ class StorageLabelToken extends Model
     }
 
     /**
-     * The item type this label token grants.
+     * The item lines on this label token.
      */
-    public function itemType(): BelongsTo
+    public function items(): HasMany
     {
-        return $this->belongsTo(StorageItemType::class, 'item_type_id');
+        return $this->hasMany(StorageLabelTokenItem::class, 'label_token_id');
     }
 }
