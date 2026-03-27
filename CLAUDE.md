@@ -1,5 +1,7 @@
 Only look at PLAN.md. We use this file to work out what we want to build.
 
+You are already working in the Orthanc folder. You don't need to switch to it.
+
 feature/v3-scaffold is the feature branch for orthanc we use.
 
 When working on a task:

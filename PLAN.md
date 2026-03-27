@@ -409,8 +409,8 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 
 ### Step 2 — Auth + middleware ([orthanc#97](https://github.com/eosfrontier/orthanc/issues/97))
 - [x] V3-02 ([orthanc#70](https://github.com/eosfrontier/orthanc/issues/70)): `api_consumers` migration + `ApiConsumer` model (`HasApiTokens`)
-- [ ] V3-03 ([orthanc#71](https://github.com/eosfrontier/orthanc/issues/71)): `TokenAbility` enum + `RequireAbility` middleware; register in `bootstrap/app.php`
-- [ ] V3-04 ([orthanc#72](https://github.com/eosfrontier/orthanc/issues/72)): `IssueToken` + `RevokeToken` artisan commands
+- [x] V3-03 ([orthanc#71](https://github.com/eosfrontier/orthanc/issues/71)): `TokenAbility` enum + `RequireAbility` middleware; register in `bootstrap/app.php`
+- [x] V3-04 ([orthanc#72](https://github.com/eosfrontier/orthanc/issues/72)): `IssueToken` + `RevokeToken` artisan commands
 
 ### Step 3 — DB migrations ([orthanc#98](https://github.com/eosfrontier/orthanc/issues/98))
 - [ ] V3-DB-00 ([orthanc#73](https://github.com/eosfrontier/orthanc/issues/73)): `ecc_storage_categories` migration (with `is_system` column) + seeder for "Currency" category row
