@@ -425,7 +425,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-06 ([orthanc#83](https://github.com/eosfrontier/orthanc/issues/83)): All API Resources (one per model) + all FormRequests (one per write operation)
 
 ### Step 5 — Services ([orthanc#101](https://github.com/eosfrontier/orthanc/issues/101))
-- [ ] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
+- [x] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
 - [ ] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
 - [ ] V3-09 ([orthanc#86](https://github.com/eosfrontier/orthanc/issues/86)): `LabelService` — token creation, claim flow + unit tests
 
