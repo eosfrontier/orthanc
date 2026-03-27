@@ -1,3 +1,5 @@
+NEVER DO COMPOUND COMMANDS!!! RUN THEM ONE BY ONE!!! MAKE SURE YOU DON'T RUN THE CD COMMAND WITH ANY OTHER COMMAND!!!
+
 Only look at PLAN.md. We use this file to work out what we want to build.
 
 You are already working in the Orthanc folder. You don't need to switch to it.
