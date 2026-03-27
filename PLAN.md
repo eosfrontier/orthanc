@@ -421,8 +421,8 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-DB-05 ([orthanc#78](https://github.com/eosfrontier/orthanc/issues/78)): Write rollback SQL
 
 ### Step 4 — Models + Resources + FormRequests ([orthanc#100](https://github.com/eosfrontier/orthanc/issues/100))
-- [ ] V3-05 ([orthanc#82](https://github.com/eosfrontier/orthanc/issues/82)): All Eloquent models (`$timestamps = false`, explicit table names, scopes, relations): `StorageCategory`, `StorageItemType`, `StorageInventory`, `StorageLog`, `StorageSetting`, `StorageLabelToken`
-- [ ] V3-06 ([orthanc#83](https://github.com/eosfrontier/orthanc/issues/83)): All API Resources (one per model) + all FormRequests (one per write operation)
+- [x] V3-05 ([orthanc#82](https://github.com/eosfrontier/orthanc/issues/82)): All Eloquent models (`$timestamps = false`, explicit table names, scopes, relations): `StorageCategory`, `StorageItemType`, `StorageInventory`, `StorageLog`, `StorageSetting`, `StorageLabelToken`
+- [x] V3-06 ([orthanc#83](https://github.com/eosfrontier/orthanc/issues/83)): All API Resources (one per model) + all FormRequests (one per write operation)
 
 ### Step 5 — Services ([orthanc#101](https://github.com/eosfrontier/orthanc/issues/101))
 - [ ] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
