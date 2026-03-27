@@ -17,19 +17,23 @@ class InventoryService
     /**
      * Mint (add) a quantity of an item type into a character's inventory.
      *
-     * @param int         $characterId  The character receiving the items.
-     * @param int         $itemTypeId   The item type to mint.
-     * @param int         $quantity     The quantity to add (must be positive).
-     * @param int         $actorJoomlaId The Joomla user ID performing the action.
-     * @param string|null $note         Optional audit note.
+     * @param int         $characterId The character receiving the items.
+     * @param int         $itemTypeId  The item type to mint.
+     * @param int         $quantity    The quantity to add (must be positive).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
      * @throws \DomainException If the mint would exceed max_quantity.
      */
-    public function mint(int $characterId, int $itemTypeId, int $quantity, int $actorJoomlaId, ?string $note = null): StorageInventory
+    public function mint(int $characterId, int $itemTypeId, int $quantity, int $actorId, ?string $note = null): StorageInventory
     {
-        return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorJoomlaId, $note) {
+        if ($quantity <= 0) {
+            throw new \DomainException('Mint quantity must be a positive integer.');
+        }
+
+        return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorId, $note) {
             $itemType = StorageItemType::findOrFail($itemTypeId);
 
             $inventory = StorageInventory::where('character_id', $characterId)
@@ -62,7 +66,7 @@ class InventoryService
                 'quantity'        => $quantity,
                 'source_char_id'  => null,
                 'target_char_id'  => $characterId,
-                'actor_joomla_id' => $actorJoomlaId,
+                'actor_id'        => $actorId,
                 'action'          => 'mint',
                 'note'            => $note,
                 'created_at'      => time(),
@@ -75,19 +79,23 @@ class InventoryService
     /**
      * Burn (remove) a quantity of an item type from a character's inventory.
      *
-     * @param int         $characterId  The character losing the items.
-     * @param int         $itemTypeId   The item type to burn.
-     * @param int         $quantity     The quantity to remove (must be positive).
-     * @param int         $actorJoomlaId The Joomla user ID performing the action.
-     * @param string|null $note         Optional audit note.
+     * @param int         $characterId The character losing the items.
+     * @param int         $itemTypeId  The item type to burn.
+     * @param int         $quantity    The quantity to remove (must be positive).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
      * @throws \DomainException If the character has no inventory or insufficient quantity.
      */
-    public function burn(int $characterId, int $itemTypeId, int $quantity, int $actorJoomlaId, ?string $note = null): StorageInventory
+    public function burn(int $characterId, int $itemTypeId, int $quantity, int $actorId, ?string $note = null): StorageInventory
     {
-        return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorJoomlaId, $note) {
+        if ($quantity <= 0) {
+            throw new \DomainException('Burn quantity must be a positive integer.');
+        }
+
+        return DB::transaction(function () use ($characterId, $itemTypeId, $quantity, $actorId, $note) {
             $inventory = StorageInventory::where('character_id', $characterId)
                 ->where('item_type_id', $itemTypeId)
                 ->lockForUpdate()
@@ -114,7 +122,7 @@ class InventoryService
                 'quantity'        => $quantity,
                 'source_char_id'  => $characterId,
                 'target_char_id'  => null,
-                'actor_joomla_id' => $actorJoomlaId,
+                'actor_id'        => $actorId,
                 'action'          => 'burn',
                 'note'            => $note,
                 'created_at'      => time(),
@@ -127,22 +135,22 @@ class InventoryService
     /**
      * Adjust an existing inventory row by a positive or negative delta.
      *
-     * @param int         $inventoryId   The inventory row ID to adjust.
-     * @param int         $delta         The signed quantity change (non-zero).
-     * @param int         $actorJoomlaId The Joomla user ID performing the action.
-     * @param string|null $note          Optional audit note.
+     * @param int         $inventoryId The inventory row ID to adjust.
+     * @param int         $delta       The signed quantity change (non-zero).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
      * @throws \DomainException If delta is zero, inventory not found, cap exceeded, or insufficient quantity.
      */
-    public function adjust(int $inventoryId, int $delta, int $actorJoomlaId, ?string $note = null): StorageInventory
+    public function adjust(int $inventoryId, int $delta, int $actorId, ?string $note = null): StorageInventory
     {
         if ($delta === 0) {
             throw new \DomainException('Delta must not be zero.');
         }
 
-        return DB::transaction(function () use ($inventoryId, $delta, $actorJoomlaId, $note) {
+        return DB::transaction(function () use ($inventoryId, $delta, $actorId, $note) {
             $inventory = StorageInventory::where('id', $inventoryId)
                 ->lockForUpdate()
                 ->first();
@@ -180,7 +188,7 @@ class InventoryService
                 'quantity'        => abs($delta),
                 'source_char_id'  => $action === 'burn' ? $characterId : null,
                 'target_char_id'  => $action === 'mint' ? $characterId : null,
-                'actor_joomla_id' => $actorJoomlaId,
+                'actor_id'        => $actorId,
                 'action'          => $action,
                 'note'            => $note,
                 'created_at'      => time(),
@@ -194,27 +202,27 @@ class InventoryService
      * Mint items to multiple characters in bulk. Each mint runs in its own
      * transaction; failures are collected rather than aborting the batch.
      *
-     * @param int    $itemTypeId    The item type to mint.
-     * @param int    $quantity      The quantity to mint per character.
-     * @param int[]  $characterIds  Array of character IDs to receive items.
-     * @param int    $actorJoomlaId The Joomla user ID performing the action.
-     * @param string|null $note     Optional audit note.
+     * @param int         $itemTypeId   The item type to mint.
+     * @param int         $quantity     The quantity to mint per character.
+     * @param int[]       $characterIds Array of character IDs to receive items.
+     * @param int         $actorId      The user ID performing the action.
+     * @param string|null $note         Optional audit note.
      *
      * @return array{succeeded: array<int, array{character_id: int, new_quantity: int}>, failed: array<int, array{character_id: int, error: string}>}
      */
-    public function bulk(int $itemTypeId, int $quantity, array $characterIds, int $actorJoomlaId, ?string $note = null): array
+    public function bulk(int $itemTypeId, int $quantity, array $characterIds, int $actorId, ?string $note = null): array
     {
         $succeeded = [];
         $failed = [];
 
         foreach ($characterIds as $characterId) {
             try {
-                $inventory = $this->mint($characterId, $itemTypeId, $quantity, $actorJoomlaId, $note);
+                $inventory = $this->mint($characterId, $itemTypeId, $quantity, $actorId, $note);
                 $succeeded[] = [
                     'character_id' => $characterId,
                     'new_quantity' => $inventory->quantity,
                 ];
-            } catch (\Throwable $e) {
+            } catch (\DomainException $e) {
                 $failed[] = [
                     'character_id' => $characterId,
                     'error'        => $e->getMessage(),

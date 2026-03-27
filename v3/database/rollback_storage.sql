@@ -9,3 +9,5 @@ DROP TABLE IF EXISTS ecc_storage_categories;
 
 -- Clean up migration rows
 DELETE FROM migrations WHERE migration LIKE '%create_ecc_storage_%';
+DELETE FROM migrations WHERE migration LIKE '%rename_actor_joomla_id%';
+DELETE FROM migrations WHERE migration LIKE '%seed_broker_fee_sonuren%';

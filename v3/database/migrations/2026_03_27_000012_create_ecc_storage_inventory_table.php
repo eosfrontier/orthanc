@@ -22,6 +22,9 @@ return new class extends Migration
             $table->unsignedInteger('updated_at');
 
             $table->unique(['character_id', 'item_type_id'], 'uq_char_item');
+            $table->foreign('item_type_id', 'fk_inventory_item_type')
+                ->references('id')
+                ->on('ecc_storage_item_types');
         });
     }
 

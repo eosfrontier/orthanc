@@ -21,5 +21,8 @@ class StorageSettingsSeeder extends Seeder
             'updated_at' => time(),
             'updated_by' => 0,
         ]);
+
+        // broker_fee_sonuren is seeded via migration 000016 for existing databases.
+        // No need to duplicate it here.
     }
 }

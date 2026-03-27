@@ -34,7 +34,7 @@ class BulkMintInventoryRequest extends FormRequest
             'quantity'        => 'required|integer|min:1',
             'character_ids'   => 'required|array|max:200',
             'character_ids.*' => 'integer',
-            'actor_joomla_id' => 'required|integer',
+            'actor_id'        => 'required|integer',
             'note'           => 'nullable|string|max:255',
         ];
     }

@@ -109,6 +109,44 @@ class InventoryServiceTest extends TestCase
         $this->assertEquals(10, $inventory->quantity);
     }
 
+    public function test_mint_throws_on_zero_quantity(): void
+    {
+        $itemType = $this->createItemType();
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Mint quantity must be a positive integer');
+        $this->service->mint(100, $itemType->id, 0, 1);
+    }
+
+    public function test_mint_throws_on_negative_quantity(): void
+    {
+        $itemType = $this->createItemType();
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Mint quantity must be a positive integer');
+        $this->service->mint(100, $itemType->id, -5, 1);
+    }
+
+    public function test_burn_throws_on_zero_quantity(): void
+    {
+        $itemType = $this->createItemType();
+        $this->service->mint(100, $itemType->id, 10, 1);
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Burn quantity must be a positive integer');
+        $this->service->burn(100, $itemType->id, 0, 1);
+    }
+
+    public function test_burn_throws_on_negative_quantity(): void
+    {
+        $itemType = $this->createItemType();
+        $this->service->mint(100, $itemType->id, 10, 1);
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Burn quantity must be a positive integer');
+        $this->service->burn(100, $itemType->id, -3, 1);
+    }
+
     public function test_mint_with_null_max_quantity_has_no_cap(): void
     {
         $itemType = $this->createItemType(['max_quantity' => null]);
@@ -217,6 +255,7 @@ class InventoryServiceTest extends TestCase
 
         try {
             $this->service->mint(100, $itemType->id, 10, 1);
+            $this->fail('Expected DomainException was not thrown.');
         } catch (\DomainException) {
             // expected
         }

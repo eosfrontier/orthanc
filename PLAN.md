@@ -109,7 +109,7 @@ CREATE TABLE ecc_storage_log (
     quantity         INT          NOT NULL,
     source_char_id   INT UNSIGNED NULL,
     target_char_id   INT UNSIGNED NULL,
-    actor_joomla_id  INT UNSIGNED NOT NULL,  -- 0 = external system (app token); store token name in note field
+    actor_id  INT UNSIGNED NOT NULL,  -- 0 = external system (app token); store token name in note field
     action           VARCHAR(30)  NOT NULL,  -- 'mint' | 'burn' | 'transfer' | 'broker_fee' | 'label_burn' | 'label_claim'
     brokered         TINYINT(1)   NOT NULL DEFAULT 0,  -- 1 = via broker; hidden from player logs
     note             VARCHAR(255) NULL,
@@ -122,7 +122,7 @@ CREATE TABLE ecc_storage_log (
 ```
 - Append-only
 - Single row per operation (both source + target in one row)
-- `actor_joomla_id` is the GM or player who initiated — separate from source character. External systems (app token auth) use `0` as sentinel; the token name is stored in `note`
+- `actor_id` is the GM or player who initiated — separate from source character. External systems (app token auth) use `0` as sentinel; the token name is stored in `note`
 - Compound indexes with `created_at` support filtered + sorted paginated queries on 1M+ rows without full table scans
 
 ### `ecc_storage_settings`
@@ -345,7 +345,7 @@ Guard: reject `count($char_ids) > 200` with 400.
 
 Uses `DB::transaction()`. Validates sender has sufficient quantity. Checks receiver's `max_quantity` cap — if `receiver_current + qty > max_quantity`, reject with 422. Inserts one log row with `action = 'transfer'`.
 
-**Brokered transfer:** If `brokered = true` in request body, a 20 Sonuren broker fee is deducted from the sender in the same transaction (log row: `action = 'broker_fee'`, `brokered = 1`). The transfer log row is also written with `brokered = 1`. Both the fee deduction and the transfer are atomic. Fails with 422 if the sender has fewer than 20 Sonuren for the fee. The `BROKER_FEE_SONUREN = 20` constant is defined in the Laravel config.
+**Brokered transfer:** If `brokered = true` in request body, a 20 Sonuren broker fee is deducted from the sender in the same transaction (log row: `action = 'broker_fee'`, `brokered = 1`). The transfer log row is also written with `brokered = 1`. Both the fee deduction and the transfer are atomic. Fails with 422 if the sender has fewer than 20 Sonuren for the fee. The broker fee amount is stored in `ecc_storage_settings` as `broker_fee_sonuren` (seeded default: `20`), so it can be changed at runtime without a code deploy.
 
 #### Log — `LogController`
 | Verb | Route | Action |
@@ -381,7 +381,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 | `/v3/storage/labels` | GET | `?token=<uuid>` — single token info; `?unclaimed=1` — all unclaimed tokens (admin) |
 | `/v3/storage/labels/claim` | POST | Redeem token → mint to character |
 
-**`LabelService::create(array $data, int $actor_joomla_id): array`**
+**`LabelService::create(array $data, int $actor_id): array`**
 - If `source = 'burn'`: burns items from `source_char_id` + inserts token in one `DB::transaction()`; inserts a log row with `action = 'label_burn'`
 - If `source = 'mint'`: inserts token only, no inventory change; no log row written until claimed
 - Returns array of created token records
@@ -393,7 +393,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - Returns all rows where `claimed_by IS NULL`, ordered by `created_at DESC`
 - Eager-loads `itemType` name and creator info
 
-**`LabelService::claim(string $token, int $char_id, int $actor_joomla_id): array`**
+**`LabelService::claim(string $token, int $char_id, int $actor_id): array`**
 1. Look up token — 404 if not found, 410 if `claimed_by` already set or `expires_at` < now
 2. Call `InventoryService::mint(...)` in a transaction; log row uses `action = 'label_claim'`
 3. Set `claimed_by = char_id`, `claimed_at = now()` in the same transaction
@@ -417,7 +417,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-DB-01 ([orthanc#74](https://github.com/eosfrontier/orthanc/issues/74)): `ecc_storage_item_types` migration (with `category_id` FK, NOT NULL; `is_system` column; `max_quantity INT UNSIGNED NULL`) + seeder for Sonuren row (`id=1, is_system=1`)
 - [x] V3-DB-02 ([orthanc#75](https://github.com/eosfrontier/orthanc/issues/75)): `ecc_storage_inventory` migration
 - [x] V3-DB-03 ([orthanc#76](https://github.com/eosfrontier/orthanc/issues/76)): `ecc_storage_log` migration (with `brokered` column)
-- [x] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`)
+- [x] V3-DB-04 ([orthanc#77](https://github.com/eosfrontier/orthanc/issues/77)): `ecc_storage_settings` migration + seeder (`transfers_enabled = 1`, `broker_fee_sonuren = 20`)
 - [x] V3-DB-05 ([orthanc#78](https://github.com/eosfrontier/orthanc/issues/78)): Write rollback SQL
 
 ### Step 4 — Models + Resources + FormRequests ([orthanc#100](https://github.com/eosfrontier/orthanc/issues/100))
@@ -425,8 +425,8 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - [x] V3-06 ([orthanc#83](https://github.com/eosfrontier/orthanc/issues/83)): All API Resources (one per model) + all FormRequests (one per write operation)
 
 ### Step 5 — Services ([orthanc#101](https://github.com/eosfrontier/orthanc/issues/101))
-- [ ] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
-- [ ] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
+- [x] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
+- [x] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
 - [ ] V3-09 ([orthanc#86](https://github.com/eosfrontier/orthanc/issues/86)): `LabelService` — token creation, claim flow + unit tests
 
 ### Step 6 — Controllers + routes ([orthanc#102](https://github.com/eosfrontier/orthanc/issues/102))

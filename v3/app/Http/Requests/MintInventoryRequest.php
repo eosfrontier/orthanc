@@ -33,7 +33,7 @@ class MintInventoryRequest extends FormRequest
                 Rule::exists('ecc_storage_item_types', 'id')->whereNull('deleted_at'),
             ],
             'quantity'        => 'required|integer|min:1',
-            'actor_joomla_id' => 'required|integer',
+            'actor_id'        => 'required|integer',
             'note'           => 'nullable|string|max:255',
         ];
     }
