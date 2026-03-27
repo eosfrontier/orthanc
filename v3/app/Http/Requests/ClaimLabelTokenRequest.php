@@ -27,7 +27,7 @@ class ClaimLabelTokenRequest extends FormRequest
         return [
             'token'           => 'required|string|size:36',
             'character_id'    => 'required|integer',
-            'actor_id' => 'required|integer',
+            'actor_id'        => 'required|integer',
         ];
     }
 }

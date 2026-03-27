@@ -23,7 +23,7 @@ class StorageLogResource extends JsonResource
             'quantity'        => $this->quantity,
             'source_char_id'  => $this->source_char_id,
             'target_char_id'  => $this->target_char_id,
-            'actor_id' => $this->actor_id,
+            'actor_id'        => $this->actor_id,
             'action'          => $this->action,
             'brokered'        => $this->brokered,
             'note'            => $this->note,

@@ -34,7 +34,7 @@ class StorageLog extends Model
         'quantity'        => 'integer',
         'source_char_id'  => 'integer',
         'target_char_id'  => 'integer',
-        'actor_id' => 'integer',
+        'actor_id'        => 'integer',
         'brokered'        => 'boolean',
         'created_at'      => 'integer',
     ];

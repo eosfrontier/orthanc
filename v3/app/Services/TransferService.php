@@ -22,7 +22,7 @@ class TransferService
      * @param int         $targetCharId  The character receiving the items.
      * @param int         $itemTypeId    The item type to transfer.
      * @param int         $quantity      The quantity to transfer (must be positive).
-     * @param int         $actorId The user ID performing the action.
+     * @param int         $actorId       The user ID performing the action.
      * @param bool        $brokered      Whether the transfer is brokered by a third party.
      * @param string|null $note          Optional audit note.
      *
@@ -116,7 +116,7 @@ class TransferService
                 'quantity'        => $quantity,
                 'source_char_id'  => $sourceCharId,
                 'target_char_id'  => $targetCharId,
-                'actor_id' => $actorId,
+                'actor_id'        => $actorId,
                 'action'          => 'transfer',
                 'brokered'        => $brokered,
                 'note'            => $note,

@@ -17,11 +17,11 @@ class InventoryService
     /**
      * Mint (add) a quantity of an item type into a character's inventory.
      *
-     * @param int         $characterId  The character receiving the items.
-     * @param int         $itemTypeId   The item type to mint.
-     * @param int         $quantity     The quantity to add (must be positive).
-     * @param int         $actorId The user ID performing the action.
-     * @param string|null $note         Optional audit note.
+     * @param int         $characterId The character receiving the items.
+     * @param int         $itemTypeId  The item type to mint.
+     * @param int         $quantity    The quantity to add (must be positive).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
@@ -62,7 +62,7 @@ class InventoryService
                 'quantity'        => $quantity,
                 'source_char_id'  => null,
                 'target_char_id'  => $characterId,
-                'actor_id' => $actorId,
+                'actor_id'        => $actorId,
                 'action'          => 'mint',
                 'note'            => $note,
                 'created_at'      => time(),
@@ -75,11 +75,11 @@ class InventoryService
     /**
      * Burn (remove) a quantity of an item type from a character's inventory.
      *
-     * @param int         $characterId  The character losing the items.
-     * @param int         $itemTypeId   The item type to burn.
-     * @param int         $quantity     The quantity to remove (must be positive).
-     * @param int         $actorId The user ID performing the action.
-     * @param string|null $note         Optional audit note.
+     * @param int         $characterId The character losing the items.
+     * @param int         $itemTypeId  The item type to burn.
+     * @param int         $quantity    The quantity to remove (must be positive).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
@@ -114,7 +114,7 @@ class InventoryService
                 'quantity'        => $quantity,
                 'source_char_id'  => $characterId,
                 'target_char_id'  => null,
-                'actor_id' => $actorId,
+                'actor_id'        => $actorId,
                 'action'          => 'burn',
                 'note'            => $note,
                 'created_at'      => time(),
@@ -127,10 +127,10 @@ class InventoryService
     /**
      * Adjust an existing inventory row by a positive or negative delta.
      *
-     * @param int         $inventoryId   The inventory row ID to adjust.
-     * @param int         $delta         The signed quantity change (non-zero).
-     * @param int         $actorId The user ID performing the action.
-     * @param string|null $note          Optional audit note.
+     * @param int         $inventoryId The inventory row ID to adjust.
+     * @param int         $delta       The signed quantity change (non-zero).
+     * @param int         $actorId     The user ID performing the action.
+     * @param string|null $note        Optional audit note.
      *
      * @return StorageInventory The updated inventory row.
      *
@@ -180,7 +180,7 @@ class InventoryService
                 'quantity'        => abs($delta),
                 'source_char_id'  => $action === 'burn' ? $characterId : null,
                 'target_char_id'  => $action === 'mint' ? $characterId : null,
-                'actor_id' => $actorId,
+                'actor_id'        => $actorId,
                 'action'          => $action,
                 'note'            => $note,
                 'created_at'      => time(),
@@ -194,11 +194,11 @@ class InventoryService
      * Mint items to multiple characters in bulk. Each mint runs in its own
      * transaction; failures are collected rather than aborting the batch.
      *
-     * @param int    $itemTypeId    The item type to mint.
-     * @param int    $quantity      The quantity to mint per character.
-     * @param int[]  $characterIds  Array of character IDs to receive items.
-     * @param int    $actorId The user ID performing the action.
-     * @param string|null $note     Optional audit note.
+     * @param int         $itemTypeId   The item type to mint.
+     * @param int         $quantity     The quantity to mint per character.
+     * @param int[]       $characterIds Array of character IDs to receive items.
+     * @param int         $actorId      The user ID performing the action.
+     * @param string|null $note         Optional audit note.
      *
      * @return array{succeeded: array<int, array{character_id: int, new_quantity: int}>, failed: array<int, array{character_id: int, error: string}>}
      */
