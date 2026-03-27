@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LabelTokenSource;
 use App\Models\StorageInventory;
 use App\Models\StorageItemType;
 use App\Models\StorageLabelToken;
@@ -41,7 +42,7 @@ class LabelService
      */
     public function create(array $data, int $actorId): StorageLabelToken
     {
-        $source = $data['source'] ?? 'mint';
+        $source = LabelTokenSource::tryFrom($data['source'] ?? 'mint') ?? LabelTokenSource::Mint;
         $items = $data['items'] ?? [];
 
         if (empty($items)) {
@@ -55,29 +56,31 @@ class LabelService
             }
         }
 
-        if ($source === 'burn') {
+        if ($source === LabelTokenSource::Burn) {
             return $this->createBurnToken($data, $actorId, $items);
         }
 
-        $token = StorageLabelToken::create([
-            'token'          => Str::uuid()->toString(),
-            'note'           => $data['note'] ?? null,
-            'source'         => 'mint',
-            'source_char_id' => null,
-            'created_by'     => $actorId,
-            'created_at'     => time(),
-            'expires_at'     => $data['expires_at'] ?? null,
-        ]);
-
-        foreach ($items as $item) {
-            StorageLabelTokenItem::create([
-                'label_token_id' => $token->id,
-                'item_type_id'   => $item['item_type_id'],
-                'quantity'       => $item['quantity'] ?? 1,
+        return DB::transaction(function () use ($data, $actorId, $items) {
+            $token = StorageLabelToken::create([
+                'token'          => Str::uuid()->toString(),
+                'note'           => $data['note'] ?? null,
+                'source'         => LabelTokenSource::Mint->value,
+                'source_char_id' => null,
+                'created_by'     => $actorId,
+                'created_at'     => time(),
+                'expires_at'     => $data['expires_at'] ?? null,
             ]);
-        }
 
-        return $token->load('items');
+            foreach ($items as $item) {
+                StorageLabelTokenItem::create([
+                    'label_token_id' => $token->id,
+                    'item_type_id'   => $item['item_type_id'],
+                    'quantity'       => $item['quantity'] ?? 1,
+                ]);
+            }
+
+            return $token->load('items');
+        });
     }
 
     /**
@@ -227,7 +230,7 @@ class LabelService
             $token = StorageLabelToken::create([
                 'token'          => Str::uuid()->toString(),
                 'note'           => $data['note'] ?? null,
-                'source'         => 'burn',
+                'source'         => LabelTokenSource::Burn->value,
                 'source_char_id' => $data['source_char_id'],
                 'created_by'     => $actorId,
                 'created_at'     => time(),

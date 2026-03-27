@@ -34,11 +34,10 @@ class LabelServiceTest extends TestCase
      */
     private function createItemType(array $overrides = []): StorageItemType
     {
-        $category = StorageCategory::create([
-            'name'       => 'Test Category',
-            'created_at' => time(),
-            'created_by' => 1,
-        ]);
+        $category = StorageCategory::firstOrCreate(
+            ['name' => 'Test Category'],
+            ['created_at' => time(), 'created_by' => 1],
+        );
 
         return StorageItemType::create(array_merge([
             'name'         => 'Test Item',

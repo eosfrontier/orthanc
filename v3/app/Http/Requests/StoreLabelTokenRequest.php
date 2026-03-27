@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\LabelTokenSource;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -30,11 +31,12 @@ class StoreLabelTokenRequest extends FormRequest
             'items.*.item_type_id' => [
                 'required',
                 'integer',
+                'distinct',
                 Rule::exists('ecc_storage_item_types', 'id')->whereNull('deleted_at'),
             ],
             'items.*.quantity'    => 'required|integer|min:1',
             'note'               => 'nullable|string|max:255',
-            'source'             => ['required', Rule::in(['mint', 'burn'])],
+            'source'             => ['required', Rule::in(LabelTokenSource::cases())],
             'source_char_id'     => 'nullable|integer',
         ];
     }
