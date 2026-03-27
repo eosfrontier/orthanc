@@ -109,7 +109,7 @@ CREATE TABLE ecc_storage_log (
     quantity         INT          NOT NULL,
     source_char_id   INT UNSIGNED NULL,
     target_char_id   INT UNSIGNED NULL,
-    actor_joomla_id  INT UNSIGNED NOT NULL,  -- 0 = external system (app token); store token name in note field
+    actor_id  INT UNSIGNED NOT NULL,  -- 0 = external system (app token); store token name in note field
     action           VARCHAR(30)  NOT NULL,  -- 'mint' | 'burn' | 'transfer' | 'broker_fee' | 'label_burn' | 'label_claim'
     brokered         TINYINT(1)   NOT NULL DEFAULT 0,  -- 1 = via broker; hidden from player logs
     note             VARCHAR(255) NULL,
@@ -122,7 +122,7 @@ CREATE TABLE ecc_storage_log (
 ```
 - Append-only
 - Single row per operation (both source + target in one row)
-- `actor_joomla_id` is the GM or player who initiated — separate from source character. External systems (app token auth) use `0` as sentinel; the token name is stored in `note`
+- `actor_id` is the GM or player who initiated — separate from source character. External systems (app token auth) use `0` as sentinel; the token name is stored in `note`
 - Compound indexes with `created_at` support filtered + sorted paginated queries on 1M+ rows without full table scans
 
 ### `ecc_storage_settings`
@@ -381,7 +381,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 | `/v3/storage/labels` | GET | `?token=<uuid>` — single token info; `?unclaimed=1` — all unclaimed tokens (admin) |
 | `/v3/storage/labels/claim` | POST | Redeem token → mint to character |
 
-**`LabelService::create(array $data, int $actor_joomla_id): array`**
+**`LabelService::create(array $data, int $actor_id): array`**
 - If `source = 'burn'`: burns items from `source_char_id` + inserts token in one `DB::transaction()`; inserts a log row with `action = 'label_burn'`
 - If `source = 'mint'`: inserts token only, no inventory change; no log row written until claimed
 - Returns array of created token records
@@ -393,7 +393,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - Returns all rows where `claimed_by IS NULL`, ordered by `created_at DESC`
 - Eager-loads `itemType` name and creator info
 
-**`LabelService::claim(string $token, int $char_id, int $actor_joomla_id): array`**
+**`LabelService::claim(string $token, int $char_id, int $actor_id): array`**
 1. Look up token — 404 if not found, 410 if `claimed_by` already set or `expires_at` < now
 2. Call `InventoryService::mint(...)` in a transaction; log row uses `action = 'label_claim'`
 3. Set `claimed_by = char_id`, `claimed_at = now()` in the same transaction
