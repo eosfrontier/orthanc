@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * Validates a request to create a new label token.
+ * Validates a request to create a new label token with one or more item lines.
  */
 class StoreLabelTokenRequest extends FormRequest
 {
@@ -26,15 +26,16 @@ class StoreLabelTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_type_id' => [
+            'items'                => 'required|array|min:1',
+            'items.*.item_type_id' => [
                 'required',
                 'integer',
                 Rule::exists('ecc_storage_item_types', 'id')->whereNull('deleted_at'),
             ],
-            'quantity'        => 'required|integer|min:1',
-            'note'           => 'nullable|string|max:255',
-            'source'         => ['required', Rule::in(['mint', 'burn'])],
-            'source_char_id' => 'nullable|integer',
+            'items.*.quantity'    => 'required|integer|min:1',
+            'note'               => 'nullable|string|max:255',
+            'source'             => ['required', Rule::in(['mint', 'burn'])],
+            'source_char_id'     => 'nullable|integer',
         ];
     }
 }
