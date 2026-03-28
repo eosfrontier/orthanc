@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdjustInventoryRequest;
 use App\Http\Requests\BulkMintInventoryRequest;
+use App\Http\Requests\BurnInventoryRequest;
 use App\Http\Requests\MintInventoryRequest;
 use App\Http\Resources\StorageInventoryResource;
 use App\Models\StorageInventory;
@@ -79,22 +80,16 @@ class InventoryController extends Controller
     /**
      * Burn (remove) items from a character's inventory.
      */
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(BurnInventoryRequest $request, int $id): JsonResponse
     {
         $inventoryRow = StorageInventory::findOrFail($id);
-
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-            'actor_id' => 'required|integer',
-            'note'     => 'nullable|string|max:255',
-        ]);
 
         $inventory = $this->inventoryService->burn(
             $inventoryRow->character_id,
             $inventoryRow->item_type_id,
-            (int) $request->input('quantity'),
-            (int) $request->input('actor_id'),
-            $request->input('note'),
+            $request->validated('quantity'),
+            $request->validated('actor_id'),
+            $request->validated('note'),
         );
 
         $inventory->load('itemType.category');
