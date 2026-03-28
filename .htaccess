@@ -1,0 +1,17 @@
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Route /v3/ requests to the Laravel v3 app
+    RewriteCond %{REQUEST_URI} ^/v3/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^v3/(.*)$ v3/public/index.php [L,QSA]
+
+    # Route /docs (l5-swagger JSON spec endpoint) to the Laravel v3 app
+    RewriteRule ^docs$ v3/public/index.php [L,QSA]
+    RewriteRule ^docs/asset/(.*)$ v3/public/index.php [L,QSA]
+</IfModule>
