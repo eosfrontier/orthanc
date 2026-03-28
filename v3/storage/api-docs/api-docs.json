@@ -1,0 +1,2069 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Virtual Storage API",
+        "description": "REST API for the EOS Orthanc Virtual Storage system. Manages categories, item types, inventory, transfers, labels, and audit logs.",
+        "version": "3.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Storage API v3"
+        }
+    ],
+    "paths": {
+        "/v3/storage/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "List all active categories",
+                "description": "List all active categories.",
+                "operationId": "e31298d4233348e2aa83141e5614d5ed",
+                "responses": {
+                    "200": {
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StorageCategory"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "description": "Create a new category.",
+                "operationId": "c4a0b2a6641948e319f43730891f2207",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Weapons"
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageCategory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get a single category",
+                "description": "Show a single active category by ID.",
+                "operationId": "e3f3df14faeae521f9175e65a4da527f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageCategory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Rename a category",
+                "description": "System categories (is_system = 1) cannot be modified.",
+                "operationId": "ad5e0113d69a00f15b26ea2547c9a4f8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Armour"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageCategory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Soft-delete a category",
+                "description": "Rejected if the category is a system category or has active item types.",
+                "operationId": "0cd6b0ecfe7a2ede567552f5316ef4f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Category deleted"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/Conflict"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/inventory": {
+            "get": {
+                "tags": [
+                    "Inventory"
+                ],
+                "summary": "List inventory for a character",
+                "description": "List inventory for a character, eager-loading item type and category.",
+                "operationId": "07c00e633a4d42029cf00caf05034d34",
+                "parameters": [
+                    {
+                        "name": "char_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Character inventory",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StorageInventory"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Inventory"
+                ],
+                "summary": "Mint items into a character's inventory",
+                "description": "Mint items into a character's inventory.",
+                "operationId": "4a866f2003ec364fe94047b10ffa4fd4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "character_id",
+                                    "item_type_id",
+                                    "quantity",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "character_id": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "item_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "example": 10
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Quest reward",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Items minted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageInventory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/inventory/{id}": {
+            "delete": {
+                "tags": [
+                    "Inventory"
+                ],
+                "summary": "Burn items from inventory",
+                "description": "Burn (remove) items from a character's inventory.",
+                "operationId": "fb7b75415f63aa57d234177fbfbb5706",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "example": 5
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Consumed in quest",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Items burned, returns updated inventory row",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageInventory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Inventory"
+                ],
+                "summary": "Adjust inventory quantity by a delta",
+                "description": "Adjust an inventory row by a signed delta.",
+                "operationId": "81e1848b09040461f2f89d0f70d2c684",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "description": "Signed delta (positive or negative)",
+                                        "type": "integer",
+                                        "example": -5
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Correction",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory adjusted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageInventory"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/inventory/bulk": {
+            "post": {
+                "tags": [
+                    "Inventory"
+                ],
+                "summary": "Bulk mint items to multiple characters",
+                "description": "Returns 201 if all succeeded, 207 if partially succeeded, 422 if all failed.",
+                "operationId": "218daa5484d1a4d93028ed92a51ade17",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "item_type_id",
+                                    "quantity",
+                                    "character_ids",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "item_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "example": 10
+                                    },
+                                    "character_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "maxItems": 200,
+                                        "minItems": 1,
+                                        "example": [
+                                            100,
+                                            101,
+                                            102
+                                        ]
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Event reward",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "All mints succeeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_attempted": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "total_succeeded": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "total_failed": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "succeeded": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "char_id": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "new_quantity": {
+                                                        "type": "integer",
+                                                        "example": 60
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "failed": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "char_id": {
+                                                        "type": "integer",
+                                                        "example": 103
+                                                    },
+                                                    "error": {
+                                                        "type": "string",
+                                                        "example": "Max quantity exceeded"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "Partial success — some mints failed"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/item-types": {
+            "get": {
+                "tags": [
+                    "Item Types"
+                ],
+                "summary": "List all active item types",
+                "description": "List all active item types with their category eager-loaded.",
+                "operationId": "0388e72d318d60ddc30a6bb0d0d73ce3",
+                "responses": {
+                    "200": {
+                        "description": "List of item types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StorageItemType"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Item Types"
+                ],
+                "summary": "Create a new item type",
+                "description": "Create a new item type.",
+                "operationId": "747c364e2df0c477ee71fdb4b3c80d4e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "category_id",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Sonuren"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Standard currency",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "example": "coin",
+                                        "nullable": true
+                                    },
+                                    "stackable": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    },
+                                    "max_quantity": {
+                                        "type": "integer",
+                                        "example": 999,
+                                        "nullable": true
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item type created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageItemType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/item-types/{id}": {
+            "get": {
+                "tags": [
+                    "Item Types"
+                ],
+                "summary": "Get a single item type",
+                "description": "Show a single active item type by ID with its category.",
+                "operationId": "1f7a3f1daf77fc449bdd46317193f2da",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item type details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageItemType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Item Types"
+                ],
+                "summary": "Update an item type",
+                "description": "System item types (is_system = 1) cannot be modified.",
+                "operationId": "6eeb179f2d46b4a4f2e094ca3321326c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Sonuren"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Standard currency",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "example": "coin",
+                                        "nullable": true
+                                    },
+                                    "stackable": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    },
+                                    "max_quantity": {
+                                        "type": "integer",
+                                        "example": 999,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item type updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageItemType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Item Types"
+                ],
+                "summary": "Soft-delete an item type",
+                "description": "System item types (is_system = 1) cannot be deleted.",
+                "operationId": "078277d663d7ec4024d06fce76cbdde9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Item type deleted"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/labels": {
+            "get": {
+                "tags": [
+                    "Labels"
+                ],
+                "summary": "List or look up label tokens",
+                "description": "Pass `?token=<uuid>` to look up a single token, or `?unclaimed=1` to list all unclaimed tokens. Without parameters, returns all tokens.",
+                "operationId": "5496d62ee23620c8ec1dfffe28b53d28",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "UUID of a specific label token",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "unclaimed",
+                        "in": "query",
+                        "description": "Set to 1 to list only unclaimed tokens",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Single token (when ?token=) or collection",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "oneOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/StorageLabelToken"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/StorageLabelToken"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Labels"
+                ],
+                "summary": "Create a new label token",
+                "description": "Creates a label token with attached items. Source \"mint\" creates fresh items; source \"burn\" pre-burns items from a character.",
+                "operationId": "a8be1c7dc47a9ab67de96875bb812742",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "items",
+                                    "source",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "item_type_id",
+                                                "quantity"
+                                            ],
+                                            "properties": {
+                                                "item_type_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "maxItems": 50,
+                                        "minItems": 1
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Starter pack",
+                                        "nullable": true
+                                    },
+                                    "source": {
+                                        "type": "string",
+                                        "enum": [
+                                            "mint",
+                                            "burn"
+                                        ],
+                                        "example": "mint"
+                                    },
+                                    "source_char_id": {
+                                        "description": "Required when source is \"burn\"",
+                                        "type": "integer",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "expires_at": {
+                                        "description": "Unix timestamp",
+                                        "type": "integer",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Label token created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageLabelToken"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/labels/claim": {
+            "post": {
+                "tags": [
+                    "Labels"
+                ],
+                "summary": "Claim a label token",
+                "description": "Redeems a label token, minting its items into the specified character's inventory. Tokens can only be claimed once.",
+                "operationId": "8163dc9286fb609881786a11981b7581",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "character_id",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "format": "uuid",
+                                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                                    },
+                                    "character_id": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token claimed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageLabelToken"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/log": {
+            "get": {
+                "tags": [
+                    "Log"
+                ],
+                "summary": "List audit log entries",
+                "description": "Returns paginated log entries. Filter by character, item type, or brokered status. Brokered rows are hidden by default.",
+                "operationId": "f2995a75845891d328cb50e2d6be3a10",
+                "parameters": [
+                    {
+                        "name": "char_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "item_type_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include_brokered",
+                        "in": "query",
+                        "description": "Include brokered fee rows",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 50,
+                            "maximum": 200
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated log entries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StorageLog"
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "has_more": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/settings": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "List all settings",
+                "description": "List all settings.",
+                "operationId": "85bbc7ea037b3983c5a75454741eb972",
+                "responses": {
+                    "200": {
+                        "description": "List of settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StorageSetting"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Update a setting",
+                "description": "Updates a single setting by key. Unknown keys are rejected. Known keys: transfers_enabled (0 or 1), broker_fee_sonuren (integer >= 0).",
+                "operationId": "21d5e82fd27e6eb1fb0df0a197170b63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "key",
+                                    "value",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "example": "transfers_enabled"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Setting updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/StorageSetting"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v3/storage/transfer": {
+            "post": {
+                "tags": [
+                    "Transfers"
+                ],
+                "summary": "Transfer items between characters",
+                "description": "Transfers items from source to target character. Brokered transfers deduct a Sonuren fee from the sender. Returns 423 if transfers are disabled.",
+                "operationId": "22085a6d4bd2c08bebe2a50d1d2e7ab0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "source_char_id",
+                                    "target_char_id",
+                                    "item_type_id",
+                                    "quantity",
+                                    "actor_id"
+                                ],
+                                "properties": {
+                                    "source_char_id": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "target_char_id": {
+                                        "type": "integer",
+                                        "example": 200
+                                    },
+                                    "item_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "example": 10
+                                    },
+                                    "brokered": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "actor_id": {
+                                        "type": "integer",
+                                        "example": 42
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "Trade deal",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transfer completed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "source": {
+                                                    "$ref": "#/components/schemas/StorageInventory"
+                                                },
+                                                "target": {
+                                                    "$ref": "#/components/schemas/StorageInventory"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationError"
+                    },
+                    "423": {
+                        "$ref": "#/components/responses/Locked"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StorageCategory": {
+                "required": [
+                    "id",
+                    "name",
+                    "created_at",
+                    "created_by",
+                    "is_system"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Base OpenAPI specification for the Virtual Storage API.\n\nContains the API info, server configuration, security scheme,\nall reusable schemas, and common error responses.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Currency"
+                    },
+                    "created_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "deleted_at": {
+                        "description": "Unix timestamp, null if active",
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "is_system": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "StorageItemType": {
+                "required": [
+                    "id",
+                    "name",
+                    "category_id",
+                    "stackable",
+                    "is_system",
+                    "created_at",
+                    "created_by"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Sonuren"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Standard currency",
+                        "nullable": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": "coin",
+                        "nullable": true
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "stackable": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "max_quantity": {
+                        "type": "integer",
+                        "example": 999,
+                        "nullable": true
+                    },
+                    "is_system": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 0
+                    },
+                    "created_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "updated_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600,
+                        "nullable": true
+                    },
+                    "deleted_at": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "category_name": {
+                        "type": "string",
+                        "example": "Currency"
+                    }
+                },
+                "type": "object"
+            },
+            "StorageInventory": {
+                "required": [
+                    "id",
+                    "character_id",
+                    "item_type_id",
+                    "quantity",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "character_id": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "item_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "updated_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    },
+                    "item_type": {
+                        "$ref": "#/components/schemas/StorageItemType"
+                    }
+                },
+                "type": "object"
+            },
+            "StorageLog": {
+                "required": [
+                    "id",
+                    "item_type_id",
+                    "quantity",
+                    "actor_id",
+                    "action",
+                    "brokered",
+                    "created_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "item_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "source_char_id": {
+                        "type": "integer",
+                        "example": 100,
+                        "nullable": true
+                    },
+                    "target_char_id": {
+                        "type": "integer",
+                        "example": 200,
+                        "nullable": true
+                    },
+                    "actor_id": {
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "action": {
+                        "type": "string",
+                        "example": "mint"
+                    },
+                    "brokered": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 0
+                    },
+                    "note": {
+                        "type": "string",
+                        "example": "Quest reward",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    }
+                },
+                "type": "object"
+            },
+            "StorageSetting": {
+                "required": [
+                    "key_name",
+                    "value",
+                    "updated_at",
+                    "updated_by"
+                ],
+                "properties": {
+                    "key_name": {
+                        "type": "string",
+                        "example": "transfers_enabled"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "updated_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "example": 42
+                    }
+                },
+                "type": "object"
+            },
+            "StorageLabelToken": {
+                "required": [
+                    "id",
+                    "token",
+                    "items",
+                    "source",
+                    "created_by",
+                    "created_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "token": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StorageLabelTokenItem"
+                        }
+                    },
+                    "note": {
+                        "type": "string",
+                        "example": "Starter pack",
+                        "nullable": true
+                    },
+                    "source": {
+                        "type": "string",
+                        "enum": [
+                            "mint",
+                            "burn"
+                        ],
+                        "example": "mint"
+                    },
+                    "source_char_id": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "created_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": 1711641600
+                    },
+                    "claimed_by": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "claimed_at": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "expires_at": {
+                        "description": "Unix timestamp",
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StorageLabelTokenItem": {
+                "required": [
+                    "id",
+                    "item_type_id",
+                    "quantity"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "item_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "item_type": {
+                        "$ref": "#/components/schemas/StorageItemType"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationError": {
+                "required": [
+                    "message",
+                    "errors"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "The given data was invalid."
+                    },
+                    "errors": {
+                        "type": "object",
+                        "example": {
+                            "name": [
+                                "The name field is required."
+                            ]
+                        },
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorMessage": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Unauthenticated."
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "Unauthenticated": {
+                "description": "Unauthenticated — missing or invalid bearer token",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "Forbidden": {
+                "description": "Forbidden — token lacks the required ability",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "NotFound": {
+                "description": "Resource not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "Conflict": {
+                "description": "Conflict — resource has dependent records",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "ValidationError": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Locked": {
+                "description": "Locked — the requested operation is currently disabled",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter your Sanctum bearer token",
+                "bearerFormat": "Sanctum",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
+        {
+            "name": "Inventory",
+            "description": "Inventory"
+        },
+        {
+            "name": "Item Types",
+            "description": "Item Types"
+        },
+        {
+            "name": "Labels",
+            "description": "Labels"
+        },
+        {
+            "name": "Log",
+            "description": "Log"
+        },
+        {
+            "name": "Settings",
+            "description": "Settings"
+        },
+        {
+            "name": "Transfers",
+            "description": "Transfers"
+        }
+    ]
+}
