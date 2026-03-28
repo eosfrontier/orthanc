@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\LabelTokenSource;
 use App\Models\StorageInventory;
+use App\Enums\LogAction;
 use App\Models\StorageItemType;
 use App\Models\StorageLabelToken;
 use App\Models\StorageLabelTokenItem;
@@ -98,6 +99,18 @@ class LabelService
     }
 
     /**
+     * Return all tokens, ordered newest-first, with items eager-loaded.
+     *
+     * @return Collection<int, StorageLabelToken>
+     */
+    public function getAll(): Collection
+    {
+        return StorageLabelToken::with('items.itemType')
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
+    /**
      * Return all unclaimed tokens, ordered newest-first, with items eager-loaded.
      *
      * @return Collection<int, StorageLabelToken>
@@ -157,10 +170,12 @@ class LabelService
                 throw new \DomainException('Label token has expired.');
             }
 
-            $tokenItems = StorageLabelTokenItem::where('label_token_id', $lockedToken->id)->get();
+            $tokenItems = StorageLabelTokenItem::where('label_token_id', $lockedToken->id)
+                ->with('itemType')
+                ->get();
 
             foreach ($tokenItems as $tokenItem) {
-                $itemType = StorageItemType::findOrFail($tokenItem->item_type_id);
+                $itemType = $tokenItem->itemType;
 
                 $inventory = StorageInventory::where('character_id', $charId)
                     ->where('item_type_id', $tokenItem->item_type_id)
@@ -194,7 +209,7 @@ class LabelService
                     'source_char_id' => null,
                     'target_char_id' => $charId,
                     'actor_id'       => $actorId,
-                    'action'         => 'label_claim',
+                    'action'         => LogAction::LabelClaim->value,
                     'brokered'       => false,
                     'note'           => $lockedToken->note,
                     'created_at'     => time(),
@@ -245,11 +260,15 @@ class LabelService
                     ->lockForUpdate()
                     ->first();
 
-                $currentQty = $inventory ? $inventory->quantity : 0;
-
-                if ($currentQty < $quantity) {
+                if ($inventory === null) {
                     throw new \DomainException(
-                        "Insufficient quantity: have {$currentQty}, tried to burn {$quantity}."
+                        "No inventory found for character {$data['source_char_id']} and item type {$item['item_type_id']}."
+                    );
+                }
+
+                if ($inventory->quantity < $quantity) {
+                    throw new \DomainException(
+                        "Insufficient quantity: have {$inventory->quantity}, tried to burn {$quantity}."
                     );
                 }
 
@@ -263,7 +282,7 @@ class LabelService
                     'source_char_id' => $data['source_char_id'],
                     'target_char_id' => null,
                     'actor_id'       => $actorId,
-                    'action'         => 'label_burn',
+                    'action'         => LogAction::LabelBurn->value,
                     'brokered'       => false,
                     'note'           => $data['note'] ?? null,
                     'created_at'     => time(),

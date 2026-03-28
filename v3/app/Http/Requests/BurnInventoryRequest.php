@@ -5,9 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Validates a request to create a new storage category.
+ * Validates a request to burn (remove) items from a character's inventory.
  */
-class StoreCategoryRequest extends FormRequest
+class BurnInventoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:100|unique:ecc_storage_categories,name',
+            'quantity' => 'required|integer|min:1',
             'actor_id' => 'required|integer',
+            'note'     => 'nullable|string|max:255',
         ];
     }
 }

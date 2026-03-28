@@ -32,10 +32,11 @@ class StoreItemTypeRequest extends FormRequest
                 'integer',
                 Rule::exists('ecc_storage_categories', 'id')->whereNull('deleted_at'),
             ],
-            'description'  => 'nullable|string',
+            'description'  => 'nullable|string|max:1000',
             'icon'         => 'nullable|string|max:100',
             'stackable'    => 'sometimes|boolean',
             'max_quantity'  => 'nullable|integer|min:1',
+            'actor_id'      => 'required|integer',
         ];
     }
 }

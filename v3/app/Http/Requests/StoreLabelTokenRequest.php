@@ -27,7 +27,7 @@ class StoreLabelTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items'                => 'required|array|min:1',
+            'items'                => 'required|array|min:1|max:50',
             'items.*.item_type_id' => [
                 'required',
                 'integer',
@@ -37,7 +37,9 @@ class StoreLabelTokenRequest extends FormRequest
             'items.*.quantity'    => 'required|integer|min:1',
             'note'               => 'nullable|string|max:255',
             'source'             => ['required', Rule::in(LabelTokenSource::cases())],
-            'source_char_id'     => 'nullable|integer',
+            'source_char_id'     => 'nullable|required_if:source,burn|integer',
+            'actor_id'           => 'required|integer',
+            'expires_at'         => 'nullable|integer|min:0',
         ];
     }
 }

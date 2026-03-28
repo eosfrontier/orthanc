@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LogAction;
 use App\Exceptions\TransfersLockedException;
 use App\Models\StorageInventory;
 use App\Models\StorageItemType;
@@ -141,7 +142,7 @@ class TransferService
                 'source_char_id'  => $sourceCharId,
                 'target_char_id'  => $targetCharId,
                 'actor_id'        => $actorId,
-                'action'          => 'transfer',
+                'action'          => LogAction::Transfer->value,
                 'brokered'        => $brokered,
                 'note'            => $note,
                 'created_at'      => time(),
@@ -183,11 +184,13 @@ class TransferService
             ->lockForUpdate()
             ->first();
 
-        $currentBalance = $sonurenInventory ? $sonurenInventory->quantity : 0;
+        if ($sonurenInventory === null) {
+            throw new \DomainException('No Sonuren inventory for character ' . $sourceCharId . '.');
+        }
 
-        if ($currentBalance < $fee) {
+        if ($sonurenInventory->quantity < $fee) {
             throw new \DomainException(
-                "Insufficient Sonuren for broker fee: have {$currentBalance}, need {$fee}."
+                "Insufficient Sonuren for broker fee: have {$sonurenInventory->quantity}, need {$fee}."
             );
         }
 
@@ -201,7 +204,7 @@ class TransferService
             'source_char_id'  => $sourceCharId,
             'target_char_id'  => null,
             'actor_id'        => $actorId,
-            'action'          => 'broker_fee',
+            'action'          => LogAction::BrokerFee->value,
             'brokered'        => true,
             'note'            => null,
             'created_at'      => time(),

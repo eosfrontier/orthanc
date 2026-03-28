@@ -32,8 +32,8 @@ class BulkMintInventoryRequest extends FormRequest
                 Rule::exists('ecc_storage_item_types', 'id')->whereNull('deleted_at'),
             ],
             'quantity'        => 'required|integer|min:1',
-            'character_ids'   => 'required|array|max:200',
-            'character_ids.*' => 'integer',
+            'character_ids'   => 'required|array|min:1|max:200',
+            'character_ids.*' => 'integer|min:1',
             'actor_id'        => 'required|integer',
             'note'           => 'nullable|string|max:255',
         ];

@@ -25,7 +25,7 @@ class ClaimLabelTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token'           => 'required|string|size:36',
+            'token'           => 'required|string|uuid',
             'character_id'    => 'required|integer',
             'actor_id'        => 'required|integer',
         ];
