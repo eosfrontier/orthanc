@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\LabelTokenSource;
 use App\Models\StorageInventory;
+use App\Enums\LogAction;
 use App\Models\StorageItemType;
 use App\Models\StorageLabelToken;
 use App\Models\StorageLabelTokenItem;
@@ -208,7 +209,7 @@ class LabelService
                     'source_char_id' => null,
                     'target_char_id' => $charId,
                     'actor_id'       => $actorId,
-                    'action'         => 'label_claim',
+                    'action'         => LogAction::LabelClaim->value,
                     'brokered'       => false,
                     'note'           => $lockedToken->note,
                     'created_at'     => time(),
@@ -281,7 +282,7 @@ class LabelService
                     'source_char_id' => $data['source_char_id'],
                     'target_char_id' => null,
                     'actor_id'       => $actorId,
-                    'action'         => 'label_burn',
+                    'action'         => LogAction::LabelBurn->value,
                     'brokered'       => false,
                     'note'           => $data['note'] ?? null,
                     'created_at'     => time(),

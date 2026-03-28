@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LogAction;
 use App\Exceptions\TransfersLockedException;
 use App\Models\StorageInventory;
 use App\Models\StorageItemType;
@@ -141,7 +142,7 @@ class TransferService
                 'source_char_id'  => $sourceCharId,
                 'target_char_id'  => $targetCharId,
                 'actor_id'        => $actorId,
-                'action'          => 'transfer',
+                'action'          => LogAction::Transfer->value,
                 'brokered'        => $brokered,
                 'note'            => $note,
                 'created_at'      => time(),
@@ -203,7 +204,7 @@ class TransferService
             'source_char_id'  => $sourceCharId,
             'target_char_id'  => null,
             'actor_id'        => $actorId,
-            'action'          => 'broker_fee',
+            'action'          => LogAction::BrokerFee->value,
             'brokered'        => true,
             'note'            => null,
             'created_at'      => time(),

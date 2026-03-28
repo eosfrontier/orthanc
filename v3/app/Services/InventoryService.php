@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LogAction;
 use App\Models\StorageInventory;
 use App\Models\StorageItemType;
 use App\Models\StorageLog;
@@ -67,7 +68,7 @@ class InventoryService
                 'source_char_id'  => null,
                 'target_char_id'  => $characterId,
                 'actor_id'        => $actorId,
-                'action'          => 'mint',
+                'action'          => LogAction::Mint->value,
                 'note'            => $note,
                 'created_at'      => time(),
             ]);
@@ -123,7 +124,7 @@ class InventoryService
                 'source_char_id'  => $characterId,
                 'target_char_id'  => null,
                 'actor_id'        => $actorId,
-                'action'          => 'burn',
+                'action'          => LogAction::Burn->value,
                 'note'            => $note,
                 'created_at'      => time(),
             ]);
@@ -180,16 +181,16 @@ class InventoryService
             $inventory->updated_at = time();
             $inventory->save();
 
-            $action = $delta > 0 ? 'mint' : 'burn';
+            $action = $delta > 0 ? LogAction::Mint : LogAction::Burn;
             $characterId = $inventory->character_id;
 
             StorageLog::create([
                 'item_type_id'    => $inventory->item_type_id,
                 'quantity'        => abs($delta),
-                'source_char_id'  => $action === 'burn' ? $characterId : null,
-                'target_char_id'  => $action === 'mint' ? $characterId : null,
+                'source_char_id'  => $action === LogAction::Burn ? $characterId : null,
+                'target_char_id'  => $action === LogAction::Mint ? $characterId : null,
                 'actor_id'        => $actorId,
-                'action'          => $action,
+                'action'          => $action->value,
                 'note'            => $note,
                 'created_at'      => time(),
             ]);
