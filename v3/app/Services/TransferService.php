@@ -183,11 +183,13 @@ class TransferService
             ->lockForUpdate()
             ->first();
 
-        $currentBalance = $sonurenInventory ? $sonurenInventory->quantity : 0;
+        if ($sonurenInventory === null) {
+            throw new \DomainException('No Sonuren inventory for character ' . $sourceCharId . '.');
+        }
 
-        if ($currentBalance < $fee) {
+        if ($sonurenInventory->quantity < $fee) {
             throw new \DomainException(
-                "Insufficient Sonuren for broker fee: have {$currentBalance}, need {$fee}."
+                "Insufficient Sonuren for broker fee: have {$sonurenInventory->quantity}, need {$fee}."
             );
         }
 

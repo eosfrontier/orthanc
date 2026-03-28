@@ -406,7 +406,7 @@ class TransferServiceTest extends TestCase
         $this->seedInventory(100, $itemType->id, 5);
 
         $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage('Insufficient Sonuren for broker fee');
+        $this->expectExceptionMessage('No Sonuren inventory');
         $this->service->transfer(100, 200, $itemType->id, 2, 1, true);
     }
 
