@@ -427,21 +427,21 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 ### Step 5 — Services ([orthanc#101](https://github.com/eosfrontier/orthanc/issues/101))
 - [x] V3-07 ([orthanc#84](https://github.com/eosfrontier/orthanc/issues/84)): `InventoryService` — mint/burn/adjust/bulk inside `DB::transaction()`; `max_quantity` cap (422) + unit tests
 - [x] V3-08 ([orthanc#85](https://github.com/eosfrontier/orthanc/issues/85)): `TransferService` — brokered logic; `transfers_enabled` gate (423); receiver cap check + unit tests
-- [ ] V3-09 ([orthanc#86](https://github.com/eosfrontier/orthanc/issues/86)): `LabelService` — token creation, claim flow + unit tests
+- [x] V3-09 ([orthanc#86](https://github.com/eosfrontier/orthanc/issues/86)): `LabelService` — token creation, claim flow + unit tests
 
 ### Step 6 — Controllers + routes ([orthanc#102](https://github.com/eosfrontier/orthanc/issues/102))
-- [ ] V3-10 ([orthanc#87](https://github.com/eosfrontier/orthanc/issues/87)): `CategoryController` + `ItemTypeController` + apiResource routes + feature tests
-- [ ] V3-11 ([orthanc#88](https://github.com/eosfrontier/orthanc/issues/88)): `InventoryController` + feature tests (bulk, cap enforcement, partial success 207)
-- [ ] V3-12 ([orthanc#89](https://github.com/eosfrontier/orthanc/issues/89)): `TransferController` + feature tests (brokered, transfers locked 423, cap exceeded)
-- [ ] V3-13 ([orthanc#90](https://github.com/eosfrontier/orthanc/issues/90)): `LogController` + UNION ALL query (verify index hits with EXPLAIN) + feature tests
-- [ ] V3-14 ([orthanc#91](https://github.com/eosfrontier/orthanc/issues/91)): `SettingsController` + feature tests
+- [x] V3-10 ([orthanc#87](https://github.com/eosfrontier/orthanc/issues/87)): `CategoryController` + `ItemTypeController` + apiResource routes + feature tests
+- [x] V3-11 ([orthanc#88](https://github.com/eosfrontier/orthanc/issues/88)): `InventoryController` + feature tests (bulk, cap enforcement, partial success 207)
+- [x] V3-12 ([orthanc#89](https://github.com/eosfrontier/orthanc/issues/89)): `TransferController` + feature tests (brokered, transfers locked 423, cap exceeded)
+- [x] V3-13 ([orthanc#90](https://github.com/eosfrontier/orthanc/issues/90)): `LogController` + UNION ALL query (verify index hits with EXPLAIN) + feature tests
+- [x] V3-14 ([orthanc#91](https://github.com/eosfrontier/orthanc/issues/91)): `SettingsController` + feature tests
 - [ ] V3-15 ([orthanc#92](https://github.com/eosfrontier/orthanc/issues/92)): Apache/vhost config: serve `orthanc/v3/public/` alongside v2; confirm v2 joomla/chars endpoints still resolve
 - Smoke-test all endpoints with curl using an issued Sanctum token
 
 ### Step 7 — Label Printing ([orthanc#103](https://github.com/eosfrontier/orthanc/issues/103))
 - [ ] LBL-01 ([orthanc#93](https://github.com/eosfrontier/orthanc/issues/93)): `ecc_storage_label_tokens` migration (in `v3/database/migrations/`) + rollback SQL
-- [ ] LBL-02 ([orthanc#94](https://github.com/eosfrontier/orthanc/issues/94)): `LabelController` + `LabelService` (already scaffolded in Step 5) + feature tests
-- [ ] LBL-03 ([orthanc#95](https://github.com/eosfrontier/orthanc/issues/95)): Label routes in `routes/api.php`: POST `/v3/storage/labels`, GET `/v3/storage/labels`, POST `/v3/storage/labels/claim`
+- [x] LBL-02 ([orthanc#94](https://github.com/eosfrontier/orthanc/issues/94)): `LabelController` + `LabelService` (already scaffolded in Step 5) + feature tests
+- [x] LBL-03 ([orthanc#95](https://github.com/eosfrontier/orthanc/issues/95)): Label routes in `routes/api.php`: POST `/v3/storage/labels`, GET `/v3/storage/labels`, POST `/v3/storage/labels/claim`
 
 ---
 
