@@ -20,8 +20,7 @@ class StorageLabelTokenResource extends JsonResource
         return [
             'id'              => $this->id,
             'token'           => $this->token,
-            'item_type_id'    => $this->item_type_id,
-            'quantity'        => $this->quantity,
+            'items'           => StorageLabelTokenItemResource::collection($this->whenLoaded('items')),
             'note'            => $this->note,
             'source'          => $this->source,
             'source_char_id'  => $this->source_char_id,

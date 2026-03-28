@@ -38,6 +38,8 @@ class StoreLabelTokenRequest extends FormRequest
             'note'               => 'nullable|string|max:255',
             'source'             => ['required', Rule::in(LabelTokenSource::cases())],
             'source_char_id'     => 'nullable|integer',
+            'actor_id'           => 'required|integer',
+            'expires_at'         => 'nullable|integer',
         ];
     }
 }

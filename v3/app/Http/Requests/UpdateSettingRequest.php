@@ -25,7 +25,7 @@ class UpdateSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key'   => 'required|string|in:transfers_enabled',
+            'key'   => 'required|string|in:transfers_enabled,broker_fee_sonuren',
             'value' => 'required|string',
         ];
     }
