@@ -46,7 +46,7 @@ class LabelController extends Controller
             return StorageLabelTokenResource::collection($this->labelService->getUnclaimed());
         }
 
-        return StorageLabelTokenResource::collection($this->labelService->getUnclaimed());
+        return StorageLabelTokenResource::collection($this->labelService->getAll());
     }
 
     /**

@@ -98,6 +98,18 @@ class LabelService
     }
 
     /**
+     * Return all tokens, ordered newest-first, with items eager-loaded.
+     *
+     * @return Collection<int, StorageLabelToken>
+     */
+    public function getAll(): Collection
+    {
+        return StorageLabelToken::with('items.itemType')
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
+    /**
      * Return all unclaimed tokens, ordered newest-first, with items eager-loaded.
      *
      * @return Collection<int, StorageLabelToken>
@@ -245,11 +257,15 @@ class LabelService
                     ->lockForUpdate()
                     ->first();
 
-                $currentQty = $inventory ? $inventory->quantity : 0;
-
-                if ($currentQty < $quantity) {
+                if ($inventory === null) {
                     throw new \DomainException(
-                        "Insufficient quantity: have {$currentQty}, tried to burn {$quantity}."
+                        "No inventory found for character {$data['source_char_id']} and item type {$item['item_type_id']}."
+                    );
+                }
+
+                if ($inventory->quantity < $quantity) {
+                    throw new \DomainException(
+                        "Insufficient quantity: have {$inventory->quantity}, tried to burn {$quantity}."
                     );
                 }
 
