@@ -103,7 +103,7 @@ class CategoryControllerTest extends TestCase
         $auth = $this->createConsumerWithToken(['storage:admin']);
 
         $response = $this->withToken($auth['token'])
-            ->postJson('/api/v3/storage/categories', ['name' => 'Armor']);
+            ->postJson('/api/v3/storage/categories', ['name' => 'Armor', 'actor_id' => 1]);
 
         $response->assertCreated()
             ->assertJsonPath('data.name', 'Armor');
@@ -126,7 +126,7 @@ class CategoryControllerTest extends TestCase
         $this->createCategory(['name' => 'Armor']);
 
         $this->withToken($auth['token'])
-            ->postJson('/api/v3/storage/categories', ['name' => 'Armor'])
+            ->postJson('/api/v3/storage/categories', ['name' => 'Armor', 'actor_id' => 1])
             ->assertUnprocessable();
     }
 

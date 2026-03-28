@@ -36,8 +36,9 @@ class UpdateSettingRequest extends FormRequest
         }
 
         return [
-            'key'   => 'required|string|in:transfers_enabled,broker_fee_sonuren',
-            'value' => $valueRules,
+            'key'      => 'required|string|in:transfers_enabled,broker_fee_sonuren',
+            'value'    => $valueRules,
+            'actor_id' => 'required|integer',
         ];
     }
 }

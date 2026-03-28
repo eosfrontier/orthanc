@@ -44,10 +44,10 @@ class ItemTypeController extends Controller
     public function store(StoreItemTypeRequest $request): JsonResponse
     {
         $itemType = StorageItemType::create(array_merge(
-            $request->validated(),
+            $request->safe()->except(['actor_id']),
             [
                 'created_at' => time(),
-                'created_by' => $request->input('actor_id', 0),
+                'created_by' => $request->validated('actor_id'),
                 'updated_at' => time(),
             ]
         ));

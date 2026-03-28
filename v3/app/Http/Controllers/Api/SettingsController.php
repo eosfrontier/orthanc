@@ -31,7 +31,7 @@ class SettingsController extends Controller
         $setting->update([
             'value'      => $request->validated('value'),
             'updated_at' => time(),
-            'updated_by' => $request->input('actor_id', 0),
+            'updated_by' => $request->validated('actor_id'),
         ]);
 
         return new StorageSettingResource($setting);

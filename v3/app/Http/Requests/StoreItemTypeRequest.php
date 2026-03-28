@@ -36,6 +36,7 @@ class StoreItemTypeRequest extends FormRequest
             'icon'         => 'nullable|string|max:100',
             'stackable'    => 'sometimes|boolean',
             'max_quantity'  => 'nullable|integer|min:1',
+            'actor_id'      => 'required|integer',
         ];
     }
 }

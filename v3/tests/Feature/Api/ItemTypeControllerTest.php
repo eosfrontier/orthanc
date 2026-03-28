@@ -133,6 +133,7 @@ class ItemTypeControllerTest extends TestCase
                 'category_id'  => $category->id,
                 'stackable'    => true,
                 'max_quantity'  => 50,
+                'actor_id'     => 1,
             ]);
 
         $response->assertCreated()

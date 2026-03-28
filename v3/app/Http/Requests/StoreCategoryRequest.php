@@ -25,7 +25,8 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100|unique:ecc_storage_categories,name',
+            'name'     => 'required|string|max:100|unique:ecc_storage_categories,name',
+            'actor_id' => 'required|integer',
         ];
     }
 }

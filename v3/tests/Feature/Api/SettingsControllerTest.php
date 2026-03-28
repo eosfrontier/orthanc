@@ -72,8 +72,9 @@ class SettingsControllerTest extends TestCase
 
         $this->withToken($auth['token'])
             ->putJson('/api/v3/storage/settings', [
-                'key'   => 'transfers_enabled',
-                'value' => '0',
+                'key'      => 'transfers_enabled',
+                'value'    => '0',
+                'actor_id' => 1,
             ])
             ->assertOk()
             ->assertJsonPath('data.value', '0');
@@ -91,8 +92,9 @@ class SettingsControllerTest extends TestCase
 
         $this->withToken($auth['token'])
             ->putJson('/api/v3/storage/settings', [
-                'key'   => 'broker_fee_sonuren',
-                'value' => '50',
+                'key'      => 'broker_fee_sonuren',
+                'value'    => '50',
+                'actor_id' => 1,
             ])
             ->assertOk()
             ->assertJsonPath('data.value', '50');

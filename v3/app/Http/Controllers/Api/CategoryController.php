@@ -47,7 +47,7 @@ class CategoryController extends Controller
         $category = StorageCategory::create([
             'name'       => $request->validated('name'),
             'created_at' => time(),
-            'created_by' => $request->input('actor_id', 0),
+            'created_by' => $request->validated('actor_id'),
         ]);
 
         return (new StorageCategoryResource($category))
