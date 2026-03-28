@@ -7,6 +7,7 @@ use App\Http\Resources\StorageLogResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Attributes as OA;
 
 /**
  * Provides read access to the storage audit log with UNION ALL optimised
@@ -20,6 +21,35 @@ class LogController extends Controller
      * Supports `char_id`, `item_type_id`, `include_brokered`, `per_page`, and `page` params.
      * Character queries use UNION ALL on source/target indexes for performance.
      */
+    #[OA\Get(
+        path: '/v3/storage/log',
+        summary: 'List audit log entries',
+        description: 'Returns paginated log entries. Filter by character, item type, or brokered status. Brokered rows are hidden by default.',
+        security: [['bearerAuth' => []]],
+        tags: ['Log'],
+        parameters: [
+            new OA\Parameter(name: 'char_id', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'item_type_id', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'include_brokered', in: 'query', required: false, description: 'Include brokered fee rows', schema: new OA\Schema(type: 'integer', enum: [0, 1])),
+            new OA\Parameter(name: 'per_page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', maximum: 200, default: 50)),
+            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', minimum: 1, default: 1)),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Paginated log entries',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/StorageLog')),
+                        new OA\Property(property: 'page', type: 'integer', example: 1),
+                        new OA\Property(property: 'per_page', type: 'integer', example: 50),
+                        new OA\Property(property: 'has_more', type: 'boolean', example: false),
+                    ],
+                ),
+            ),
+            new OA\Response(ref: '#/components/responses/Unauthenticated', response: 401),
+        ],
+    )]
     public function index(Request $request): JsonResponse
     {
         $request->validate([
