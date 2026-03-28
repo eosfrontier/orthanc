@@ -169,10 +169,12 @@ class LabelService
                 throw new \DomainException('Label token has expired.');
             }
 
-            $tokenItems = StorageLabelTokenItem::where('label_token_id', $lockedToken->id)->get();
+            $tokenItems = StorageLabelTokenItem::where('label_token_id', $lockedToken->id)
+                ->with('itemType')
+                ->get();
 
             foreach ($tokenItems as $tokenItem) {
-                $itemType = StorageItemType::findOrFail($tokenItem->item_type_id);
+                $itemType = $tokenItem->itemType;
 
                 $inventory = StorageInventory::where('character_id', $charId)
                     ->where('item_type_id', $tokenItem->item_type_id)
