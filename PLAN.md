@@ -439,7 +439,7 @@ ORDER BY created_at DESC LIMIT 50 OFFSET 0
 - Smoke-test all endpoints with curl using an issued Sanctum token
 
 ### Step 7 — Label Printing ([orthanc#103](https://github.com/eosfrontier/orthanc/issues/103))
-- [ ] LBL-01 ([orthanc#93](https://github.com/eosfrontier/orthanc/issues/93)): `ecc_storage_label_tokens` migration (in `v3/database/migrations/`) + rollback SQL
+- [x] LBL-01 ([orthanc#93](https://github.com/eosfrontier/orthanc/issues/93)): `ecc_storage_label_tokens` migration (in `v3/database/migrations/`) + rollback SQL
 - [x] LBL-02 ([orthanc#94](https://github.com/eosfrontier/orthanc/issues/94)): `LabelController` + `LabelService` (already scaffolded in Step 5) + feature tests
 - [x] LBL-03 ([orthanc#95](https://github.com/eosfrontier/orthanc/issues/95)): Label routes in `routes/api.php`: POST `/v3/storage/labels`, GET `/v3/storage/labels`, POST `/v3/storage/labels/claim`
 
