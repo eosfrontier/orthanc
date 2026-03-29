@@ -31,7 +31,8 @@ class UpdateCategoryRequest extends FormRequest
                 'string',
                 'max:100',
                 Rule::unique('ecc_storage_categories', 'name')
-                    ->ignore($this->route('category')),
+                    ->ignore($this->route('category'))
+                    ->whereNull('deleted_at'),
             ],
         ];
     }

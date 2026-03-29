@@ -26,7 +26,12 @@ class StoreItemTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'         => 'required|string|max:100|unique:ecc_storage_item_types,name',
+            'name'         => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('ecc_storage_item_types', 'name')->whereNull('deleted_at'),
+            ],
             'category_id'  => [
                 'required',
                 'integer',

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Validates a request to create a new storage category.
@@ -25,7 +26,12 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:100|unique:ecc_storage_categories,name',
+            'name'     => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('ecc_storage_categories', 'name')->whereNull('deleted_at'),
+            ],
             'actor_id' => 'required|integer',
         ];
     }

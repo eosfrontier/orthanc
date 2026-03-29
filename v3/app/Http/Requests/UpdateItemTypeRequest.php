@@ -31,7 +31,8 @@ class UpdateItemTypeRequest extends FormRequest
                 'string',
                 'max:100',
                 Rule::unique('ecc_storage_item_types', 'name')
-                    ->ignore($this->route('item_type')),
+                    ->ignore($this->route('item_type'))
+                    ->whereNull('deleted_at'),
             ],
             'category_id' => [
                 'required',
