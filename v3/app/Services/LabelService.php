@@ -187,7 +187,7 @@ class LabelService
 
                 if ($itemType->max_quantity !== null && $newQty > $itemType->max_quantity) {
                     throw new \DomainException(
-                        "Claiming would exceed max quantity of {$itemType->max_quantity} for item type {$tokenItem->item_type_id}."
+                        "Would exceed the maximum of {$itemType->max_quantity} for {$itemType->name}."
                     );
                 }
 

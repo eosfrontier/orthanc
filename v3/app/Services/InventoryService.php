@@ -54,7 +54,7 @@ class InventoryService
 
             if ($itemType->max_quantity !== null && $newQty > $itemType->max_quantity) {
                 throw new \DomainException(
-                    "Mint would exceed max quantity of {$itemType->max_quantity} for item type {$itemTypeId}."
+                    "Would exceed the maximum of {$itemType->max_quantity} for {$itemType->name}."
                 );
             }
 
@@ -166,7 +166,7 @@ class InventoryService
                 $itemType = StorageItemType::findOrFail($inventory->item_type_id);
                 if ($itemType->max_quantity !== null && $newQty > $itemType->max_quantity) {
                     throw new \DomainException(
-                        "Adjust would exceed max quantity of {$itemType->max_quantity}."
+                        "Would exceed the maximum of {$itemType->max_quantity} for {$itemType->name}."
                     );
                 }
             }

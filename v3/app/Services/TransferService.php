@@ -113,7 +113,7 @@ class TransferService
 
             if ($itemType->max_quantity !== null && $newTargetQty > $itemType->max_quantity) {
                 throw new \DomainException(
-                    "Transfer would exceed max quantity of {$itemType->max_quantity} for item type {$itemTypeId}."
+                    "Would exceed the maximum of {$itemType->max_quantity} for {$itemType->name}."
                 );
             }
 
