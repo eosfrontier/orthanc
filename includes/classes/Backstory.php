@@ -45,7 +45,7 @@ class Backstory
     public function get_all_backstories($type)
     {
         if ($type == 'concept') {
-            $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, 
+            $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.sheet_status AS char_status,
             characters.faction as faction, update_user.name AS concept_updated_by, approved_user.name AS concept_approved_by, 
             ecc_backstory.concept_updated_date, change_requester.name as concept_changes_requested_by, ecc_backstory.concept_changes_requested_date, 
             ecc_backstory.concept_approval_date, FROM_BASE64(concept_content) as content, FROM_BASE64(concept_changes) as concept_changes, 
@@ -56,11 +56,12 @@ class Backstory
                 LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.concept_updated_by)
                 LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.concept_approved_by)
                 LEFT JOIN jml_users change_requester ON (change_requester.id = ecc_backstory.concept_changes_requested_by)
+                WHERE characters.sheet_status = 'active'
 		        ORDER by characters.faction ASC, characters.character_name ASC";
         }
 
         if ($type == 'backstory') {
-            $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, 
+            $query = "SELECT ecc_backstory.characterID, characters.accountID as accountID, characters.character_name as name, characters.sheet_status AS char_status,
             characters.faction as faction, update_user.name AS backstory_updated_by, ecc_backstory.backstory_updated_date, 
             change_requester.name as backstory_changes_requested_by, ecc_backstory.backstory_changes_requested_date, 
             approved_user.name AS backstory_approved_by, ecc_backstory.backstory_approval_date, FROM_BASE64(backstory_content) as content, 
@@ -72,6 +73,7 @@ class Backstory
                 LEFT JOIN jml_users update_user ON (update_user.id = ecc_backstory.backstory_updated_by)
                 LEFT JOIN jml_users approved_user ON (approved_user.id = ecc_backstory.backstory_approved_by)
                 LEFT JOIN jml_users change_requester ON (change_requester.id = ecc_backstory.backstory_changes_requested_by)
+                WHERE characters.sheet_status = 'active'
                 ORDER by characters.faction ASC, characters.character_name ASC";
         }
         $stmt = Database::$conn->prepare($query);
