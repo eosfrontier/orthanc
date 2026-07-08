@@ -14,18 +14,19 @@ header('Access-Control-Allow-Headers: *');
 if (!function_exists('get_normalized_headers')) {
     function get_normalized_headers(): array
     {
-        $headers = [];
-        foreach ($_SERVER as $name => $value) {
-            // HTTP_ headers
-            if (substr($name, 0, 5) == 'HTTP_') {
-                $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
-            }
-            // Content-Type and Content-Length are sometimes not prefixed with HTTP_
-            elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
-                $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', $name)))] = $value;
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+        } else {
+            $headers = [];
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headers[str_replace('_', '-', substr($name, 5))] = $value;
+                } elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+                    $headers[str_replace('_', '-', $name)] = $value;
+                }
             }
         }
-        return $headers;
+        return array_change_key_case($headers, CASE_LOWER);
     }
 }
 
@@ -36,8 +37,18 @@ $input = json_decode(file_get_contents('php://input'), true);
 $normalizedHeaders = get_normalized_headers();
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
 
-// Backwards compatibility layer for endpoints expecting camel-case/uppercase headers in $input
+// Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
+	// Duplicate hyphenated keys with underscores (e.g., 'char-id' becomes also accessible as 'char_id')
+	foreach ($input as $key => $value) {
+		if (strpos($key, '-') !== false) {
+			$underscoreKey = str_replace('-', '_', $key);
+			if (!isset($input[$underscoreKey])) {
+				$input[$underscoreKey] = $value;
+			}
+		}
+	}
+
 	$compatMap = [
 		'token'         => 'Token',
 		'authorization' => 'Authorization',
