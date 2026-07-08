@@ -41,8 +41,10 @@ if (!function_exists('get_normalized_headers')) {
 
 // Store Input
 $input = json_decode(file_get_contents('php://input'), true);
+echo 'Input: '. json_encode($input) . "\n";
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
+echo 'Normalized Headers: ' . json_encode($normalizedHeaders);
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
 // Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
