@@ -12,40 +12,36 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: *');
-echo json_encode($_SERVER);
+
 // Helper function to get normalized request headers
 if (!function_exists('get_normalized_headers')) {
 	function get_normalized_headers(): array
 	{
-		if (function_exists('getallheaders')) {
-			$headers = getallheaders();
-		} else {
-			$headers = [];
-			foreach ($_SERVER as $name => $value) {
-				if (strpos($name, 'HTTP_') === 0) {
-					$original_name_part = substr($name, 5);
-					$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
-					$underscored_name = strtolower($original_name_part);
+		$headers = [];
+		foreach ($_SERVER as $name => $value) {
+			if (strpos($name, 'HTTP_') === 0) {
+				$original_name_part = substr($name, 5);
+				$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
+				$underscored_name = strtolower($original_name_part);
 
-					$headers[$hyphenated_name] = $value;
-					// Also add the underscored version for compatibility, if it's different
-					if ($hyphenated_name !== $underscored_name) {
-						$headers[$underscored_name] = $value;
-					}
-				} elseif (strpos($name, 'FIX_') === 0) {
-					$original_name_part = substr($name, 4);
-					$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
-					$underscored_name = strtolower($original_name_part);
-
-					$headers[$hyphenated_name] = $value;
-					// Also add the underscored version for compatibility, if it's different
-					if ($hyphenated_name !== $underscored_name) {
-						$headers[$underscored_name] = $value;
-					}
-				} elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
-					$headers[str_replace('_', '-', strtolower($name))] = $value;
-					$headers[strtolower($name)] = $value; // Also add underscored version for these
+				$headers[$hyphenated_name] = $value;
+				// Also add the underscored version for compatibility, if it's different
+				if ($hyphenated_name !== $underscored_name) {
+					$headers[$underscored_name] = $value;
 				}
+			} elseif (strpos($name, 'FIX_') === 0) {
+				$original_name_part = substr($name, 4);
+				$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
+				$underscored_name = strtolower($original_name_part);
+
+				$headers[$hyphenated_name] = $value;
+				// Also add the underscored version for compatibility, if it's different
+				if ($hyphenated_name !== $underscored_name) {
+					$headers[$underscored_name] = $value;
+				}
+			} elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+				$headers[str_replace('_', '-', strtolower($name))] = $value;
+				$headers[strtolower($name)] = $value; // Also add underscored version for these
 			}
 		}
 		return array_change_key_case($headers, CASE_LOWER);
@@ -74,7 +70,6 @@ $normalizedHeaders = get_normalized_headers();
 // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION
 // echo 'Normalized Headers: ' . json_encode($normalizedHeaders) . "\n";
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
-echo json_encode($input); // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION	
 // Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
 }
