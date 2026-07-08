@@ -74,6 +74,7 @@ $normalizedHeaders = get_normalized_headers();
 // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION
 // echo 'Normalized Headers: ' . json_encode($normalizedHeaders) . "\n";
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
+echo json_encode($input); // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION	
 // Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
 }
