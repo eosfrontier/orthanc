@@ -5,7 +5,7 @@ if (empty($input['figurant'])) {
 	die();
 }
 
-$a_figurant = json_decode(utf8_encode($input['figurant']), true);
+$a_figurant = json_decode($input['figurant'], true);
 
 $a_result = $c_fetch->add_figurant($a_figurant);
 http_response_code(200);
