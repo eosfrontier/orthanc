@@ -1,7 +1,6 @@
 <?php
 
 // CHECK BY CHARACTER ID
-echo json_encode($input);
 if (!isset($input['char_id']) || !isset($input['type'])) {
 	http_response_code(400);
 	die(json_encode("You must include a 'char_id' AND a 'type'"));

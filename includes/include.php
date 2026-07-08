@@ -12,31 +12,30 @@ header('Access-Control-Allow-Headers: *');
 
 // Helper function to get normalized request headers
 if (!function_exists('get_normalized_headers')) {
-    function get_normalized_headers(): array
-    {
-        if (function_exists('getallheaders')) {
-            $headers = getallheaders();
-        } else {
-            $headers = [];
-            foreach ($_SERVER as $name => $value) {
-                if (substr($name, 0, 5) == 'HTTP_') {
-                    $headers[str_replace('_', '-', substr($name, 5))] = $value;
-                } elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
-                    $headers[str_replace('_', '-', $name)] = $value;
-                }
-            }
-        }
-        return array_change_key_case($headers, CASE_LOWER);
-    }
+	function get_normalized_headers(): array
+	{
+		if (function_exists('getallheaders')) {
+			$headers = getallheaders();
+		} else {
+			$headers = [];
+			foreach ($_SERVER as $name => $value) {
+				if (substr($name, 0, 5) == 'HTTP_') {
+					$headers[str_replace('_', '-', substr($name, 5))] = $value;
+				} elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+					$headers[str_replace('_', '-', $name)] = $value;
+				}
+			}
+		}
+		return array_change_key_case($headers, CASE_LOWER);
+	}
 }
 
 // Store Input
 $input = json_decode(file_get_contents('php://input'), true);
-
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
+echo json_encode($normalizedHeaders);
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
-
 // Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
 	// Duplicate hyphenated keys with underscores (e.g., 'char-id' becomes also accessible as 'char_id')
@@ -46,16 +45,6 @@ if (is_array($input)) {
 			if (!isset($input[$underscoreKey])) {
 				$input[$underscoreKey] = $value;
 			}
-		}
-	}
-
-	$compatMap = [
-		'token'         => 'Token',
-		'authorization' => 'Authorization',
-	];
-	foreach ($compatMap as $lower => $original) {
-		if (isset($input[$lower]) && !isset($input[$original])) {
-			$input[$original] = $input[$lower];
 		}
 	}
 }
