@@ -45,6 +45,7 @@ if (! isset($input)) {
 	$input = apache_request_headers();
 } else {
 	$input += apache_request_headers();
+}
 echo 'Input: '. json_encode($input) . "\n";
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
