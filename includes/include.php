@@ -20,9 +20,18 @@ if (!function_exists('get_normalized_headers')) {
 			$headers = [];
 			foreach ($_SERVER as $name => $value) {
 				if (substr($name, 0, 5) == 'HTTP_') {
-					$headers[str_replace('_', '-', substr($name, 5))] = $value;
+					$original_name_part = substr($name, 5);
+					$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
+					$underscored_name = strtolower($original_name_part);
+
+					$headers[$hyphenated_name] = $value;
+					// Also add the underscored version for compatibility, if it's different
+					if ($hyphenated_name !== $underscored_name) {
+						$headers[$underscored_name] = $value;
+					}
 				} elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
-					$headers[str_replace('_', '-', $name)] = $value;
+					$headers[str_replace('_', '-', strtolower($name))] = $value;
+					$headers[strtolower($name)] = $value; // Also add underscored version for these
 				}
 			}
 		}
@@ -34,19 +43,9 @@ if (!function_exists('get_normalized_headers')) {
 $input = json_decode(file_get_contents('php://input'), true);
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
-echo json_encode($normalizedHeaders);
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
 // Compatibility mapping for hyphens, underscores, and legacy camel-case keys
 if (is_array($input)) {
-	// Duplicate hyphenated keys with underscores (e.g., 'char-id' becomes also accessible as 'char_id')
-	foreach ($input as $key => $value) {
-		if (strpos($key, '-') !== false) {
-			$underscoreKey = str_replace('-', '_', $key);
-			if (!isset($input[$underscoreKey])) {
-				$input[$underscoreKey] = $value;
-			}
-		}
-	}
 }
 
 // Grab HTTP REST Method
