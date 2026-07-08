@@ -41,6 +41,10 @@ if (!function_exists('get_normalized_headers')) {
 
 // Store Input
 $input = json_decode(file_get_contents('php://input'), true);
+if (! isset($input)) {
+	$input = apache_request_headers();
+} else {
+	$input += apache_request_headers();
 echo 'Input: '. json_encode($input) . "\n";
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
