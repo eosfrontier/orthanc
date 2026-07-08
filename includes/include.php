@@ -10,13 +10,43 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: *');
 
+// Helper function to get normalized request headers
+if (!function_exists('get_normalized_headers')) {
+    function get_normalized_headers(): array
+    {
+        $headers = [];
+        foreach ($_SERVER as $name => $value) {
+            // HTTP_ headers
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
+            }
+            // Content-Type and Content-Length are sometimes not prefixed with HTTP_
+            elseif (in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+                $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', $name)))] = $value;
+            }
+        }
+        return $headers;
+    }
+}
+
 // Store Input
 $input = json_decode(file_get_contents('php://input'), true);
 
-if (! isset($input)) {
-	$input = apache_request_headers();
-} else {
-	$input += apache_request_headers();
+// Retrieve and merge normalized headers into $input
+$normalizedHeaders = get_normalized_headers();
+$input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
+
+// Backwards compatibility layer for endpoints expecting camel-case/uppercase headers in $input
+if (is_array($input)) {
+	$compatMap = [
+		'token'         => 'Token',
+		'authorization' => 'Authorization',
+	];
+	foreach ($compatMap as $lower => $original) {
+		if (isset($input[$lower]) && !isset($input[$original])) {
+			$input[$original] = $input[$lower];
+		}
+	}
 }
 
 // Grab HTTP REST Method

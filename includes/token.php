@@ -23,11 +23,11 @@ function token($token, $token_table = 'eos_tokens')
 }
 // CHECK ACCESS TOKEN.
 
-$headers = getallheaders();
+$headers = get_normalized_headers(); // Use the new helper function
 
 $access = '';
-if (isset($headers['token'])) {
-	$access = token($headers['token'], $token_table);
+if (isset($headers['token'])) { // Header names are now consistently lowercase
+	$access = token($headers['token'], $token_table); 
 	if ($access === false) {
 		http_response_code(401);
 		echo json_encode('YOU SHALL NOT PASS!!');
