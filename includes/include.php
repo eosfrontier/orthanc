@@ -12,7 +12,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: *');
-
+echo json_encode($_SERVER);
 // Helper function to get normalized request headers
 if (!function_exists('get_normalized_headers')) {
 	function get_normalized_headers(): array
@@ -61,7 +61,6 @@ $input += apache_request_headers();
 // echo 'Input (after JSON and apache_request_headers): '. json_encode($input) . "\n";
 // Retrieve and merge normalized headers into $input
 $normalizedHeaders = get_normalized_headers();
-echo 'Normalized Headers: ' . json_encode($normalizedHeaders);
 // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION
 // echo 'Normalized Headers: ' . json_encode($normalizedHeaders) . "\n";
 $input = is_array($input) ? array_merge($input, $normalizedHeaders) : $normalizedHeaders;
