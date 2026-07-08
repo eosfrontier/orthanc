@@ -12,7 +12,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: *');
-echo json_encode($_SERVER);
+// echo json_encode($_SERVER);
 // Helper function to get normalized request headers
 if (!function_exists('get_normalized_headers')) {
 	function get_normalized_headers(): array
@@ -22,8 +22,18 @@ if (!function_exists('get_normalized_headers')) {
 		} else {
 			$headers = [];
 			foreach ($_SERVER as $name => $value) {
-				if (substr($name, 0, 5) == 'HTTP_') {
+				if (strpos($name, 'HTTP_') === 0) {
 					$original_name_part = substr($name, 5);
+					$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
+					$underscored_name = strtolower($original_name_part);
+
+					$headers[$hyphenated_name] = $value;
+					// Also add the underscored version for compatibility, if it's different
+					if ($hyphenated_name !== $underscored_name) {
+						$headers[$underscored_name] = $value;
+					}
+				} elseif (strpos($name, 'FIX_') === 0) {
+					$original_name_part = substr($name, 4);
 					$hyphenated_name = str_replace('_', '-', strtolower($original_name_part));
 					$underscored_name = strtolower($original_name_part);
 
