@@ -3,3 +3,4 @@ includes/database.php
 includes/classes/database.php
 /vendor/
 /includes/classes/Database.php
+**/settings.local.json

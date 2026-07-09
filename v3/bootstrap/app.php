@@ -1,0 +1,27 @@
+<?php
+
+use App\Http\Middleware\RequireAbility;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        api: __DIR__.'/../routes/api.php',
+        apiPrefix: '',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'require-ability' => RequireAbility::class,
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->renderable(function (\App\Exceptions\TransfersLockedException $e) {
+            return response()->json(['message' => $e->getMessage()], 423);
+        });
+
+        $exceptions->renderable(function (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        });
+    })->create();
