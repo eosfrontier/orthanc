@@ -36,14 +36,8 @@ if (isset($input['all_characters_all_statuses'])) {
 }
 
 // CHECK BY JOOMLA ID
-if (isset($input['accountID']) || isset($input['accountid'])) {
-	if (isset($input['accountID'])) {
-		$accountid = $input['accountID'];
-	}
-	if (isset($input['accountid'])) {
-		$accountid = $input['accountid'];
-	}
-	$a_character = $c_fetch->get_active($accountid, 'accountID');
+if (isset($input['accountid'])) {
+	$a_character = $c_fetch->get_active($input['accountid'], 'accountID');
 	if (empty($a_character)) {
 		http_response_code(404);
 		echo json_encode('None found by accountID.');

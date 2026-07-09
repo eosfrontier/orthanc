@@ -21,19 +21,10 @@ function token($token, $token_table = 'eos_tokens')
 		return false;
 	}
 }
-// CHECK ACCESS TOKEN.
-
-$headers = getallheaders();
 
 $access = '';
-if (isset($headers['token'])) {
-	$access = token($headers['token'], $token_table);
-	if ($access === false) {
-		http_response_code(401);
-		echo json_encode('YOU SHALL NOT PASS!!');
-		die();
-	}
-} elseif (isset($input['token'])) {
+// CHECK ACCESS TOKEN (Consistently lowercase via normalized $input)
+if (isset($input['token'])) {
 	$access = token($input['token'], $token_table);
 	if ($access === false) {
 		http_response_code(401);

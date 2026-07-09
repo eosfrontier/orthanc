@@ -134,8 +134,8 @@ if (! isset($input['all_statuses'])) { // Check only for active
 
 	// CHECK BY ICC NUMBER
 	if (isset($input['icc_number'])) {
-		$all_char_players = $c_fetch_players->get_active($input['icc_number'], 'icc_number');
-		$all_char_figus   = $c_fetch_figus->get_active($input['icc_number'], 'icc_number');
+		$all_char_players = $c_fetch_players->get_active($input['icc_number'], 'ICC_number');
+		$all_char_figus   = $c_fetch_figus->get_active($input['icc_number'], 'ICC_number');
 		if (is_array($all_char_figus) && ! is_array($all_char_players)) {
 			$a_character = $all_char_figus;
 		} elseif (! is_array($all_char_figus) && is_array($all_char_players)) {
@@ -251,8 +251,8 @@ if (isset($input['all_statuses'])) { // Check all characters
 
 	// CHECK BY ICC NUMBER
 	if (isset($input['icc_number'])) {
-		$all_char_players = $c_fetch_players->get($input['icc_number'], 'icc_number');
-		$all_char_figus   = $c_fetch_figus->get($input['icc_number'], 'icc_number');
+		$all_char_players = $c_fetch_players->get($input['icc_number'], 'ICC_number');
+		$all_char_figus   = $c_fetch_figus->get($input['icc_number'], 'ICC_number');
 		if (is_array($all_char_figus) && ! is_array($all_char_players)) {
 			$a_character = $all_char_figus;
 		} elseif (! is_array($all_char_figus) && is_array($all_char_players)) {
