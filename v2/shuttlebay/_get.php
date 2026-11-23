@@ -1,15 +1,18 @@
 <?php
 
-$requestedId = $routeId !== null ? $routeId : ($input['id'] ?? null);
-$hasId       = $requestedId !== null && $requestedId !== '';
-$hasGetAll   = isset($input['getall']);
+$requestedId   = $routeId !== null ? $routeId : ($input['id'] ?? null);
+$hasId         = $requestedId !== null && $requestedId !== '';
+$hasGetAll     = isset($input['getall']);
+$hasGetClasses = isset($input['getclasses']);
 
-if (! $hasId && ! $hasGetAll) {
+$selectedCount = (int) $hasId + (int) $hasGetAll + (int) $hasGetClasses;
+
+if ($selectedCount === 0) {
 	http_response_code(400);
-	die(json_encode("You must include a 'id' OR 'getall'"));
-} elseif ($hasId && $hasGetAll) {
+	die(json_encode("You must include an 'id', 'getall', OR 'getclasses'"));
+} elseif ($selectedCount > 1) {
 	http_response_code(400);
-	die(json_encode("You must include ONLY an 'id' OR 'getall'"));
+	die(json_encode("You must include ONLY one of 'id', 'getall', OR 'getclasses'"));
 } elseif ($hasId) {
 	if (! is_scalar($requestedId)) {
 		http_response_code(400);
@@ -22,6 +25,8 @@ if (! $hasId && ! $hasGetAll) {
 		die(json_encode("Invalid 'id'. Must be a positive integer."));
 	}
 	$response = $shuttlebay->getShuttle((int) $parsedId);
+} elseif ($hasGetClasses) {
+	$response = $shuttlebay->getAllClasses();
 } else {
 	$response = $shuttlebay->getAllShuttles();
 }

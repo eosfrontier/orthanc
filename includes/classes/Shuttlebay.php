@@ -52,6 +52,24 @@ class Shuttlebay
 	}
 
 	/**
+	 * Returns all available shuttle classes and their details from esb_shuttle_classes.
+	 *
+	 * @return array
+	 */
+	public function getAllClasses()
+	{
+		$sql = <<<SQL
+		SELECT c.id, c.name, c.`type` AS type, c.capacity, c.Armor AS armor,
+		skill.label AS required_skill, c.required_skill AS required_skill_id
+		FROM esb_shuttle_classes c
+		LEFT JOIN ecc_skills_allskills skill ON skill.skill_id = c.required_skill
+		ORDER BY c.name ASC
+		SQL;
+
+		return $this->runQuery($sql);
+	}
+
+	/**
 	 * Returns matching non-deleted shuttle(s) as a list for backwards compatibility with GET.
 	 *
 	 * @param mixed $id Shuttle ID.

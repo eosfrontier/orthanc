@@ -277,6 +277,7 @@ try {
 		$allowHeaders = strtolower($res['headers']['access-control-allow-headers'] ?? '');
 		test_assert(strpos($allowHeaders, 'content-type') !== false, 'Allow-Headers missing content-type');
 		test_assert(strpos($allowHeaders, 'getall') !== false, 'Allow-Headers missing getall');
+		test_assert(strpos($allowHeaders, 'getclasses') !== false, 'Allow-Headers missing getclasses');
 		test_assert(strpos($allowHeaders, 'token') !== false, 'Allow-Headers missing token');
 	});
 
@@ -289,53 +290,99 @@ try {
 		test_eq('*', $res['headers']['access-control-allow-origin'] ?? '', 'Allow-Origin');
 	});
 
-	// Existing GET behavior (unauthenticated)
-	run_case('GET /v2/shuttlebay/ with getAll header succeeds without token', function () use ($baseUrl, $initialCount) {
-		$res = http_request($baseUrl, 'GET', ['getAll' => 'true']);
+	$getHeaders = ['token' => $testToken];
+
+	// Auth checks across all operations (OPTIONS stays unauthenticated above)
+	run_case('All methods (GET/POST/PUT/DELETE/PATCH) require valid token header (401 JSON)', function () use ($baseUrl) {
+		$body = json_encode(['name' => 'NoAuth', 'serial_number' => 'NA-01', 'class' => 'Runner-Class']);
+		foreach (
+			[
+				['GET', $baseUrl, ['getAll' => 'true'], null],
+				['GET', $baseUrl, ['getClasses' => 'true'], null],
+				['GET', $baseUrl . '5', [], null],
+				['POST', $baseUrl, ['Content-Type' => 'application/json'], $body],
+				['PUT', $baseUrl . '5', ['Content-Type' => 'application/json'], $body],
+				['DELETE', $baseUrl . '5', [], null],
+				['PATCH', $baseUrl, [], null],
+			] as $req
+		) {
+			$noTok = http_request($req[1], $req[0], $req[2], $req[3]);
+			test_eq(401, $noTok['status'], "{$req[0]} {$req[1]} without token");
+			test_assert(json_decode($noTok['body'], true) !== null, "{$req[0]} 401 returns valid JSON");
+
+			$badHeaders          = $req[2];
+			$badHeaders['token'] = 'invalid_token_xyz';
+			$badTok              = http_request($req[1], $req[0], $badHeaders, $req[3]);
+			test_eq(401, $badTok['status'], "{$req[0]} {$req[1]} with invalid token");
+		}
+	});
+
+	// Authenticated GET behaviors
+	run_case('GET /v2/shuttlebay/ with getAll header succeeds with valid token', function () use ($baseUrl, $initialCount, $getHeaders) {
+		$res = http_request($baseUrl, 'GET', $getHeaders + ['getAll' => 'true']);
 		test_eq(200, $res['status'], 'HTTP status');
 		test_assert(is_array($res['json']), 'Response is JSON array');
 		test_eq($initialCount, count($res['json']), 'shuttle count');
 	});
 
-	run_case('GET /v2/shuttlebay/ with id header and missing/invalid headers', function () use ($baseUrl) {
-		$ok = http_request($baseUrl, 'GET', ['id' => '5']);
+	run_case('GET /v2/shuttlebay/ with getClasses header returns shuttle classes and details', function () use ($baseUrl, $pdo, $getHeaders) {
+		$expectedCount = (int) $pdo->query('SELECT COUNT(*) FROM esb_shuttle_classes')->fetchColumn();
+		$res           = http_request($baseUrl, 'GET', $getHeaders + ['getClasses' => 'true']);
+		test_eq(200, $res['status'], 'HTTP status');
+		test_assert(is_array($res['json']), 'Response is JSON array');
+		test_eq($expectedCount, count($res['json']), 'class count');
+
+		$byName = [];
+		foreach ($res['json'] as $row) {
+			foreach (['id', 'name', 'type', 'capacity', 'armor', 'required_skill', 'required_skill_id'] as $col) {
+				test_assert(array_key_exists($col, $row), "Class row missing key '{$col}'");
+			}
+			$byName[$row['name']] = $row;
+		}
+
+		$amma = $byName['Ammasarius-class multirole shuttle'] ?? null;
+		test_assert($amma !== null, 'Expected Ammasarius-class multirole shuttle');
+		test_eq(2, (int) $amma['id'], 'class id');
+		test_eq('Personnel Carrier', $amma['type'], 'type');
+		test_eq(16, (int) $amma['capacity'], 'capacity');
+		test_eq('Resists small arms', $amma['armor'], 'armor');
+		test_eq('Balance / Vliegbrevet', $amma['required_skill'], 'required_skill label');
+		test_eq(31152, (int) $amma['required_skill_id'], 'required_skill_id');
+
+		$razor = $byName['AM-50 Razor interceptor'] ?? null;
+		test_assert($razor !== null, 'Expected AM-50 Razor interceptor');
+		test_eq(null, $razor['armor'], 'nullable armor');
+	});
+
+	run_case('GET /v2/shuttlebay/ with id header and missing/conflicting/invalid headers', function () use ($baseUrl, $getHeaders) {
+		$ok = http_request($baseUrl, 'GET', $getHeaders + ['id' => '5']);
 		test_eq(200, $ok['status'], 'GET id=5 status');
 		test_eq('Ambrotos', $ok['json'][0]['name'] ?? null, 'Ambrotos name');
 
-		$pathGet = http_request($baseUrl . '5', 'GET');
+		$pathGet = http_request($baseUrl . '5', 'GET', $getHeaders);
 		test_eq(200, $pathGet['status'], 'GET /5 status');
 		test_eq('Ambrotos', $pathGet['json'][0]['name'] ?? null, 'Ambrotos via path');
 
-		$missing = http_request($baseUrl, 'GET');
+		$missing = http_request($baseUrl, 'GET', $getHeaders);
 		test_eq(400, $missing['status'], 'missing header returns 400');
 
-		$both = http_request($baseUrl, 'GET', ['id' => '5', 'getAll' => 'true']);
+		$both = http_request($baseUrl, 'GET', $getHeaders + ['id' => '5', 'getAll' => 'true']);
 		test_eq(400, $both['status'], 'both id and getAll returns 400');
 
-		$sqli = http_request($baseUrl, 'GET', ['id' => '1 OR 1=1']);
+		$allAndClasses = http_request($baseUrl, 'GET', $getHeaders + ['getAll' => 'true', 'getClasses' => 'true']);
+		test_eq(400, $allAndClasses['status'], 'both getAll and getClasses returns 400');
+
+		$idAndClasses = http_request($baseUrl, 'GET', $getHeaders + ['id' => '5', 'getClasses' => 'true']);
+		test_eq(400, $idAndClasses['status'], 'both id and getClasses returns 400');
+
+		$pathAndClasses = http_request($baseUrl . '5', 'GET', $getHeaders + ['getClasses' => 'true']);
+		test_eq(400, $pathAndClasses['status'], 'path id and getClasses returns 400');
+
+		$sqli = http_request($baseUrl, 'GET', $getHeaders + ['id' => '1 OR 1=1']);
 		test_eq(400, $sqli['status'], 'SQLi id returns 400');
 
-		$notFound = http_request($baseUrl, 'GET', ['id' => '999999']);
+		$notFound = http_request($baseUrl, 'GET', $getHeaders + ['id' => '999999']);
 		test_eq(404, $notFound['status'], 'missing shuttle returns 404');
-	});
-
-	// Auth checks on write methods
-	run_case('POST/PUT/DELETE require valid token header (401 JSON when missing or invalid)', function () use ($baseUrl) {
-		$body = json_encode(['name' => 'NoAuth', 'serial_number' => 'NA-01', 'class' => 'Runner-Class']);
-		foreach (
-			[
-				['POST', $baseUrl, $body],
-				['PUT', $baseUrl . '5', $body],
-				['DELETE', $baseUrl . '5', null],
-			] as $req
-		) {
-			$noTok = http_request($req[1], $req[0], ['Content-Type' => 'application/json'], $req[2]);
-			test_eq(401, $noTok['status'], "{$req[0]} without token");
-			test_assert(json_decode($noTok['body'], true) !== null, "{$req[0]} 401 returns valid JSON");
-
-			$badTok = http_request($req[1], $req[0], ['Content-Type' => 'application/json', 'token' => 'invalid_token_xyz'], $req[2]);
-			test_eq(401, $badTok['status'], "{$req[0]} with invalid token");
-		}
 	});
 
 	// Create (POST)
@@ -400,8 +447,8 @@ try {
 		test_eq('Sergei Konstantinova', $shuttleB['assigned_to_name'], 'assigned_to_name');
 	});
 
-	run_case('GET /v2/shuttlebay/ with getAll header includes newly created shuttles', function () use ($baseUrl, $initialCount, &$shuttleA, &$shuttleB) {
-		$res = http_request($baseUrl, 'GET', ['getAll' => 'true']);
+	run_case('GET /v2/shuttlebay/ with getAll header includes newly created shuttles', function () use ($baseUrl, $initialCount, $getHeaders, &$shuttleA, &$shuttleB) {
+		$res = http_request($baseUrl, 'GET', $getHeaders + ['getAll' => 'true']);
 		test_eq(200, $res['status'], 'HTTP status');
 		test_eq($initialCount + 2, count($res['json']), 'updated count');
 		$ids = array_map('intval', array_column($res['json'], 'id'));
@@ -585,15 +632,15 @@ try {
 		test_eq(-999, (int) $dbStatus, 'DB row has status -999');
 
 		// GET all excludes the soft-deleted shuttle (shuttleB still exists)
-		$list = http_request($baseUrl, 'GET', ['getAll' => 'true']);
+		$list = http_request($baseUrl, 'GET', $authHeaders + ['getAll' => 'true']);
 		test_eq(200, $list['status'], 'GET all returns 200');
 		test_eq($initialCount + 1, count($list['json']), 'deleted shuttle excluded from getAll');
 		$ids = array_map('intval', array_column($list['json'], 'id'));
 		test_assert(! in_array($id, $ids, true), 'deleted shuttle id absent from getAll');
 
 		// GET by id returns 404
-		test_eq(404, http_request($baseUrl . $id, 'GET')['status'], 'GET /:id returns 404 after delete');
-		test_eq(404, http_request($baseUrl, 'GET', ['id' => (string) $id])['status'], 'GET header id returns 404 after delete');
+		test_eq(404, http_request($baseUrl . $id, 'GET', $authHeaders)['status'], 'GET /:id returns 404 after delete');
+		test_eq(404, http_request($baseUrl, 'GET', $authHeaders + ['id' => (string) $id])['status'], 'GET header id returns 404 after delete');
 
 		// PUT returns 404 on soft-deleted shuttle
 		$putDeleted = http_request($baseUrl . $id, 'PUT', $authHeaders, json_encode([
@@ -613,8 +660,8 @@ try {
 		test_eq(400, http_request($baseUrl . 'abc', 'DELETE', $authHeaders)['status'], 'invalid id 400');
 	});
 
-	run_case('PATCH /v2/shuttlebay/ returns 501 with JSON body', function () use ($baseUrl) {
-		$res = http_request($baseUrl, 'PATCH');
+	run_case('PATCH /v2/shuttlebay/ returns 501 with JSON body', function () use ($baseUrl, $authHeaders) {
+		$res = http_request($baseUrl, 'PATCH', $authHeaders);
 		test_eq(501, $res['status'], 'PATCH 501');
 		test_assert(is_array($res['json']) && isset($res['json']['error']), 'PATCH returns JSON error');
 	});
