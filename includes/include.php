@@ -9,7 +9,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Headers: *, Content-Type, getAll, Authorization, token, X-Requested-With');
 
 // Helper function to get normalized request headers
 if (!function_exists('get_normalized_headers')) {
@@ -59,7 +59,9 @@ $input = is_array($decodedInput) ? $decodedInput : [];
 // only if the key does not already exist in the left-hand array.
 // This means if a key exists in $input (from JSON body), it won't be overwritten by apache_request_headers().
 // This is generally desired behavior for body data.
-$input += apache_request_headers();
+if (function_exists('apache_request_headers')) {
+	$input += apache_request_headers();
+}
 
 // Diagnostic output - REMOVE OR COMMENT OUT IN PRODUCTION
 // echo 'Input (after JSON and apache_request_headers): '. json_encode($input) . "\n";
