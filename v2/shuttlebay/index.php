@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/include.php';
-require_once __DIR__ . '/../../includes/token.php';
+// require_once __DIR__ . '/../../includes/token.php';
 
 /**
  * Resolves the optional trailing :id path segment for /v2/shuttlebay/:id requests.
@@ -105,12 +105,15 @@ switch ($method) {
 		require_once __DIR__ . '/_get.php';
 		break;
 	case 'POST':
+		require_once __DIR__ . '/../../includes/token.php';
 		require_once __DIR__ . '/_post.php';
 		break;
 	case 'PUT':
+		require_once __DIR__ . '/../../includes/token.php';
 		require_once __DIR__ . '/_put.php';
 		break;
 	case 'DELETE':
+		require_once __DIR__ . '/../../includes/token.php';
 		require_once __DIR__ . '/_delete.php';
 		break;
 	case 'PATCH':
