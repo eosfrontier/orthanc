@@ -41,7 +41,7 @@ class Skills
 			array_push($a_skills, $a_char_skill);
 		}
 
-		$stmt       = Database::$conn->prepare("SELECT ecc_char_implants.type, skillgroup_siteindex, skillgroup_level, ecc_char_implants.description FROM ecc_char_implants WHERE charID = ? AND ecc_characters.status = 'active' AND ecc_char_implants.type != 'flavour'");
+		$stmt       = Database::$conn->prepare("SELECT ecc_char_implants.type, skillgroup_siteindex, skillgroup_level, ecc_char_implants.description FROM ecc_char_implants WHERE charID = ? AND ecc_char_implants.status = 'active' AND ecc_char_implants.type != 'flavour'");
 		$res        = $stmt->execute([$id]);
 		$a_implants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
